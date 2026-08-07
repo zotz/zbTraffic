@@ -1,0 +1,296 @@
+# File: commands/contract_item_rule_add.py
+
+import argparse
+
+from traffic.contract_item_rules import (
+    add_contract_item_rule
+)
+
+
+
+def get_input(
+    prompt,
+    default=None
+):
+
+    if default is not None:
+
+        value = input(
+            f"{prompt} [{default}]: "
+        )
+
+        if value == "":
+
+            return default
+
+        return value
+
+
+    return input(
+        f"{prompt}: "
+    )
+
+
+
+def main():
+
+
+    parser = argparse.ArgumentParser(
+        description="Add a contract item rule"
+    )
+
+
+    parser.add_argument(
+        "--contract-item",
+        type=int
+    )
+
+    parser.add_argument(
+        "--days"
+    )
+
+    parser.add_argument(
+        "--start"
+    )
+
+    parser.add_argument(
+        "--end"
+    )
+
+    parser.add_argument(
+        "--program",
+        type=int
+    )
+
+    parser.add_argument(
+        "--stopset",
+        type=int
+    )
+
+    parser.add_argument(
+        "--spots-per-day",
+        type=int
+    )
+
+    parser.add_argument(
+        "--spots-per-week",
+        type=int
+    )
+
+    parser.add_argument(
+        "--allow-news",
+        type=int
+    )
+
+    parser.add_argument(
+        "--allow-special-events",
+        type=int
+    )
+
+    parser.add_argument(
+        "--notes"
+    )
+
+
+    args = parser.parse_args()
+
+
+    interactive = (
+        args.contract_item is None
+    )
+
+
+    if interactive:
+
+        print()
+        print(
+            "Add New Contract Item Rule"
+        )
+        print(
+            "-------------------------"
+        )
+        print()
+
+
+        contract_item_id = int(
+            get_input(
+                "Contract Item ID"
+            )
+        )
+
+
+        days_of_week = get_input(
+            "Days of Week"
+        )
+
+
+        start_time = get_input(
+            "Start Time"
+        )
+
+
+        end_time = get_input(
+            "End Time"
+        )
+
+
+        preferred_program_id = get_input(
+            "Preferred Program ID"
+        )
+
+        if preferred_program_id == "":
+
+            preferred_program_id = None
+
+        else:
+
+            preferred_program_id = int(
+                preferred_program_id
+            )
+
+
+        preferred_stopset_id = get_input(
+            "Preferred Stopset ID"
+        )
+
+        if preferred_stopset_id == "":
+
+            preferred_stopset_id = None
+
+        else:
+
+            preferred_stopset_id = int(
+                preferred_stopset_id
+            )
+
+
+        spots_per_day = int(
+            get_input(
+                "Spots Per Day",
+                0
+            )
+        )
+
+
+        spots_per_week = int(
+            get_input(
+                "Spots Per Week",
+                0
+            )
+        )
+
+
+        allow_news = int(
+            get_input(
+                "Allow News",
+                1
+            )
+        )
+
+
+        allow_special_events = int(
+            get_input(
+                "Allow Special Events",
+                1
+            )
+        )
+
+
+        notes = get_input(
+            "Notes"
+        )
+
+
+    else:
+
+        contract_item_id = args.contract_item
+
+        days_of_week = args.days or ""
+
+        start_time = args.start
+
+        end_time = args.end
+
+        preferred_program_id = args.program
+
+        preferred_stopset_id = args.stopset
+
+        spots_per_day = (
+            args.spots_per_day
+            if args.spots_per_day is not None
+            else 0
+        )
+
+        spots_per_week = (
+            args.spots_per_week
+            if args.spots_per_week is not None
+            else 0
+        )
+
+        allow_news = (
+            args.allow_news
+            if args.allow_news is not None
+            else 1
+        )
+
+        allow_special_events = (
+            args.allow_special_events
+            if args.allow_special_events is not None
+            else 1
+        )
+
+        notes = args.notes or ""
+
+
+
+    try:
+
+        rule_id = add_contract_item_rule(
+            contract_item_id,
+
+            days_of_week,
+
+            start_time,
+
+            end_time,
+
+            preferred_program_id,
+
+            preferred_stopset_id,
+
+            spots_per_day,
+
+            spots_per_week,
+
+            allow_news,
+
+            allow_special_events,
+
+            notes
+        )
+
+
+        print()
+
+        print(
+            f"Contract item rule added successfully. ID: {rule_id}"
+        )
+
+        print()
+
+
+    except ValueError as e:
+
+        print()
+
+        print(
+            f"Error: {e}"
+        )
+
+        print()
+
+
+
+if __name__ == "__main__":
+
+    main()
