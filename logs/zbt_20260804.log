@@ -1,0 +1,13 @@
+02 000002   zbT C1 Fake 30 sec ad    0030   08 04 26 06 15 00                   
+02 000003   zbT C2 Fake 60 sec ad    0100   08 04 26 06 15 00                   
+02 000004   zbT C3 Retail Test 30 sec0030   08 04 26 06 15 00                   
+02 000004   zbT C3 Retail Test 30 sec0030   08 04 26 06 30 00                   
+02 000002   zbT C1 Fake 30 sec ad    0030   08 04 26 06 45 00                   
+02 000003   zbT C2 Fake 60 sec ad    0100   08 04 26 06 45 00                   
+02 000004   zbT C3 Retail Test 30 sec0030   08 04 26 06 45 00                   
+02 000004   zbT C3 Retail Test 30 sec0030   08 04 26 07 15 00                   
+02 000002   zbT C1 Fake 30 sec ad    0030   08 04 26 07 30 00                   
+02 000003   zbT C2 Fake 60 sec ad    0100   08 04 26 07 30 00                   
+02 000004   zbT C3 Retail Test 30 sec0030   08 04 26 07 45 00                   
+02 000003   zbT C2 Fake 60 sec ad    0100   08 04 26 08 15 00                   
+02 000002   zbT C1 Fake 30 sec ad    0030   08 04 26 08 15 00                   
