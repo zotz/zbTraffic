@@ -136,13 +136,13 @@ def create_database():
 
         company_name TEXT NOT NULL,
 
-        address1 TEXT,
-        address2 TEXT,
+        address_line1 TEXT,
+        address_line2 TEXT,
 
-        city TEXT,
-        state TEXT,
+        locality TEXT,
+        administrative_area TEXT,
         postal_code TEXT,
-        country TEXT,
+        country_code TEXT,
 
         telephone TEXT,
         email TEXT,
@@ -153,7 +153,6 @@ def create_database():
 
         created_date TEXT,
         modified_date TEXT,
-
 
         FOREIGN KEY(category_id)
             REFERENCES categories(id)
