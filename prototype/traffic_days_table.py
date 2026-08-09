@@ -7,7 +7,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from datetime import date
+from datetime import date, timedelta
 
 from tkcalendar import DateEntry
 
@@ -30,6 +30,98 @@ class TrafficDaysTable:
 
         self.load_data()
 
+        root.bind(
+            "<Left>",
+            lambda event: self.previous_range()
+        )
+
+        root.bind(
+            "<Right>",
+            lambda event: self.next_range()
+        )
+
+    def set_dates(self, start_date, end_date):
+
+        self.start_date_var.set(
+            start_date.isoformat()
+        )
+
+        self.end_date_var.set(
+            end_date.isoformat()
+        )
+
+        self.load_data()
+
+
+    def previous_range(self):
+
+        start = (
+            date.fromisoformat(self.start_date_var.get())
+            - timedelta(days=1)
+        )
+
+        end = (
+            date.fromisoformat(self.end_date_var.get())
+            - timedelta(days=1)
+        )
+
+        self.set_dates(start, end)
+
+
+    def previous_start(self):
+
+        start = (
+            date.fromisoformat(self.start_date_var.get())
+            - timedelta(days=1)
+        )
+
+        end = date.fromisoformat(
+            self.end_date_var.get()
+        )
+
+        self.set_dates(start, end)
+
+
+    def today(self):
+
+        today = date.today()
+
+        self.set_dates(
+            today,
+            today
+        )
+
+
+    def next_end(self):
+
+        start = date.fromisoformat(
+            self.start_date_var.get()
+        )
+
+        end = (
+            date.fromisoformat(self.end_date_var.get())
+            + timedelta(days=1)
+        )
+
+        self.set_dates(start, end)
+
+
+    def next_range(self):
+
+        start = (
+            date.fromisoformat(self.start_date_var.get())
+            + timedelta(days=1)
+        )
+
+        end = (
+            date.fromisoformat(self.end_date_var.get())
+            + timedelta(days=1)
+        )
+
+        self.set_dates(start, end)
+
+
+
 
     def build(self):
 
@@ -43,6 +135,30 @@ class TrafficDaysTable:
             fill="x",
             padx=5,
             pady=5
+        )
+
+        ttk.Button(
+            top,
+            text="<<",
+            command=self.previous_range
+        ).pack(side="left")
+
+        ttk.Button(
+            top,
+            text="<",
+            command=self.previous_start
+        ).pack(
+            side="left",
+            padx=(5,10)
+        )
+
+        ttk.Button(
+            top,
+            text="Today",
+            command=self.today
+        ).pack(
+            side="left",
+            padx=(0,15)
         )
 
 
@@ -108,6 +224,23 @@ class TrafficDaysTable:
             side="left",
             padx=10
         )
+
+
+        ttk.Button(
+            top,
+            text=">",
+            command=self.next_end
+        ).pack(
+            side="left",
+            padx=(10,5)
+        )
+
+        ttk.Button(
+            top,
+            text=">>",
+            command=self.next_range
+        ).pack(side="left")
+
 
 
         #
