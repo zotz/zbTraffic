@@ -32,6 +32,8 @@ MODULES = [
 ("Avails Viewer", "prototype.met.avails_gui"),
 ("Spots Viewer", "prototype.met.spots_gui"),
 ("Traffic Board", "prototype.traffic_board"),
+("Traffic Days", "prototype.traffic_days"),
+("Traffic Days Table", "prototype.traffic_days_table"),
 (">>> MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui"),
 ]
 
@@ -39,7 +41,7 @@ class Launcher:
     def __init__(self, root):
         self.root=root
         root.title("zbTraffic - CRUD Launcher v3 FIXED")
-        root.geometry("500x650")
+        root.geometry("500x770")
         ttk.Label(root,text="Throwaway CRUD GUIs v3 - FIXED",font=("Arial",14,"bold")).pack(pady=10)
         ttk.Label(root,text="Filterable + H/V Scrollbars + Sortable\nLaunches as modules so 'traffic' always found",foreground="gray",justify="center").pack(pady=5)
         for label, mod in MODULES:
