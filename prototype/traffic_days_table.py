@@ -139,13 +139,13 @@ class TrafficDaysTable:
 
         ttk.Button(
             top,
-            text="<<",
+            text="\u25C0\u25C0",
             command=self.previous_range
         ).pack(side="left")
 
         ttk.Button(
             top,
-            text="<",
+            text="\u25C0",
             command=self.previous_start
         ).pack(
             side="left",
@@ -228,7 +228,7 @@ class TrafficDaysTable:
 
         ttk.Button(
             top,
-            text=">",
+            text="\u25B8",
             command=self.next_end
         ).pack(
             side="left",
@@ -237,7 +237,7 @@ class TrafficDaysTable:
 
         ttk.Button(
             top,
-            text=">>",
+            text="\u25B8\u25B8",
             command=self.next_range
         ).pack(side="left")
 
