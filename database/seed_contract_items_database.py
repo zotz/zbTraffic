@@ -16,7 +16,7 @@ def seed_contract_items():
 
         commercial_id=1,
 
-        quantity=300,
+        quantity=4,
 
         description="Summer Boat Sale",
 
@@ -41,7 +41,7 @@ def seed_contract_items():
 
         commercial_title="Future Spring Boat Campaign",
 
-        quantity=50,
+        quantity=3,
 
         spot_length_seconds=30,
 
@@ -65,7 +65,7 @@ def seed_contract_items():
 
         commercial_id=2,
 
-        quantity=100,
+        quantity=5,
 
         description="Summer Auto blowout",
 
@@ -85,7 +85,7 @@ def seed_contract_items():
 
         commercial_id=3,
 
-        quantity=200,
+        quantity=8,
 
         description="Summer Travel special",
 

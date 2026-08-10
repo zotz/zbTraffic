@@ -13,6 +13,7 @@
 
 import argparse
 from datetime import date
+from traffic.utilities import current_timestamp
 
 from database.seed_common import (
     check_prerequisites,
@@ -265,7 +266,7 @@ def seed_commercials(
         length_seconds=30,
         filename="000002_000.wav",
         cart_number="000002",
-        category_id=1
+        category_id=2
     )
 
 
@@ -294,7 +295,7 @@ def seed_commercials(
         length_seconds=60,
         filename="000003_000.wav",
         cart_number="000003",
-        category_id=1
+        category_id=4
     )
 
 
@@ -323,7 +324,7 @@ def seed_commercials(
         length_seconds=30,
         filename="000004_000.wav",
         cart_number="000004",
-        category_id=4
+        category_id=1
     )
 
 
