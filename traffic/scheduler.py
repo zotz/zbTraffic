@@ -1,8 +1,15 @@
 # File: traffic/scheduler.py
 
+# refactored Aug 10 2026
+
 import random
 
-from datetime import datetime
+random.seed(12345)
+
+from datetime import (
+    datetime,
+    timedelta
+)
 
 from traffic.database import get_connection
 
@@ -211,7 +218,7 @@ def find_candidate_avails(
 
         WHERE avails.air_date = ?
 
-        AND avails.status = 'Open'
+        AND avails.status IN ('Open', 'Partial')
 
 
         ORDER BY
@@ -433,11 +440,41 @@ def schedule_contract_item(
             "No suitable avails found."
         )
 
-
+    # change back to first to last scheduling
     #avail = candidates[0]
     # changed above to random for now to avoid starting early and moving down the day.
     # looking at results, this seems to be hour by hour while I currently want it at least day by day.
-    avail = random.choice(candidates)
+    #
+    # Find a candidate avail that satisfies
+    # separation rules.
+    #
+
+    random.shuffle(
+        candidates
+    )
+
+
+    avail = None
+
+
+    for candidate in candidates:
+
+        if passes_separation_rules(
+            candidate["id"],
+            contract_item["commercial_id"]
+        ):
+
+            avail = candidate
+
+            break
+
+
+    if avail is None:
+
+        raise RuntimeError(
+            "No candidate avails satisfy "
+            "separation rules."
+        )
 
 
     spot_id = add_spot(
@@ -465,4 +502,523 @@ def schedule_contract_item(
 
     return spot_id
 
+
+
+def get_week_start(
+    air_date
+):
+    """
+    Return the Monday date for the week
+    containing air_date.
+    """
+
+    date = datetime.strptime(
+        air_date,
+        "%Y-%m-%d"
+    )
+
+    monday = (
+        date
+        - timedelta(
+            days=date.weekday()
+        )
+    )
+
+    return monday.strftime(
+        "%Y-%m-%d"
+    )
+
+def count_scheduled_spots_for_contract_item_week(
+    contract_item_id,
+    week_start
+):
+    """
+    Count scheduled spots for a contract item
+    during the calendar week beginning on week_start.
+    """
+
+    date = datetime.strptime(
+        week_start,
+        "%Y-%m-%d"
+    )
+
+    week_end = (
+        date
+        + timedelta(days=6)
+    ).strftime(
+        "%Y-%m-%d"
+    )
+
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+
+    cursor.execute(
+        """
+        SELECT
+            COUNT(*) AS spot_count
+
+        FROM spots
+
+        WHERE contract_item_id = ?
+
+          AND status = 'Scheduled'
+
+          AND air_date >= ?
+
+          AND air_date <= ?
+        """,
+        (
+            contract_item_id,
+            week_start,
+            week_end
+        )
+    )
+
+
+    row = cursor.fetchone()
+
+
+    connection.close()
+
+
+    return row["spot_count"]
+
+
+def count_scheduled_spots_for_contract_item_day(
+    contract_item_id,
+    air_date
+):
+    """
+    Count scheduled spots for a contract item
+    on a specific air date.
+    """
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+
+    cursor.execute(
+        """
+        SELECT
+            COUNT(*) AS spot_count
+
+        FROM spots
+
+        WHERE contract_item_id = ?
+
+          AND status = 'Scheduled'
+
+          AND air_date = ?
+        """,
+        (
+            contract_item_id,
+            air_date
+        )
+    )
+
+
+    row = cursor.fetchone()
+
+
+    connection.close()
+
+
+    return row["spot_count"]
+
+
+def can_schedule_on_date(
+    contract_item_id,
+    air_date,
+    spots_per_day,
+    spots_per_week
+):
+    """
+    Determine whether another spot may be scheduled
+    for this contract item on this air date.
+
+    Returns:
+        True if scheduling is allowed.
+        False if a daily or weekly limit has been reached.
+    """
+
+    #
+    # Daily limit
+    #
+
+    if spots_per_day > 0:
+
+        scheduled_today = (
+            count_scheduled_spots_for_contract_item_day(
+                contract_item_id,
+                air_date
+            )
+        )
+
+        if scheduled_today >= spots_per_day:
+
+            return False
+
+
+    #
+    # Weekly limit
+    #
+
+    if spots_per_week > 0:
+
+        week_start = get_week_start(
+            air_date
+        )
+
+        scheduled_this_week = (
+            count_scheduled_spots_for_contract_item_week(
+                contract_item_id,
+                week_start
+            )
+        )
+
+        if scheduled_this_week >= spots_per_week:
+
+            return False
+
+
+    return True
+
+def advance_date_index(
+    date_index,
+    dates_checked,
+    eligible_dates
+):
+    """
+    Advance to the next eligible date,
+    wrapping to the beginning if necessary.
+    """
+
+    date_index += 1
+
+    dates_checked += 1
+
+    if date_index >= len(
+        eligible_dates
+    ):
+
+        date_index = 0
+
+
+    return (
+        date_index,
+        dates_checked
+    )
+
+
+def get_scheduling_limits(
+    contract_item_id
+):
+    """
+    Return the scheduling limits for a contract item.
+
+    Returns:
+        spots_per_day,
+        spots_per_week
+    """
+
+    rules = list_contract_item_rules(
+        contract_item_id
+    )
+
+
+    spots_per_day = 0
+
+    spots_per_week = 0
+
+
+    for rule in rules:
+
+        if rule["spots_per_day"]:
+
+            spots_per_day = rule["spots_per_day"]
+
+
+        if rule["spots_per_week"]:
+
+            spots_per_week = rule["spots_per_week"]
+
+
+    return (
+        spots_per_day,
+        spots_per_week
+    )
+
+def get_eligible_dates(
+    contract_item_id,
+    start_date,
+    end_date
+):
+    """
+    Return dates within the flight that have
+    at least one eligible avail.
+    """
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+
+    cursor.execute(
+        """
+        SELECT DISTINCT
+            air_date
+
+        FROM avails
+
+        WHERE air_date >= ?
+          AND air_date <= ?
+
+        ORDER BY air_date
+        """,
+        (
+            start_date,
+            end_date
+        )
+    )
+
+
+    date_rows = cursor.fetchall()
+
+    connection.close()
+
+
+    eligible_dates = []
+
+
+    for row in date_rows:
+
+        air_date = row["air_date"]
+
+
+        candidates = find_candidate_avails(
+            contract_item_id,
+            air_date
+        )
+
+
+        if candidates:
+
+            eligible_dates.append(
+                air_date
+            )
+
+
+    return eligible_dates
+
+
+def try_schedule_contract_item(
+    contract_item_id,
+    air_date
+):
+    """
+    Try to schedule one spot for a contract item.
+
+    Returns:
+        spot_id if successful,
+        None if scheduling fails.
+    """
+
+    try:
+
+        return schedule_contract_item(
+            contract_item_id,
+            air_date
+        )
+
+    except (
+        ValueError,
+        RuntimeError
+    ):
+
+        return None
+
+
+def schedule_contract_item_quantity(
+    contract_item_id
+):
+    """
+    Schedule the required quantity for a contract item.
+
+    Spots are distributed across dates that have
+    eligible avails.
+    """
+    
+    contract_item = get_contract_item(
+        contract_item_id
+    )
+
+
+    if contract_item is None:
+
+        raise ValueError(
+            "Contract item not found."
+        )
+
+
+    if contract_item["active"] != 1:
+
+        raise ValueError(
+            "Contract item is inactive."
+        )
+
+
+    spots_per_day, spots_per_week = (
+        get_scheduling_limits(
+            contract_item_id
+        )
+    )
+
+
+
+    quantity = contract_item["quantity"]
+
+
+    if quantity <= 0:
+
+        return []
+
+
+    flight = get_contract_item_flight_dates(
+        contract_item_id
+    )
+
+
+    start_date = flight["start_date"]
+
+    end_date = flight["end_date"]
+
+
+    eligible_dates = get_eligible_dates(
+        contract_item_id,
+        start_date,
+        end_date
+    )
+
+
+    if not eligible_dates:
+
+        raise ValueError(
+            "No eligible avails found "
+            "during the contract flight."
+        )
+
+
+    #
+    # Distribute the quantity across
+    # the eligible dates.
+    #
+
+    scheduled_spots = []
+
+
+    date_index = 0
+    
+    dates_checked = 0
+
+
+    while (
+        len(scheduled_spots)
+        < quantity
+    ):
+
+
+        air_date = eligible_dates[
+            date_index
+        ]
+
+
+        if not can_schedule_on_date(
+            contract_item_id,
+            air_date,
+            spots_per_day,
+            spots_per_week
+        ):
+
+
+            date_index, dates_checked = (
+                advance_date_index(
+                    date_index,
+                    dates_checked,
+                    eligible_dates
+                )
+            )
+
+
+            if dates_checked >= len(
+                eligible_dates
+            ):
+
+                raise RuntimeError(
+                    "Unable to schedule the remaining "
+                    "spots because all eligible dates "
+                    "have reached scheduling limits."
+                )
+
+
+            continue
+
+
+
+        spot_id = try_schedule_contract_item(
+            contract_item_id,
+            air_date
+        )
+
+
+        if spot_id is not None:
+
+            scheduled_spots.append(
+                spot_id
+            )
+
+            dates_checked = 0
+
+
+
+        #
+        # Move to the next eligible date.
+        #
+
+
+        date_index += 1
+
+
+        if date_index >= len(
+            eligible_dates
+        ):
+
+            date_index = 0
+
+
+        #
+        # Safety check.
+        #
+        # If we have gone through every
+        # eligible date without scheduling
+        # anything, stop rather than looping
+        # forever.
+        #
+
+        if (
+            date_index == 0
+            and
+            len(scheduled_spots) == 0
+        ):
+
+            raise RuntimeError(
+                "Unable to schedule any "
+                "spots."
+            )
+
+
+    return scheduled_spots
 

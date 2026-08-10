@@ -1,7 +1,12 @@
 # File: traffic/separation_rules.py
 
+from datetime import datetime
+
 from traffic.database import get_connection
 
+from traffic.utilities import (
+    normalize_time
+)
 
 
 def get_separation_rule(
@@ -122,14 +127,209 @@ def passes_separation_rules(
     commercial_id
 ):
     """
-    Determine whether a commercial may be added to an avail.
+    Determine whether a commercial may be scheduled
+    at the start time of an avail.
 
-    Currently always returns True.
+    Checks scheduled spots before and after the
+    proposed time on the same station.
 
-    Future versions will compare the commercial against
-    commercials already assigned to the avail and enforce
-    category separation rules.
+    Returns:
+        True if all separation rules pass.
+        False if any rule is violated.
     """
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+
+    #
+    # Get the proposed avail.
+    #
+
+    cursor.execute(
+        """
+        SELECT
+            station_id,
+            air_date,
+            start_time
+
+        FROM avails
+
+        WHERE id = ?
+        """,
+        (
+            avail_id,
+        )
+    )
+
+
+    avail = cursor.fetchone()
+
+
+    if avail is None:
+
+        connection.close()
+
+        return False
+
+
+    #
+    # Get the proposed commercial category.
+    #
+
+    cursor.execute(
+        """
+        SELECT
+            category_id
+
+        FROM commercials
+
+        WHERE id = ?
+        """,
+        (
+            commercial_id,
+        )
+    )
+
+
+    commercial = cursor.fetchone()
+
+
+    if commercial is None:
+
+        connection.close()
+
+        return False
+
+
+    new_category_id = commercial[
+        "category_id"
+    ]
+
+
+    #
+    # No category means there can be
+    # no category separation rule.
+    #
+
+    if new_category_id is None:
+
+        connection.close()
+
+        return True
+
+
+    #
+    # Get scheduled spots on this station.
+    #
+
+    cursor.execute(
+        """
+        SELECT
+            spots.id,
+            spots.air_date,
+            spots.air_time,
+            spots.commercial_id,
+            commercials.category_id
+
+        FROM spots
+
+        JOIN commercials
+            ON spots.commercial_id = commercials.id
+
+        WHERE spots.station_id = ?
+
+        AND spots.status = 'Scheduled'
+
+        AND spots.air_date IS NOT NULL
+
+        AND spots.air_time IS NOT NULL
+        """,
+        (
+            avail["station_id"],
+        )
+    )
+
+
+    scheduled_spots = cursor.fetchall()
+
+
+    connection.close()
+
+
+    #
+    # Convert proposed date/time to a datetime.
+    #
+
+    proposed_datetime = datetime.strptime(
+        (
+            f"{avail['air_date']} "
+            f"{normalize_time(avail['start_time'])}"
+        ),
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+
+    #
+    # Check every scheduled spot.
+    #
+
+    for existing in scheduled_spots:
+
+        if existing["category_id"] is None:
+
+            continue
+
+
+        #
+        # Don't compare a spot with itself
+        # if this function is ever called on
+        # an already-assigned spot.
+        #
+
+        if (
+            existing["commercial_id"]
+            == commercial_id
+            and
+            existing["air_date"]
+            == avail["air_date"]
+            and
+            normalize_time(
+                existing["air_time"]
+            )
+            == normalize_time(
+                avail["start_time"]
+            )
+        ):
+
+            continue
+
+
+        existing_datetime = datetime.strptime(
+            (
+                f"{existing['air_date']} "
+                f"{normalize_time(existing['air_time'])}"
+            ),
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+
+        minutes_apart = abs(
+            (
+                proposed_datetime
+                - existing_datetime
+            ).total_seconds()
+        ) / 60
+
+
+        if not check_separation(
+            existing["category_id"],
+            new_category_id,
+            minutes_apart
+        ):
+
+            return False
+
 
     return True
 
