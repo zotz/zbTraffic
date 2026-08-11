@@ -1,0 +1,235 @@
+Grok helped with this...
+
+
+zbT Grok customers:
+
+
+#
+Customer Name
+Industry
+Type
+Preferred Daypart
+Focus
+1
+zbT Thunderbay Motors
+Auto
+Local
+Morning Drive
+New & used vehicles, Nassau
+2
+zbT WaveRider Auto Group
+Auto
+National-style
+Morning Drive
+Multi-brand dealerships, Nassau + Freeport
+3
+zbT Spiny Lobster Café
+Restaurant
+Local
+Afternoon Drive
+Casual Bahamian seafood
+4
+zbT Mango Moon Grill
+Restaurant
+Local
+Afternoon Drive
+Fast-casual family dining
+5
+zbT Seashell Emporium
+Retail
+Local
+Midday
+General merchandise & gifts
+6
+zbT Tradewind Outfitters
+Retail
+National-style
+Midday
+Apparel, beach & outdoor gear
+7
+zbT Coral Key Realty
+Real Estate
+Local
+Weekend
+Residential sales & rentals
+8
+zbT Horizon Point Properties
+Real Estate
+National-style
+Weekend
+Luxury & commercial
+9
+zbT Sovereign Isle Bank
+Bank / Finance
+National-style
+Morning Drive
+Retail banking & personal loans
+10
+zbT Brightsmile Dental
+Medical / Dental
+Local
+Midday
+Family dentistry
+11
+zbT Anchor Law Group
+Legal
+Local
+Afternoon Drive
+Personal injury & property law
+12
+zbT Azure Cove Resort
+Tourism / Hotel
+National-style
+Evening (19:00–24:00)
+Resort & spa experience
+13
+zbT TropicLink Communications
+Telecom
+National-style
+Midday
+Mobile & home internet
+14
+zbT Island Basket Market
+Grocery
+Local
+Morning Drive
+Fresh produce & local goods
+15
+zbT Shield & Sail Insurance
+Insurance
+Local
+Afternoon Drive
+Auto, home & life
+
+
+zbT Grok Scripts:
+
+If you are willing to turn any of these into audio commercials able to be shared worldwide with Rivendell, Rivolution, and zbTraffic users among others, please have a go. I am looking for 48,000 audio in .wav or decent (high) quality mp3s. The primary intent right now is to create text data for my zbTraffic / rivendell traffic scheduling automation playout system.
+
+1. zbT Thunderbay Motors (Auto) – 30s – Hard-sell / urgent
+Looking for a reliable ride without the mainland prices? Come to zbT Thunderbay Motors in Nassau! This week only, selected pre-owned SUVs and sedans are marked way down with free first-service included. Low rates, easy approval, and we take trades. Don’t wait—inventory moves fast under the Bahamian sun. zbT Thunderbay Motors… drive away happy today. Visit us on Bay Street or call now!
+
+2. zbT WaveRider Auto Group (Auto) – 60s – Confident / professional
+At zbT WaveRider Auto Group, we know Bahamians deserve more than just a car—they deserve confidence on every road from Nassau to Freeport. Whether you’re stepping into a brand-new model or a certified pre-owned vehicle, our team delivers transparent pricing, genuine warranties, and service that keeps you moving. Two convenient locations, factory-trained technicians, and financing options built for island life. This month, ask about our exclusive WaveRider loyalty package—free oil changes for a year plus roadside assistance. Stop by zbT WaveRider Auto Group and experience the difference. Your next vehicle is waiting. Drive the Wave.
+
+3. zbT Spiny Lobster Café (Restaurant) – 30s – Warm / inviting
+Craving real Bahamian flavour? Head to zbT Spiny Lobster Café. Fresh conch, grilled lobster, peas ’n’ rice, and cold drinks with a view. Perfect for lunch, dinner, or that after-work hunger. Friendly service, generous portions, and prices that won’t sink your budget. zbT Spiny Lobster Café—where the taste of the islands meets you at the table. Open daily. Come hungry!
+
+With the help of espeak-ng and audacity, I have created the first 3. They sound terrible. If anyone wants to redo any of the 3, feel free.
+
+
+4. zbT Mango Moon Grill (Restaurant) – 60s – Light humour / family
+Family dinner turning into a negotiation again? Skip the debate and head to zbT Mango Moon Grill. We’ve got something for everyone—juicy burgers, fresh catch of the day, crispy chicken, vegetarian options, and a kids’ menu that actually makes the little ones smile. Big portions, friendly staff, and a vibe that feels like home… only with better seasoning. This week, kids eat free with every adult entrée after 5 p.m. zbT Mango Moon Grill—because life’s too short for boring meals and complicated decisions. Bring the whole crew. We’ll handle the rest.
+
+5. zbT Seashell Emporium (Retail) – 30s – Friendly / soft-sell
+Looking for that perfect gift or a little something for yourself? zbT Seashell Emporium has island-inspired treasures, practical everyday items, and souvenirs that don’t look like everyone else’s. From home décor to beach essentials, we’ve got it. Convenient location, friendly faces, and new arrivals every week. zbT Seashell Emporium—discover something special today.
+
+6. zbT Tradewind Outfitters (Retail) – 60s – Lifestyle / aspirational
+Ready for the next adventure? zbT Tradewind Outfitters outfits Bahamians for life on the water, on the trail, and in the sun. Performance apparel, quality footwear, beach gear, and accessories built to handle salt, sand, and serious fun. Whether you’re heading out on the boat, exploring the Exumas, or just living the island life in style, we’ve got the gear that keeps up. This season’s new arrivals are in—breathable fabrics, vibrant colours, and serious function. Visit zbT Tradewind Outfitters and gear up for whatever the islands throw your way. Adventure starts here.
+
+7. zbT Coral Key Realty (Real Estate) – 30s – Warm / reassuring
+Ready to find your place in the islands? zbT Coral Key Realty specializes in homes and rentals that fit real Bahamian lives. From starter homes to family properties, our local experts guide you every step. Honest advice, clear process, and no pressure. zbT Coral Key Realty—your key to island living. Call or visit us this weekend.
+
+8. zbT Horizon Point Properties (Real Estate) – 60s – Professional / aspirational
+At zbT Horizon Point Properties, we don’t just sell real estate—we help you claim your piece of the Bahamian dream. Specializing in luxury residences, investment properties, and prime commercial spaces across Nassau and beyond, our experienced team delivers market knowledge, discretion, and results. Whether you’re buying your first investment, upgrading to a waterfront home, or selling a valued property, we handle the details so you can focus on the horizon. Schedule a private consultation this weekend and discover what’s possible. zbT Horizon Point Properties—elevating island real estate.
+
+9. zbT Sovereign Isle Bank (Bank/Finance) – 30s – Straightforward / trustworthy
+Your money deserves a bank that understands island life. zbT Sovereign Isle Bank offers personal accounts, competitive loans, and friendly local service. Fast decisions, clear terms, and support when you need it. Open an account or talk to us about financing today. zbT Sovereign Isle Bank—rooted in the Bahamas, focused on you.
+
+10. zbT Brightsmile Dental (Medical/Dental) – 60s – Warm / caring
+A bright smile makes every day better—and zbT Brightsmile Dental is here to help you keep it that way. From routine cleanings and check-ups to cosmetic options and gentle care for the whole family, our experienced team puts your comfort first. Modern equipment, a friendly atmosphere, and appointment times that work with your schedule. New patients are welcome, and we accept most insurance plans. Don’t wait for a toothache to think about your teeth. Call zbT Brightsmile Dental today and schedule your visit. Healthy smiles start here.
+
+11. zbT Anchor Law Group (Legal) – 30s – Serious / confident
+When life gets complicated, you need solid legal advice. zbT Anchor Law Group handles personal injury, property matters, and more with clear communication and determined representation. We stand with Bahamians. Free initial consultation. zbT Anchor Law Group—anchored in results. Call today.
+
+12. zbT Azure Cove Resort (Tourism/Hotel) – 60s – Lifestyle / dreamy
+Escape the everyday at zbT Azure Cove Resort. Imagine turquoise water, soft sand, exceptional dining, and service that anticipates your every need. Whether it’s a romantic getaway, family holiday, or well-deserved break, Azure Cove delivers pure island luxury with genuine Bahamian warmth. Stunning rooms and suites, a full-service spa, and experiences you’ll talk about for years. Book your stay now and let the tide carry your worries away. zbT Azure Cove Resort—where the Bahamas feels like home, only better. Your escape is waiting.
+
+13. zbT TropicLink Communications (Telecom) – 30s – Upbeat / modern
+Stay connected across the islands with zbT TropicLink. Fast mobile data, reliable home internet, and plans that won’t surprise you at the end of the month. Local support, clear coverage, and options for every need. Switch to zbT TropicLink today and feel the difference. Connect better. Live freer.
+
+14. zbT Island Basket Market (Grocery) – 60s – Friendly / community
+Fresh. Local. Friendly. That’s zbT Island Basket Market. We bring you the best produce, bakery items, pantry staples, and island specialties—many sourced right here in the Bahamas. Whether you’re stocking up for the week or just grabbing something special for dinner, you’ll find quality, value, and a warm welcome. Support local farmers and fishers while filling your basket with goodness. This week’s specials are ready and waiting. Visit zbT Island Basket Market—where every trip feels like a little taste of home. Open daily for your convenience.
+
+15. zbT Shield & Sail Insurance (Insurance) – 30s – Reassuring / practical
+Protect what matters most with zbT Shield & Sail Insurance. Auto, home, and life coverage designed for Bahamian realities. Competitive rates, local claims support, and advice you can trust. Get a free quote today and sail through life with confidence. zbT Shield & Sail—your protection in every season.
+
+==========
+Summary of this first pass8 × 30-second spots  
+7 × 60-second spots  
+Tones mixed: hard-sell, warm, humorous, lifestyle, professional, caring, upbeat
+
+These are ready for TTS or voice talent. You can adjust length slightly during recording to hit exact times.Would you like me to:Revise any specific scripts (tone, length, offer details, stronger CTA, etc.)?
+Create a second version of any spots (different length or different angle)?
+Move on to sample contracts / line items / rules that reference these customers and dayparts?
+Add music-bed or sound-effect suggestions to the scripts?
+
+Just let me know how you’d like to proceed.
+
+==========
+
+SAMPLE CONTRACTS, LINE ITEMS & RULES
+Test data for Rivendell-oriented traffic system
+All customer names start with zbT
+Dates use 2026 for the demo periodCONTRACTSContractID | CustomerName | StartDate | EndDate | Salesperson | Status | Notes
+C-1001 | zbT Thunderbay Motors | 2026-08-15 | 2026-11-15 | S. Rolle | Active | Auto - Morning Drive preference
+C-1002 | zbT WaveRider Auto Group | 2026-08-15 | 2026-12-31 | S. Rolle | Active | Auto - Morning Drive preference
+C-1003 | zbT Spiny Lobster Café | 2026-08-20 | 2026-10-31 | M. Rahming | Active | Restaurant - Afternoon Drive
+C-1004 | zbT Mango Moon Grill | 2026-08-20 | 2026-11-30 | M. Rahming | Active | Restaurant - Afternoon Drive
+C-1005 | zbT Seashell Emporium | 2026-09-01 | 2026-12-15 | T. Bethel | Active | Retail - Midday
+C-1006 | zbT Tradewind Outfitters | 2026-09-01 | 2026-12-31 | T. Bethel | Active | Retail - Midday
+C-1007 | zbT Coral Key Realty | 2026-08-22 | 2026-11-30 | L. Cooper | Active | Real Estate - Weekend
+C-1008 | zbT Horizon Point Properties | 2026-08-22 | 2026-12-31 | L. Cooper | Active | Real Estate - Weekend
+C-1009 | zbT Sovereign Isle Bank | 2026-08-15 | 2026-12-31 | S. Rolle | Active | Bank - Morning Drive
+C-1010 | zbT Brightsmile Dental | 2026-09-01 | 2026-11-30 | T. Bethel | Active | Dental - Midday
+C-1011 | zbT Anchor Law Group | 2026-08-25 | 2026-11-15 | M. Rahming | Active | Legal - Afternoon Drive
+C-1012 | zbT Azure Cove Resort | 2026-09-01 | 2026-12-31 | L. Cooper | Active | Resort - Evening
+C-1013 | zbT TropicLink Communications | 2026-08-18 | 2026-12-31 | T. Bethel | Active | Telecom - Midday
+C-1014 | zbT Island Basket Market | 2026-08-15 | 2026-10-31 | S. Rolle | Active | Grocery - Morning Drive
+C-1015 | zbT Shield & Sail Insurance | 2026-08-25 | 2026-11-30 | M. Rahming | Active | Insurance - Afternoon DriveCONTRACT LINE ITEMSLineItemID | ContractID | CustomerName | SpotLength | QuantityPerWeek | AudioRef | StartDate | EndDate | Rate | Notes
+LI-2001 | C-1001 | zbT Thunderbay Motors | 30 | 12 | zbT_Thunderbay_30s | 2026-08-15 | 2026-11-15 | 45.00 | Primary 30s
+LI-2002 | C-1002 | zbT WaveRider Auto Group | 60 | 8 | zbT_WaveRider_60s | 2026-08-15 | 2026-12-31 | 75.00 | Primary 60s
+LI-2003 | C-1003 | zbT Spiny Lobster Café | 30 | 10 | zbT_SpinyLobster_30s | 2026-08-20 | 2026-10-31 | 40.00 | 
+LI-2004 | C-1004 | zbT Mango Moon Grill | 60 | 7 | zbT_MangoMoon_60s | 2026-08-20 | 2026-11-30 | 70.00 | 
+LI-2005 | C-1005 | zbT Seashell Emporium | 30 | 9 | zbT_Seashell_30s | 2026-09-01 | 2026-12-15 | 38.00 | 
+LI-2006 | C-1006 | zbT Tradewind Outfitters | 60 | 6 | zbT_Tradewind_60s | 2026-09-01 | 2026-12-31 | 72.00 | 
+LI-2007 | C-1007 | zbT Coral Key Realty | 30 | 8 | zbT_CoralKey_30s | 2026-08-22 | 2026-11-30 | 42.00 | Weekend focus
+LI-2008 | C-1008 | zbT Horizon Point Properties | 60 | 5 | zbT_HorizonPoint_60s | 2026-08-22 | 2026-12-31 | 80.00 | Weekend focus
+LI-2009 | C-1009 | zbT Sovereign Isle Bank | 30 | 10 | zbT_SovereignIsle_30s | 2026-08-15 | 2026-12-31 | 50.00 | 
+LI-2010 | C-1010 | zbT Brightsmile Dental | 60 | 6 | zbT_Brightsmile_60s | 2026-09-01 | 2026-11-30 | 68.00 | 
+LI-2011 | C-1011 | zbT Anchor Law Group | 30 | 8 | zbT_AnchorLaw_30s | 2026-08-25 | 2026-11-15 | 48.00 | 
+LI-2012 | C-1012 | zbT Azure Cove Resort | 60 | 7 | zbT_AzureCove_60s | 2026-09-01 | 2026-12-31 | 85.00 | Evening
+LI-2013 | C-1013 | zbT TropicLink Communications | 30 | 11 | zbT_TropicLink_30s | 2026-08-18 | 2026-12-31 | 42.00 | 
+LI-2014 | C-1014 | zbT Island Basket Market | 60 | 9 | zbT_IslandBasket_60s | 2026-08-15 | 2026-10-31 | 55.00 | 
+LI-2015 | C-1015 | zbT Shield & Sail Insurance | 30 | 9 | zbT_ShieldSail_30s | 2026-08-25 | 2026-11-30 | 46.00 | CONTRACT LINE ITEM RULESRuleID | LineItemID | CustomerName | Daypart | DaysOfWeek | Priority | MinSeparationMinutes | MaxPerDay | MaxPerHour | RotationType | Notes
+R-3001 | LI-2001 | zbT Thunderbay Motors | Morning Drive | Mon,Tue,Wed,Thu,Fri | 1 | 60 | 3 | 1 | Even | Auto conflict group
+R-3002 | LI-2002 | zbT WaveRider Auto Group | Morning Drive | Mon,Tue,Wed,Thu,Fri | 1 | 60 | 2 | 1 | Even | Auto conflict group
+R-3003 | LI-2003 | zbT Spiny Lobster Café | Afternoon Drive | Mon,Tue,Wed,Thu,Fri | 1 | 45 | 3 | 1 | Even | Restaurant conflict group
+R-3004 | LI-2004 | zbT Mango Moon Grill | Afternoon Drive | Mon,Tue,Wed,Thu,Fri | 1 | 45 | 2 | 1 | Even | Restaurant conflict group
+R-3005 | LI-2005 | zbT Seashell Emporium | Midday | Mon,Tue,Wed,Thu,Fri | 2 | 30 | 2 | 1 | Even | Retail conflict group
+R-3006 | LI-2006 | zbT Tradewind Outfitters | Midday | Mon,Tue,Wed,Thu,Fri | 2 | 30 | 2 | 1 | Even | Retail conflict group
+R-3007 | LI-2007 | zbT Coral Key Realty | Weekend | Sat,Sun | 1 | 60 | 4 | 1 | Even | Real Estate conflict group
+R-3008 | LI-2008 | zbT Horizon Point Properties | Weekend | Sat,Sun | 1 | 60 | 3 | 1 | Even | Real Estate conflict group
+R-3009 | LI-2009 | zbT Sovereign Isle Bank | Morning Drive | Mon,Tue,Wed,Thu,Fri | 2 | 45 | 2 | 1 | Even | Shares Morning Drive with Autos
+R-3010 | LI-2010 | zbT Brightsmile Dental | Midday | Mon,Tue,Wed,Thu,Fri | 2 | 45 | 2 | 1 | Even | Shares Midday with Retail
+R-3011 | LI-2011 | zbT Anchor Law Group | Afternoon Drive | Mon,Tue,Wed,Thu,Fri | 2 | 45 | 2 | 1 | Even | Shares Afternoon Drive with Restaurants
+R-3012 | LI-2012 | zbT Azure Cove Resort | Evening | Mon,Tue,Wed,Thu,Fri,Sat,Sun | 1 | 60 | 2 | 1 | Even | Evening exclusive for test
+R-3013 | LI-2013 | zbT TropicLink Communications | Midday | Mon,Tue,Wed,Thu,Fri | 2 | 30 | 3 | 1 | Even | Shares Midday
+R-3014 | LI-2014 | zbT Island Basket Market | Morning Drive | Mon,Tue,Wed,Thu,Fri | 2 | 45 | 2 | 1 | Even | Shares Morning Drive
+R-3015 | LI-2015 | zbT Shield & Sail Insurance | Afternoon Drive | Mon,Tue,Wed,Thu,Fri | 2 | 45 | 2 | 1 | Even | Shares Afternoon DriveDAYPART DEFINITIONS (for reference)Morning Drive   = Mon-Fri 06:00-10:00
+Midday          = Mon-Fri 10:00-15:00
+Afternoon Drive = Mon-Fri 15:00-19:00
+Evening         = 19:00-24:00 (all days)
+Weekend         = Sat-Sun 08:00-18:00NOTES FOR TESTING CONFLICTSBoth Auto customers (Thunderbay + WaveRider) are locked to Morning Drive → direct competition.
+Both Restaurants locked to Afternoon Drive → direct competition.
+Both Retail locked to Midday → direct competition.
+Both Real Estate locked to Weekend → direct competition.
+Bank + Grocery also prefer Morning Drive (extra pressure on that daypart).
+Dental + Telecom also prefer Midday.
+Legal + Insurance also prefer Afternoon Drive.
+Resort is the only one in pure Evening for isolation testing.
+
+AudioRef values match the script lengths created earlier.
+You can rename the actual .wav/.mp3 files to match these AudioRef names when you generate them.
+
+==========
