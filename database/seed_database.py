@@ -48,6 +48,13 @@ def seed_reference_data():
         (4, "Retail"),
         (5, "Political"),
         (6, "PSA"),
+        (7, "Real Estate"),
+        (8, "Bank/Finance"),
+        (9, "Medical/Dental"),
+        (10, "Tourism/Hotel"),
+        (11, "Telecommmunications"),
+        (12, "Grocery"),
+        (13, "Insurance"),
 
     ]
 
