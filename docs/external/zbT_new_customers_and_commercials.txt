@@ -1,0 +1,16 @@
+1. zbT Thunderbay Motors (Automotive) – 30s – Hard-sell / urgent [000005]
+2. zbT WaveRider Auto Group (Automotive) – 60s – Confident / professional [000006]
+3. zbT Spiny Lobster Café (Restaurant) – 30s – Warm / inviting [000007]
+4. zbT Mango Moon Grill (Restaurant) – 60s – Light humour / family [000008]
+5. zbT Seashell Emporium (Retail) – 30s – Friendly / soft-sell [000009]
+6. zbT Tradewind Outfitters (Retail) – 60s – Lifestyle / aspirational [000010]
+7. zbT Coral Cay Realty (Real Estate) – 30s – Warm / reassuring [000011]
+8. zbT Horizon Point Properties (Real Estate) – 60s – Professional / aspirational [000012]
+9. zbT Sovereign Isle Bank (Bank/Finance) – 30s – Straightforward / trustworthy [000013]
+10. zbT Brightsmile Dental (Medical/Dental) – 60s – Warm / caring [000014]
+12. zbT Azure Cove Resort (Tourism/Hotel) – 60s – Lifestyle / dreamy [000016]
+13. zbT TropicLink Communications (Telecommunications) – 30s – Upbeat / modern [000017]
+14. zbT Island Basket Market (Grocery) – 60s – Friendly / community [000018]
+15. zbT Shield & Sail Insurance (Insurance) – 30s – Reassuring / practical [000019]
+
+

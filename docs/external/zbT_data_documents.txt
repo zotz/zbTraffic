@@ -106,53 +106,65 @@ zbT Grok Scripts:
 
 If you are willing to turn any of these into audio commercials able to be shared worldwide with Rivendell, Rivolution, and zbTraffic users among others, please have a go. I am looking for 48,000 audio in .wav or decent (high) quality mp3s. The primary intent right now is to create text data for my zbTraffic / rivendell traffic scheduling automation playout system.
 
-1. zbT Thunderbay Motors (Auto) – 30s – Hard-sell / urgent
+1. zbT Thunderbay Motors (Auto) – 30s – Hard-sell / urgent [000005]
 Looking for a reliable ride without the mainland prices? Come to zbT Thunderbay Motors in Nassau! This week only, selected pre-owned SUVs and sedans are marked way down with free first-service included. Low rates, easy approval, and we take trades. Don’t wait—inventory moves fast under the Bahamian sun. zbT Thunderbay Motors… drive away happy today. Visit us on Bay Street or call now!
 
-2. zbT WaveRider Auto Group (Auto) – 60s – Confident / professional
+2. zbT WaveRider Auto Group (Auto) – 60s – Confident / professional [000006]
 At zbT WaveRider Auto Group, we know Bahamians deserve more than just a car—they deserve confidence on every road from Nassau to Freeport. Whether you’re stepping into a brand-new model or a certified pre-owned vehicle, our team delivers transparent pricing, genuine warranties, and service that keeps you moving. Two convenient locations, factory-trained technicians, and financing options built for island life. This month, ask about our exclusive WaveRider loyalty package—free oil changes for a year plus roadside assistance. Stop by zbT WaveRider Auto Group and experience the difference. Your next vehicle is waiting. Drive the Wave.
 
-3. zbT Spiny Lobster Café (Restaurant) – 30s – Warm / inviting
+3. zbT Spiny Lobster Café (Restaurant) – 30s – Warm / inviting [000007]
 Craving real Bahamian flavour? Head to zbT Spiny Lobster Café. Fresh conch, grilled lobster, peas ’n’ rice, and cold drinks with a view. Perfect for lunch, dinner, or that after-work hunger. Friendly service, generous portions, and prices that won’t sink your budget. zbT Spiny Lobster Café—where the taste of the islands meets you at the table. Open daily. Come hungry!
 
 With the help of espeak-ng and audacity, I have created the first 3. They sound terrible. If anyone wants to redo any of the 3, feel free.
 
+espeak-ng -w 
 
-4. zbT Mango Moon Grill (Restaurant) – 60s – Light humour / family
+
+4. zbT Mango Moon Grill (Restaurant) – 60s – Light humour / family [000008]
 Family dinner turning into a negotiation again? Skip the debate and head to zbT Mango Moon Grill. We’ve got something for everyone—juicy burgers, fresh catch of the day, crispy chicken, vegetarian options, and a kids’ menu that actually makes the little ones smile. Big portions, friendly staff, and a vibe that feels like home… only with better seasoning. This week, kids eat free with every adult entrée after 5 p.m. zbT Mango Moon Grill—because life’s too short for boring meals and complicated decisions. Bring the whole crew. We’ll handle the rest.
 
-5. zbT Seashell Emporium (Retail) – 30s – Friendly / soft-sell
+5. zbT Seashell Emporium (Retail) – 30s – Friendly / soft-sell [000009]
 Looking for that perfect gift or a little something for yourself? zbT Seashell Emporium has island-inspired treasures, practical everyday items, and souvenirs that don’t look like everyone else’s. From home décor to beach essentials, we’ve got it. Convenient location, friendly faces, and new arrivals every week. zbT Seashell Emporium—discover something special today.
 
-6. zbT Tradewind Outfitters (Retail) – 60s – Lifestyle / aspirational
+6. zbT Tradewind Outfitters (Retail) – 60s – Lifestyle / aspirational [000010]
 Ready for the next adventure? zbT Tradewind Outfitters outfits Bahamians for life on the water, on the trail, and in the sun. Performance apparel, quality footwear, beach gear, and accessories built to handle salt, sand, and serious fun. Whether you’re heading out on the boat, exploring the Exumas, or just living the island life in style, we’ve got the gear that keeps up. This season’s new arrivals are in—breathable fabrics, vibrant colours, and serious function. Visit zbT Tradewind Outfitters and gear up for whatever the islands throw your way. Adventure starts here.
 
-7. zbT Coral Key Realty (Real Estate) – 30s – Warm / reassuring
+7. zbT Coral Cay Realty (Real Estate) – 30s – Warm / reassuring [000011]
 Ready to find your place in the islands? zbT Coral Key Realty specializes in homes and rentals that fit real Bahamian lives. From starter homes to family properties, our local experts guide you every step. Honest advice, clear process, and no pressure. zbT Coral Key Realty—your key to island living. Call or visit us this weekend.
 
-8. zbT Horizon Point Properties (Real Estate) – 60s – Professional / aspirational
+espeak-ng -w 
+
+8. zbT Horizon Point Properties (Real Estate) – 60s – Professional / aspirational [000012]
 At zbT Horizon Point Properties, we don’t just sell real estate—we help you claim your piece of the Bahamian dream. Specializing in luxury residences, investment properties, and prime commercial spaces across Nassau and beyond, our experienced team delivers market knowledge, discretion, and results. Whether you’re buying your first investment, upgrading to a waterfront home, or selling a valued property, we handle the details so you can focus on the horizon. Schedule a private consultation this weekend and discover what’s possible. zbT Horizon Point Properties—elevating island real estate.
 
-9. zbT Sovereign Isle Bank (Bank/Finance) – 30s – Straightforward / trustworthy
+9. zbT Sovereign Isle Bank (Bank/Finance) – 30s – Straightforward / trustworthy [000013]
 Your money deserves a bank that understands island life. zbT Sovereign Isle Bank offers personal accounts, competitive loans, and friendly local service. Fast decisions, clear terms, and support when you need it. Open an account or talk to us about financing today. zbT Sovereign Isle Bank—rooted in the Bahamas, focused on you.
 
-10. zbT Brightsmile Dental (Medical/Dental) – 60s – Warm / caring
+10. zbT Brightsmile Dental (Medical/Dental) – 60s – Warm / caring [000014]
 A bright smile makes every day better—and zbT Brightsmile Dental is here to help you keep it that way. From routine cleanings and check-ups to cosmetic options and gentle care for the whole family, our experienced team puts your comfort first. Modern equipment, a friendly atmosphere, and appointment times that work with your schedule. New patients are welcome, and we accept most insurance plans. Don’t wait for a toothache to think about your teeth. Call zbT Brightsmile Dental today and schedule your visit. Healthy smiles start here.
 
-11. zbT Anchor Law Group (Legal) – 30s – Serious / confident
+With the help of espeak-ng and audacity, I have created the first 10. They sound terrible. If anyone wants to redo any of the 10, feel free.
+
+espeak-ng -w 
+
+11. zbT Anchor Law Group (Legal) – 30s – Serious / confident [000015]
 When life gets complicated, you need solid legal advice. zbT Anchor Law Group handles personal injury, property matters, and more with clear communication and determined representation. We stand with Bahamians. Free initial consultation. zbT Anchor Law Group—anchored in results. Call today.
 
-12. zbT Azure Cove Resort (Tourism/Hotel) – 60s – Lifestyle / dreamy
+12. zbT Azure Cove Resort (Tourism/Hotel) – 60s – Lifestyle / dreamy [000016]
 Escape the everyday at zbT Azure Cove Resort. Imagine turquoise water, soft sand, exceptional dining, and service that anticipates your every need. Whether it’s a romantic getaway, family holiday, or well-deserved break, Azure Cove delivers pure island luxury with genuine Bahamian warmth. Stunning rooms and suites, a full-service spa, and experiences you’ll talk about for years. Book your stay now and let the tide carry your worries away. zbT Azure Cove Resort—where the Bahamas feels like home, only better. Your escape is waiting.
 
-13. zbT TropicLink Communications (Telecom) – 30s – Upbeat / modern
+13. zbT TropicLink Communications (Telecom) – 30s – Upbeat / modern [000017]
 Stay connected across the islands with zbT TropicLink. Fast mobile data, reliable home internet, and plans that won’t surprise you at the end of the month. Local support, clear coverage, and options for every need. Switch to zbT TropicLink today and feel the difference. Connect better. Live freer.
 
-14. zbT Island Basket Market (Grocery) – 60s – Friendly / community
+espeak-ng -w 
+
+14. zbT Island Basket Market (Grocery) – 60s – Friendly / community [000018]
 Fresh. Local. Friendly. That’s zbT Island Basket Market. We bring you the best produce, bakery items, pantry staples, and island specialties—many sourced right here in the Bahamas. Whether you’re stocking up for the week or just grabbing something special for dinner, you’ll find quality, value, and a warm welcome. Support local farmers and fishers while filling your basket with goodness. This week’s specials are ready and waiting. Visit zbT Island Basket Market—where every trip feels like a little taste of home. Open daily for your convenience.
 
-15. zbT Shield & Sail Insurance (Insurance) – 30s – Reassuring / practical
+15. zbT Shield & Sail Insurance (Insurance) – 30s – Reassuring / practical [000019]
 Protect what matters most with zbT Shield & Sail Insurance. Auto, home, and life coverage designed for Bahamian realities. Competitive rates, local claims support, and advice you can trust. Get a free quote today and sail through life with confidence. zbT Shield & Sail—your protection in every season.
+
+With the help of espeak-ng and audacity, I have created all 15. They sound terrible. If anyone wants to redo any of the 15, feel free.
 
 ==========
 Summary of this first pass8 × 30-second spots  
@@ -231,5 +243,22 @@ Resort is the only one in pure Evening for isolation testing.
 
 AudioRef values match the script lengths created earlier.
 You can rename the actual .wav/.mp3 files to match these AudioRef names when you generate them.
+
+==========
+
+1. zbT Thunderbay Motors (Auto) – 30s – Hard-sell / urgent [000005]
+2. zbT WaveRider Auto Group (Auto) – 60s – Confident / professional [000006]
+3. zbT Spiny Lobster Café (Restaurant) – 30s – Warm / inviting [000007]
+4. zbT Mango Moon Grill (Restaurant) – 60s – Light humour / family [000008]
+5. zbT Seashell Emporium (Retail) – 30s – Friendly / soft-sell [000009]
+6. zbT Tradewind Outfitters (Retail) – 60s – Lifestyle / aspirational [000010]
+7. zbT Coral Cay Realty (Real Estate) – 30s – Warm / reassuring [000011]
+8. zbT Horizon Point Properties (Real Estate) – 60s – Professional / aspirational [000012]
+9. zbT Sovereign Isle Bank (Bank/Finance) – 30s – Straightforward / trustworthy [000013]
+10. zbT Brightsmile Dental (Medical/Dental) – 60s – Warm / caring [000014]
+12. zbT Azure Cove Resort (Tourism/Hotel) – 60s – Lifestyle / dreamy [000016]
+13. zbT TropicLink Communications (Telecom) – 30s – Upbeat / modern [000017]
+14. zbT Island Basket Market (Grocery) – 60s – Friendly / community [000018]
+15. zbT Shield & Sail Insurance (Insurance) – 30s – Reassuring / practical [000019]
 
 ==========
