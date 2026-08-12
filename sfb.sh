@@ -75,8 +75,17 @@ python3 -m commands.contract_item_rule_add \
     --spots-per-week 5
 
 
+########### Seed big contracts suite
+python3 -m database.import_contracts_csv database/data/contracts_big.csv
+python3 -m database.import_contract_items_csv database/data/contract_items_big.csv
+python3 -m database.import_contract_item_rules_csv database/data/contract_item_rules_big.csv
 
+for id in $(seq 5 19); do
+    echo "===== Contract Item $id ====="
+    python3 -c "from traffic.scheduler import schedule_contract_item_quantity; print(schedule_contract_item_quantity($id))"
+done
 
+# take these out so that no spots are scheduled
 python3 -c "from traffic.scheduler import schedule_contract_item_quantity; print(schedule_contract_item_quantity(1))"
 python3 -c "from traffic.scheduler import schedule_contract_item_quantity; print(schedule_contract_item_quantity(3))"
 
