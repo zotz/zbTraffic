@@ -52,9 +52,10 @@ def seed_reference_data():
         (8, "Bank/Finance"),
         (9, "Medical/Dental"),
         (10, "Tourism/Hotel"),
-        (11, "Telecommmunications"),
+        (11, "Telecommunications"),
         (12, "Grocery"),
         (13, "Insurance"),
+        (14, "Legal"),
 
     ]
 
