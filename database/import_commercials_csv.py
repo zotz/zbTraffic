@@ -8,9 +8,10 @@
 # The CSV identifies customers by company name rather than
 # database ID.  Customer IDs are looked up during import.
 #
-# Category is also optional in the CSV.  If supplied, it must
-# match the customer's category.
+# Category is also optional in the CSV. Useful when a customer runs 
+# ads for different categories.
 #
+
 
 import csv
 import sys
@@ -230,18 +231,6 @@ def import_commercials_csv(filename):
                         f"'{category_name}'."
                     )
 
-                if (
-                    customer_category_id is not None
-                    and csv_category_id
-                    != customer_category_id
-                ):
-
-                    raise ValueError(
-                        f"Line {line_number}: "
-                        f"Category '{category_name}' "
-                        f"does not match customer "
-                        f"'{customer_name}'."
-                    )
 
                 category_id = csv_category_id
 
@@ -330,4 +319,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

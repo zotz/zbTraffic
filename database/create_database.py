@@ -20,7 +20,23 @@ DATABASE_NAME = os.path.join(
     "traffic.db"
 )
 
-
+# create db tables in this order:
+# 01. categories
+# 02. stations
+# 03. programs
+# 04. stopsets
+# 05. customers
+# 06. contacts
+# 07. salespeople
+# 08. commercials
+# 09. contracts
+# 10. contract_items
+# 11. contract_item_rules
+# 12. avails
+# 13. spots
+# 14. separation_rules
+# 15. users
+#
 
 def create_database():
 
