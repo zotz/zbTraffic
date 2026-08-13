@@ -5,6 +5,7 @@ from datetime import datetime
 from traffic.database import get_connection
 
 from traffic.utilities import (
+    current_timestamp,
     normalize_time
 )
 
@@ -333,5 +334,165 @@ def passes_separation_rules(
 
     return True
 
+def add_separation_rule(
+    category1_id,
+    category2_id,
+    minimum_minutes=0,
+    notes=None
+):
+    """
+    Add a separation rule between two categories.
 
+    Rules are treated as symmetric.
+    """
+
+    errors = []
+
+    if category1_id is None:
+        errors.append(
+            "Category 1 is required."
+        )
+
+    if category2_id is None:
+        errors.append(
+            "Category 2 is required."
+        )
+
+    if not isinstance(
+        minimum_minutes,
+        int
+    ):
+        errors.append(
+            "Minimum minutes must be an integer."
+        )
+
+    elif minimum_minutes < 0:
+        errors.append(
+            "Minimum minutes cannot be negative."
+        )
+
+    if errors:
+        return None, errors
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    #
+    # Make sure both categories exist.
+    #
+
+    cursor.execute(
+        """
+        SELECT id
+        FROM categories
+        WHERE id = ?
+        """,
+        (category1_id,)
+    )
+
+    if cursor.fetchone() is None:
+
+        connection.close()
+
+        return None, [
+            "Category 1 not found."
+        ]
+
+    cursor.execute(
+        """
+        SELECT id
+        FROM categories
+        WHERE id = ?
+        """,
+        (category2_id,)
+    )
+
+    if cursor.fetchone() is None:
+
+        connection.close()
+
+        return None, [
+            "Category 2 not found."
+        ]
+
+    #
+    # Because rules are symmetric, don't allow
+    # the same pair to be added twice.
+    #
+
+    cursor.execute(
+        """
+        SELECT id
+        FROM separation_rules
+        WHERE
+            (
+                category1_id = ?
+                AND category2_id = ?
+            )
+            OR
+            (
+                category1_id = ?
+                AND category2_id = ?
+            )
+        """,
+        (
+            category1_id,
+            category2_id,
+            category2_id,
+            category1_id
+        )
+    )
+
+    existing = cursor.fetchone()
+
+    if existing:
+
+        connection.close()
+
+        return None, [
+            "Separation rule already exists."
+        ]
+
+    now = current_timestamp()
+
+    cursor.execute(
+        """
+        INSERT INTO separation_rules
+        (
+            category1_id,
+            category2_id,
+            minimum_minutes,
+            active,
+            notes,
+            created_date,
+            modified_date
+        )
+        VALUES
+        (
+            ?,
+            ?,
+            ?,
+            1,
+            ?,
+            ?,
+            ?
+        )
+        """,
+        (
+            category1_id,
+            category2_id,
+            minimum_minutes,
+            notes,
+            now,
+            now
+        )
+    )
+
+    connection.commit()
+
+    rule_id = cursor.lastrowid
+
+    connection.close()
+
+    return rule_id, []
 
