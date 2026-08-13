@@ -13,4 +13,4 @@ ALG-2026-001,zbT Anchor Law Group 30,"Mon,Tue,Wed,Thu,Fri",08:00:00,12:00:00,Mor
 ACR-2026-001,zbT Azure Cove Resort 60,"Mon,Tue,Wed,Thu,Fri",12:00:00,17:00:00,Midday Show,Midday Break 8,1,5,1,1,Tourism afternoon window
 TLC-2026-001,zbT TropicLink Communications 30,"Mon,Tue,Wed,Thu,Fri",14:00:00,18:00:00,Afternoon Drive,Drive Break 2,1,5,1,1,Telecom afternoon window
 IBM-2026-001,zbT Island Basket Market 60,"Mon,Tue,Wed,Thu,Fri",11:00:00,16:00:00,Midday Show,Midday Break 9,1,5,1,1,Grocery overlapping midday window
-SSI-2026-001,zbT Shield & Sail Insurance 30,"Mon,Tue,Wed,Thu,Fri",13:00:00,17:00:00,Afternoon Drive,Drive Break 3,1,5,1,1,Insurance afternoon window
+SSI-2026-001,zbT Shield & Sail Insurance 30,"Mon,Tue,Wed,Thu,Fri",13:00:00,17:00:00,Afternoon Drive,Drive Break 3,1,5,0,0,Insurance Note afternoon window
