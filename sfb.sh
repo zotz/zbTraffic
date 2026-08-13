@@ -76,6 +76,8 @@ python3 -m commands.contract_item_rule_add \
 
 
 ########### Seed big contracts suite
+python3 -m database.import_categories_csv database/data/categories_big.csv
+python3 -m database.import_separation_rules_csv database/data/separation_rules_big.csv
 python3 -m database.import_contracts_csv database/data/contracts_big.csv
 python3 -m database.import_contract_items_csv database/data/contract_items_big.csv
 python3 -m database.import_contract_item_rules_csv database/data/contract_item_rules_big.csv
