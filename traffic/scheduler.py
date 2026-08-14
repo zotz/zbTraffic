@@ -19,6 +19,7 @@ from traffic.assignment import (
 
 from traffic.spots import (
     add_spot,
+    list_spots,
     count_spots_for_contract_item
 )
 
@@ -440,42 +441,10 @@ def schedule_contract_item(
             "No suitable avails found."
         )
 
-    # change back to first to last scheduling
-    #avail = candidates[0]
-    # changed above to random for now to avoid starting early and moving down the day.
-    # looking at results, this seems to be hour by hour while I currently want it at least day by day.
+
     #
-    # Find a candidate avail that satisfies
-    # separation rules.
+    # Create the spot as Pending.
     #
-
-    random.shuffle(
-        candidates
-    )
-
-
-    avail = None
-
-
-    for candidate in candidates:
-
-        if passes_separation_rules(
-            candidate["id"],
-            contract_item["commercial_id"]
-        ):
-
-            avail = candidate
-
-            break
-
-
-    if avail is None:
-
-        raise RuntimeError(
-            "No candidate avails satisfy "
-            "separation rules."
-        )
-
 
     spot_id = add_spot(
         station_id=contract["station_id"],
@@ -487,16 +456,23 @@ def schedule_contract_item(
     )
 
 
-    success, errors = assign_spot_to_avail(
+    #
+    # Try to assign the newly created spot.
+    #
+
+    success = assign_existing_spot(
         spot_id,
-        avail["id"]
+        contract_item_id,
+        contract_item["commercial_id"],
+        air_date
     )
 
 
     if not success:
 
         raise RuntimeError(
-            errors
+            "No candidate avails satisfy "
+            "separation rules."
         )
 
 
@@ -842,11 +818,79 @@ def try_schedule_contract_item(
         return None
 
 
+def assign_existing_spot(
+    spot_id,
+    contract_item_id,
+    commercial_id,
+    air_date
+):
+    """
+    Try to assign an existing spot to a suitable avail.
+
+    Returns:
+        True if the spot was assigned.
+        False if no suitable avail could be found.
+    """
+
+    candidates = find_candidate_avails(
+        contract_item_id,
+        air_date
+    )
+
+
+    if not candidates:
+
+        return False
+
+
+    #
+    # Randomize candidate order.
+    #
+
+    random.shuffle(
+        candidates
+    )
+
+
+    #
+    # Find a candidate that satisfies
+    # separation rules.
+    #
+
+    for candidate in candidates:
+
+        if not passes_separation_rules(
+            candidate["id"],
+            commercial_id
+        ):
+
+            continue
+
+
+        success, errors = assign_spot_to_avail(
+            spot_id,
+            candidate["id"]
+        )
+
+
+        if success:
+
+            return True
+
+
+    return False
+
+
+
+
 def schedule_contract_item_quantity(
     contract_item_id
 ):
     """
     Schedule the required quantity for a contract item.
+
+    Existing Scheduled and Pending spots count toward
+    the required quantity.
 
     Spots are distributed across dates that have
     eligible avails.
@@ -871,6 +915,32 @@ def schedule_contract_item_quantity(
         )
 
 
+    contract = get_contract(
+        contract_item["contract_id"]
+    )
+
+
+    if contract is None:
+
+        raise ValueError(
+            "Contract not found."
+        )
+
+
+    if contract["active"] != 1:
+
+        raise ValueError(
+            "Contract is inactive."
+        )
+
+
+    if contract_item["commercial_id"] is None:
+
+        raise ValueError(
+            "Contract item has no commercial assigned."
+        )
+
+
     spots_per_day, spots_per_week = (
         get_scheduling_limits(
             contract_item_id
@@ -878,11 +948,35 @@ def schedule_contract_item_quantity(
     )
 
 
+    required_quantity = contract_item["quantity"]
 
-    quantity = contract_item["quantity"]
+
+    if required_quantity <= 0:
+
+        return []
 
 
-    if quantity <= 0:
+    #
+    # Existing Scheduled and Pending spots
+    # already count toward the required quantity.
+    #
+
+    existing_spots = count_spots_for_contract_item(
+        contract_item_id
+    )
+
+
+    quantity_to_schedule = (
+        required_quantity
+        - existing_spots
+    )
+
+
+    #
+    # Nothing more needs to be generated.
+    #
+
+    if quantity_to_schedule <= 0:
 
         return []
 
@@ -913,11 +1007,12 @@ def schedule_contract_item_quantity(
 
 
     #
-    # Distribute the quantity across
-    # the eligible dates.
+    # Distribute the quantity still needed
+    # across the eligible dates.
     #
 
     scheduled_spots = []
+    pending_spots = []
 
 
     date_index = 0
@@ -927,7 +1022,7 @@ def schedule_contract_item_quantity(
 
     while (
         len(scheduled_spots)
-        < quantity
+        < quantity_to_schedule
     ):
 
 
@@ -957,28 +1052,50 @@ def schedule_contract_item_quantity(
                 eligible_dates
             ):
 
-                raise RuntimeError(
-                    "Unable to schedule the remaining "
-                    "spots because all eligible dates "
-                    "have reached scheduling limits."
-                )
+                break
 
 
             continue
 
 
+        #
+        # Create the spot as Pending.
+        #
 
-        spot_id = try_schedule_contract_item(
+        spot_id = add_spot(
+            station_id=contract["station_id"],
+            commercial_id=contract_item["commercial_id"],
+            air_date=None,
+            air_time=None,
+            status="Pending",
+            contract_item_id=contract_item_id
+        )
+
+
+        #
+        # Try to assign the Pending spot.
+        #
+
+        success = assign_existing_spot(
+            spot_id,
             contract_item_id,
+            contract_item["commercial_id"],
             air_date
         )
 
 
-        if spot_id is not None:
+        if success:
 
             scheduled_spots.append(
                 spot_id
             )
+
+        else:
+
+            pending_spots.append(
+                spot_id
+            )
+
 
             dates_checked = 0
 
@@ -987,7 +1104,6 @@ def schedule_contract_item_quantity(
         #
         # Move to the next eligible date.
         #
-
 
         date_index += 1
 
@@ -999,25 +1115,33 @@ def schedule_contract_item_quantity(
             date_index = 0
 
 
-        #
-        # Safety check.
-        #
-        # If we have gone through every
-        # eligible date without scheduling
-        # anything, stop rather than looping
-        # forever.
-        #
+    #
+    # Create Pending spots for anything
+    # that could not be scheduled automatically.
+    #
 
-        if (
-            date_index == 0
-            and
-            len(scheduled_spots) == 0
-        ):
+    remaining = (
+        quantity_to_schedule
+        - len(scheduled_spots)
+        - len(pending_spots)
+    )
 
-            raise RuntimeError(
-                "Unable to schedule any "
-                "spots."
-            )
+
+    for _ in range(remaining):
+
+        spot_id = add_spot(
+            station_id=contract["station_id"],
+            commercial_id=contract_item["commercial_id"],
+            air_date=None,
+            air_time=None,
+            status="Pending",
+            contract_item_id=contract_item_id
+        )
+
+
+        pending_spots.append(
+            spot_id
+        )
 
 
     return scheduled_spots
