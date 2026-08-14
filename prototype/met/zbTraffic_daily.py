@@ -30,6 +30,7 @@ MODULES = [
 ("Traffic Days", "prototype.traffic_days"),
 ("Traffic Days Table", "prototype.traffic_days_table"),
 (">>> MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui"),
+(">>> New MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui_new"),
 ]
 
 class Launcher:
