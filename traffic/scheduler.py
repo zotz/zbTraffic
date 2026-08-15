@@ -42,6 +42,24 @@ from traffic.contract_item_rules import (
 
 
 
+TRACE_ENABLED = True
+
+TRACE_FILE = "scheduler_trace.txt"
+
+
+def trace(message):
+
+    if not TRACE_ENABLED:
+
+        return
+
+    with open(TRACE_FILE, "a") as f:
+
+        f.write(message + "\n")
+
+
+
+
 def get_day_name(
     air_date
 ):
@@ -456,6 +474,14 @@ def schedule_contract_item(
     )
 
 
+    trace(
+        "DATE {}: created Pending spot {}".format(
+            air_date,
+            spot_id
+        )
+    )
+
+
     #
     # Try to assign the newly created spot.
     #
@@ -465,6 +491,15 @@ def schedule_contract_item(
         contract_item_id,
         contract_item["commercial_id"],
         air_date
+    )
+
+
+    trace(
+        "DATE {}: spot {} assignment result: {}".format(
+            air_date,
+            spot_id,
+            success
+        )
     )
 
 
@@ -840,6 +875,14 @@ def assign_existing_spot(
 
     if not candidates:
 
+        trace(
+            "DATE {}: spot {} assignment failed - "
+            "no candidate avails".format(
+                air_date,
+                spot_id
+            )
+        )
+
         return False
 
 
@@ -864,6 +907,15 @@ def assign_existing_spot(
             commercial_id
         ):
 
+            trace(
+                "DATE {}: spot {} avail {} "
+                "FAILED separation rules".format(
+                    air_date,
+                    spot_id,
+                    candidate["id"]
+                )
+            )
+
             continue
 
 
@@ -875,8 +927,23 @@ def assign_existing_spot(
 
         if success:
 
+            trace(
+                "DATE {}: spot {} ASSIGNED to avail {}".format(
+                    air_date,
+                    spot_id,
+                    candidate["id"]
+                )
+            )
+
             return True
 
+    trace(
+        "DATE {}: spot {} assignment failed - "
+        "all candidates rejected".format(
+            air_date,
+            spot_id
+        )
+    )
 
     return False
 
@@ -972,6 +1039,36 @@ def schedule_contract_item_quantity(
     )
 
 
+    trace("")
+    trace("=" * 60)
+    trace(
+        "SCHEDULING CONTRACT ITEM {}".format(
+            contract_item_id
+        )
+    )
+    trace("=" * 60)
+    trace(
+        "Contract: {}".format(
+            contract["id"]
+        )
+    )
+    trace(
+        "Required quantity: {}".format(
+            required_quantity
+        )
+    )
+    trace(
+        "Existing spots: {}".format(
+            existing_spots
+        )
+    )
+    trace(
+        "Quantity to schedule: {}".format(
+            quantity_to_schedule
+        )
+    )
+
+
     #
     # Nothing more needs to be generated.
     #
@@ -995,6 +1092,12 @@ def schedule_contract_item_quantity(
         contract_item_id,
         start_date,
         end_date
+    )
+
+    trace(
+        "Eligible dates: {}".format(
+            ", ".join(eligible_dates)
+        )
     )
 
 
@@ -1038,6 +1141,13 @@ def schedule_contract_item_quantity(
             spots_per_week
         ):
 
+            trace(
+                "DATE {}: scheduling limit reached; "
+                "date skipped".format(
+                    air_date
+                )
+            )
+
 
             date_index, dates_checked = (
                 advance_date_index(
@@ -1071,6 +1181,12 @@ def schedule_contract_item_quantity(
             contract_item_id=contract_item_id
         )
 
+        trace(
+            "DATE {}: created Pending spot {}".format(
+                air_date,
+                spot_id
+            )
+        )
 
         #
         # Try to assign the Pending spot.
@@ -1081,6 +1197,16 @@ def schedule_contract_item_quantity(
             contract_item_id,
             contract_item["commercial_id"],
             air_date
+        )
+
+
+
+        trace(
+            "DATE {}: spot {} assignment result: {}".format(
+                air_date,
+                spot_id,
+                success
+            )
         )
 
 
