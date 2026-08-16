@@ -181,6 +181,7 @@ def passes_separation_rules(
     cursor.execute(
         """
         SELECT
+            customer_id,
             category_id
 
         FROM commercials
@@ -206,6 +207,44 @@ def passes_separation_rules(
     new_category_id = commercial[
         "category_id"
     ]
+    new_customer_id = commercial[
+        "customer_id"
+    ]
+
+
+
+    #
+    # Do not allow the same commercial to occupy
+    # the same avail more than once.
+    #
+
+    cursor.execute(
+        """
+        SELECT id
+
+        FROM spots
+
+        WHERE avail_id = ?
+
+          AND commercial_id = ?
+
+          AND status = 'Scheduled'
+
+        LIMIT 1
+        """,
+        (
+            avail_id,
+            commercial_id
+        )
+    )
+
+    existing_same_commercial = cursor.fetchone()
+
+    if existing_same_commercial is not None:
+
+        connection.close()
+
+        return False
 
 
     #
@@ -231,6 +270,7 @@ def passes_separation_rules(
             spots.air_date,
             spots.air_time,
             spots.commercial_id,
+            commercials.customer_id,
             commercials.category_id
 
         FROM spots
@@ -278,6 +318,15 @@ def passes_separation_rules(
     for existing in scheduled_spots:
 
         if existing["category_id"] is None:
+
+            continue
+
+        #
+        # Category separation applies only between
+        # different customers.
+        #
+
+        if existing["customer_id"] == new_customer_id:
 
             continue
 
