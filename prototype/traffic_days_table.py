@@ -50,7 +50,38 @@ class TrafficDaysTable:
             end_date.isoformat()
         )
 
+        self.update_day_labels()
+
+
         self.load_data()
+
+
+    def update_day_labels(self):
+
+        try:
+
+            start = date.fromisoformat(
+                self.start_date_var.get()
+            )
+
+            end = date.fromisoformat(
+                self.end_date_var.get()
+            )
+
+        except ValueError:
+
+            self.start_day_var.set("")
+            self.end_day_var.set("")
+            return
+
+        self.start_day_var.set(
+            start.strftime("%A")
+        )
+
+        self.end_day_var.set(
+            end.strftime("%A")
+        )
+
 
 
     def previous_range(self):
@@ -81,6 +112,19 @@ class TrafficDaysTable:
 
         self.set_dates(start, end)
 
+    def previous_end(self):
+
+        start = (
+            date.fromisoformat(self.start_date_var.get())
+            - timedelta(days=-1)
+        )
+
+        end = date.fromisoformat(
+            self.end_date_var.get()
+        )
+
+        self.set_dates(start, end)
+
 
     def today(self):
 
@@ -90,6 +134,20 @@ class TrafficDaysTable:
             today,
             today
         )
+
+    def next_start(self):
+
+        start = date.fromisoformat(
+            self.start_date_var.get()
+        )
+
+        end = (
+            date.fromisoformat(self.end_date_var.get())
+            + timedelta(days=-1)
+        )
+
+        self.set_dates(start, end)
+
 
 
     def next_end(self):
@@ -128,6 +186,42 @@ class TrafficDaysTable:
         #
         # Date controls
         #
+
+##########
+
+
+        self.start_day_var = tk.StringVar()
+        self.end_day_var = tk.StringVar()
+
+        weekday_frame = ttk.Frame(self.root)
+
+        weekday_frame.pack(
+            fill="x",
+            padx=5,
+            pady=(5, 0)
+        )
+
+        ttk.Label(
+            weekday_frame,
+            textvariable=self.start_day_var
+        ).pack(
+            side="left",
+            padx=(390, 350)
+        )
+
+        ttk.Label(
+            weekday_frame,
+            textvariable=self.end_day_var
+        ).pack(
+            side="left"
+        )
+
+
+
+##########
+
+
+
 
         top = ttk.Frame(self.root)
 
@@ -188,6 +282,26 @@ class TrafficDaysTable:
             padx=5
         )
 
+        ttk.Button(
+            top,
+            text="\u25B6",
+            command=self.previous_end
+        ).pack(
+            side="left",
+            padx=(5,10)
+        )
+
+
+        ttk.Button(
+            top,
+            text="\u25C0",
+            command=self.next_start
+        ).pack(
+            side="left",
+            padx=(10,5)
+        )
+
+
 
         ttk.Label(
             top,
@@ -228,7 +342,7 @@ class TrafficDaysTable:
 
         ttk.Button(
             top,
-            text="\u25B8",
+            text="\u25B6",
             command=self.next_end
         ).pack(
             side="left",
@@ -237,7 +351,7 @@ class TrafficDaysTable:
 
         ttk.Button(
             top,
-            text="\u25B8\u25B8",
+            text="\u25B6\u25B6",
             command=self.next_range
         ).pack(side="left")
 
@@ -435,6 +549,8 @@ class TrafficDaysTable:
             )
 
             return
+
+        self.update_day_labels()
 
 
         #

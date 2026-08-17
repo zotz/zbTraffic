@@ -23,6 +23,10 @@ class TrafficDays:
         root.title("zbTraffic Prototype Traffic Days")
         root.geometry("1300x800")
 
+        self.sort_column = None
+        self.sort_reverse = False
+
+
         self.build()
 
         self.load_data()
@@ -46,8 +50,38 @@ class TrafficDays:
         self.end_date_var.set(
             end_date.isoformat()
         )
+        
+        self.update_day_labels()
 
         self.load_data()
+
+    def update_day_labels(self):
+
+        try:
+
+            start = date.fromisoformat(
+                self.start_date_var.get()
+            )
+
+            end = date.fromisoformat(
+                self.end_date_var.get()
+            )
+
+        except ValueError:
+
+            self.start_day_var.set("")
+            self.end_day_var.set("")
+            return
+
+        self.start_day_var.set(
+            start.strftime("%A")
+        )
+
+        self.end_day_var.set(
+            end.strftime("%A")
+        )
+
+
 
 
     def previous_range(self):
@@ -78,6 +112,18 @@ class TrafficDays:
 
         self.set_dates(start, end)
 
+    def previous_end(self):
+
+        start = (
+            date.fromisoformat(self.start_date_var.get())
+            - timedelta(days=-1)
+        )
+
+        end = date.fromisoformat(
+            self.end_date_var.get()
+        )
+
+        self.set_dates(start, end)
 
     def today(self):
 
@@ -87,6 +133,19 @@ class TrafficDays:
             today,
             today
         )
+
+    def next_start(self):
+
+        start = date.fromisoformat(
+            self.start_date_var.get()
+        )
+
+        end = (
+            date.fromisoformat(self.end_date_var.get())
+            + timedelta(days=-1)
+        )
+
+        self.set_dates(start, end)
 
 
     def next_end(self):
@@ -129,12 +188,49 @@ class TrafficDays:
         # Date controls
         #
 
+##########
+
+
+        self.start_day_var = tk.StringVar()
+        self.end_day_var = tk.StringVar()
+
+        weekday_frame = ttk.Frame(self.root)
+
+        weekday_frame.pack(
+            fill="x",
+            padx=5,
+            pady=(5, 0)
+        )
+
+        ttk.Label(
+            weekday_frame,
+            textvariable=self.start_day_var
+        ).pack(
+            side="left",
+            padx=(390, 350)
+        )
+
+        ttk.Label(
+            weekday_frame,
+            textvariable=self.end_day_var
+        ).pack(
+            side="left"
+        )
+
+
+
+##########
+
+
         top = ttk.Frame(self.root)
+
         top.pack(
             fill="x",
             padx=5,
             pady=5
         )
+
+
 
         ttk.Button(
             top,
@@ -170,6 +266,7 @@ class TrafficDays:
             side="left"
         )
 
+
         self.start_date_var = tk.StringVar(
             value=date.today().isoformat()
         )
@@ -186,6 +283,24 @@ class TrafficDays:
             padx=5
         )
 
+        ttk.Button(
+            top,
+            text="\u25B6",
+            command=self.previous_end
+        ).pack(
+            side="left",
+            padx=(5,10)
+        )
+
+
+        ttk.Button(
+            top,
+            text="\u25C0",
+            command=self.next_start
+        ).pack(
+            side="left",
+            padx=(10,5)
+        )
 
         ttk.Label(
             top,
@@ -223,7 +338,7 @@ class TrafficDays:
 
         ttk.Button(
             top,
-            text="\u25B8",
+            text="\u25B6",
             command=self.next_end
         ).pack(
             side="left",
@@ -232,7 +347,7 @@ class TrafficDays:
 
         ttk.Button(
             top,
-            text="\u25B8\u25B8",
+            text="\u25B6\u25B6",
             command=self.next_range
         ).pack(side="left")
 
@@ -266,6 +381,14 @@ class TrafficDays:
             "status"
         )
 
+        sortable_columns = (
+            "time",
+            "id",
+            "length",
+            "used",
+            "remaining",
+            "status"
+        )
 
         self.tree = ttk.Treeview(
             frame,
@@ -318,10 +441,20 @@ class TrafficDays:
 
         for column in columns:
 
-            self.tree.heading(
-                column,
-                text=headings[column]
-            )
+            if column in sortable_columns:
+
+                self.tree.heading(
+                    column,
+                    text=headings[column],
+                    command=lambda c=column: self.sort_by(c)
+                )
+
+            else:
+
+                self.tree.heading(
+                    column,
+                    text=headings[column]
+                )
 
             self.tree.column(
                 column,
@@ -436,6 +569,8 @@ class TrafficDays:
 
             return
 
+
+        self.update_day_labels()
 
         #
         # Clear existing data
@@ -710,6 +845,89 @@ class TrafficDays:
                     avail,
                     open=True
                 )
+
+
+    def sort_by(self, column):
+
+
+        #
+        # Numeric columns.
+        #
+
+        numeric_columns = (
+            "id",
+            "length",
+            "used",
+            "remaining"
+        )
+
+        #
+        # Toggle direction when the same
+        # column is clicked again.
+        #
+
+        if self.sort_column == column:
+
+            self.sort_reverse = not self.sort_reverse
+
+        else:
+
+            self.sort_column = column
+            self.sort_reverse = False
+
+
+        #
+        # Sort AVAILs within each DAY.
+        #
+
+        for day in self.tree.get_children():
+
+            avails = []
+
+            for avail in self.tree.get_children(day):
+
+                value = self.tree.set(
+                    avail,
+                    column
+                )
+
+                avails.append(
+                    (
+                        value,
+                        avail
+                    )
+                )
+
+
+            if column in numeric_columns:
+
+                avails.sort(
+                    key=lambda row: int(row[0] or 0),
+                    reverse=self.sort_reverse
+                )
+
+            else:
+
+                avails.sort(
+                    key=lambda row: row[0],
+                    reverse=self.sort_reverse
+                )
+
+
+            #
+            # Reorder AVAILs.
+            #
+
+            for index, (_, avail) in enumerate(avails):
+
+                self.tree.move(
+                    avail,
+                    day,
+                    index
+                )
+
+
+
 
 
 if __name__ == "__main__":
