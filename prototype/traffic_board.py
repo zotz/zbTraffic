@@ -20,17 +20,127 @@ from traffic.avails import get_remaining_seconds
 class TrafficBoard:
     def __init__(self, root):
         self.root=root
+        
         root.title("zbTraffic Prototype Traffic Board")
         root.geometry("1200x800")
         self.selected_spot=None
+        
         self.selected_avail=None
+        self.sort_column = None
+        self.sort_reverse = False
+        
         self.build()
+        
+        self.load_data()
+
+    def set_date(self, start_date):
+
+        self.date_var.set(
+            start_date.isoformat()
+        )
+
+        self.update_day_label()
+        self.load_customers()
+        self.load_data()
+
+    def update_day_label(self):
+
+        try:
+
+            start = date.fromisoformat(
+                self.date_var.get()
+            )
+
+
+        except ValueError:
+
+            self.start_day_var.set("")
+            return
+
+        self.start_day_var.set(
+            start.strftime("%A")
+        )
+
+    def previous_start(self):
+
+        start = (
+            date.fromisoformat(self.date_var.get())
+            - timedelta(days=1)
+        )
+
+
+        self.set_date(start)
+
+
+    def today(self):
+        today = date.today()
+
+        self.set_date(
+            today
+        )
+
+
+    def next_start(self):
+
+        start = (
+            date.fromisoformat(self.date_var.get())
+            + timedelta(days=1)
+        )
+        
+
+
+        self.set_date(start)
+
+
+
 
     def build(self):
+
+##########
+
+
+        self.start_day_var = tk.StringVar()
+
+        weekday_frame = ttk.Frame(self.root)
+
+        weekday_frame.pack(
+            fill="x",
+            padx=5,
+            pady=(5, 0)
+        )
+
+        ttk.Label(
+            weekday_frame,
+            textvariable=self.start_day_var
+        ).pack(
+            side="left",
+            padx=(190, 350)
+        )
+
+
+
+
+##########
+
+
         top=ttk.Frame(self.root); top.pack(fill="x",padx=5,pady=5)
+      
+        ttk.Button(
+            top,
+            text="\u25C0",
+            command=self.previous_start
+        ).pack(
+            side="left",
+            padx=(5,10)
+        )
+      
         ttk.Label(top,text="Air Date:").pack(side="left")
+
+
+        initial_date = date.today() + timedelta(days=1)
+
         self.date_var = tk.StringVar(
-            value=(date.today()+timedelta(days=1)).isoformat()
+            value=initial_date.isoformat()
         )
 
         self.date_picker = DateEntry(
@@ -40,15 +150,52 @@ class TrafficBoard:
             date_pattern="yyyy-mm-dd"
         )
 
+        self.date_picker.set_date(initial_date)
+
+        self.update_day_label()
+
+
+
+
         self.date_picker.pack(
             side="left",
             padx=5
         )
 
+
+        ttk.Button(
+            top,
+            text="\u25B6",
+            command=self.next_start
+        ).pack(
+            side="left",
+            padx=(5,10)
+        )
+
+
+
+
         self.date_picker.bind(
             "<<DateEntrySelected>>",
-            lambda e: self.load_avails()
+            lambda e: self.set_date(
+                date.fromisoformat(self.date_var.get())
+            )
         )
+
+        self.pending_only_var = tk.BooleanVar(value=False)
+
+        ttk.Checkbutton(
+            top,
+            text="Pending only",
+            variable=self.pending_only_var,
+            command=self.load_customers
+        ).pack(
+            side="left",
+            padx=(15, 5)
+        )
+
+
+
         ttk.Label(top,text="Customer:").pack(side="left")
         self.customer=ttk.Combobox(top,state="readonly",width=40)
         self.customer.pack(side="left",padx=5)
@@ -176,14 +323,76 @@ class TrafficBoard:
         return t
 
     def load_customers(self):
-        con=get_connection(); cur=con.cursor()
-        cur.execute("select id,company_name from customers where active=1 order by company_name")
-        rows=cur.fetchall(); con.close()
-        self.customers={r["company_name"]:r["id"] for r in rows}
-        self.customer["values"]=list(self.customers.keys())
-        if rows:
+
+        con = get_connection()
+        cur = con.cursor()
+
+        if self.pending_only_var.get():
+
+            cur.execute(
+                """
+                SELECT DISTINCT
+                    cu.id,
+                    cu.company_name
+                FROM customers cu
+                JOIN commercials c
+                    ON c.customer_id = cu.id
+                JOIN spots ss
+                    ON ss.commercial_id = c.id
+                WHERE cu.active = 1
+                  AND ss.status = 'Pending'
+                ORDER BY cu.company_name
+                """,
+            )
+
+        else:
+
+            cur.execute(
+                """
+                SELECT
+                    id,
+                    company_name
+
+                FROM customers
+
+                WHERE active = 1
+
+                ORDER BY company_name
+                """
+            )
+
+        rows = cur.fetchall()
+
+        con.close()
+
+        current_customer = self.customer.get()
+
+        self.customers = {
+            r["company_name"]: r["id"]
+            for r in rows
+        }
+
+        self.customer["values"] = list(
+            self.customers.keys()
+        )
+
+        if current_customer in self.customers:
+
+            self.customer.set(
+                current_customer
+            )
+
+        elif rows:
+
             self.customer.current(0)
             self.load_pending()
+
+        else:
+
+            self.customer.set("")
+            self.pending.delete(
+                *self.pending.get_children()
+            )
 
     def load_pending(self):
         cid=self.customers.get(self.customer.get())
@@ -200,6 +409,7 @@ class TrafficBoard:
         for c in cols: self.pending.heading(c,text=c); self.pending.column(c,width=140)
         self.pending.delete(*self.pending.get_children())
         for r in rows: self.pending.insert("", "end", values=[r[c] for c in cols])
+
 
     def load_avails(self):
 
@@ -374,7 +584,8 @@ class TrafficBoard:
         #
 
         self.refresh()
-
+        self.load_customers()
+        
         self.select_avail(
             avail_id
         )
@@ -652,6 +863,7 @@ class TrafficBoard:
         #
 
         self.refresh()
+        self.load_customers()
 
 
 
@@ -664,6 +876,34 @@ class TrafficBoard:
             self.load_avail_contents(
                 avail_id
             )
+
+
+    def load_data(self):
+
+        start_date = self.date_var.get()
+
+
+        #
+        # Validate dates.
+        #
+
+        try:
+
+            start = date.fromisoformat(
+                start_date
+            )
+
+
+        except ValueError:
+
+            self.status.set(
+                "Invalid date."
+            )
+
+            return
+        self.refresh()
+
+
 
 if __name__=="__main__":
     root=tk.Tk()
