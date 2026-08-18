@@ -171,7 +171,7 @@ def passes_separation_rules(
 
         connection.close()
 
-        return False
+        return False, "avail not found"
 
 
     #
@@ -201,7 +201,7 @@ def passes_separation_rules(
 
         connection.close()
 
-        return False
+        return False, "commercial not found"
 
 
     new_category_id = commercial[
@@ -244,7 +244,7 @@ def passes_separation_rules(
 
         connection.close()
 
-        return False
+        return False, "same commercial in same avail"
 
 
     #
@@ -256,7 +256,7 @@ def passes_separation_rules(
 
         connection.close()
 
-        return True
+        return True, None
 
 
     #
@@ -378,10 +378,21 @@ def passes_separation_rules(
             minutes_apart
         ):
 
-            return False
+            return False, (
+                "separation: "
+                "existing spot {}, "
+                "customer {}, "
+                "category {}, "
+                "{:.1f} minutes apart".format(
+                    existing["id"],
+                    existing["customer_id"],
+                    existing["category_id"],
+                    minutes_apart
+                )
+            )
 
 
-    return True
+    return True, None
 
 def add_separation_rule(
     category1_id,

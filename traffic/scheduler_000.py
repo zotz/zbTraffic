@@ -1,7 +1,4 @@
-# File: traffic/scheduler_001.py
 # File: traffic/scheduler.py
-
-# This is to allow multiple schedulers to be developed and swaped in and out for each other.
 
 # refactored Aug 10 2026
 
@@ -33,6 +30,19 @@ from traffic.contract_items import (
 from traffic.contracts import (
     get_contract
 )
+
+from traffic.contracts import (
+    get_contract
+)
+
+from traffic.customers import (
+    get_customer
+)
+
+from traffic.separation_rules import (
+    passes_separation_rules
+)
+
 
 from traffic.separation_rules import (
     passes_separation_rules
@@ -943,17 +953,20 @@ def assign_existing_spot(
 
     for candidate in candidates:
 
-        if not passes_separation_rules(
+        passes, reason = passes_separation_rules(
             candidate["id"],
             commercial_id
-        ):
+        )
+
+        if not passes:
 
             trace(
                 "DATE {}: spot {} avail {} "
-                "FAILED separation rules".format(
+                "FAILED {}".format(
                     air_date,
                     spot_id,
-                    candidate["id"]
+                    candidate["id"],
+                    reason
                 )
             )
 
@@ -1049,6 +1062,10 @@ def schedule_contract_item_quantity(
         )
 
 
+    customer = get_customer(
+        contract["customer_id"]
+    )
+
     spots_per_day, spots_per_week = (
         get_scheduling_limits(
             contract_item_id
@@ -1083,16 +1100,26 @@ def schedule_contract_item_quantity(
     trace("")
     trace("=" * 60)
     trace(
+        "{}".format(
+            customer["company_name"]
+        )
+    )
+    trace(
         "SCHEDULING CONTRACT ITEM {}".format(
             contract_item_id
         )
     )
-    trace("=" * 60)
+    trace(
+        "{}".format(
+            contract_item["commercial_title"]
+        )
+    )
     trace(
         "Contract: {}".format(
             contract["id"]
         )
     )
+    trace("=" * 60)
     trace(
         "Required quantity: {}".format(
             required_quantity
@@ -1150,69 +1177,23 @@ def schedule_contract_item_quantity(
         )
 
 
+
     #
     # Distribute the quantity still needed
     # across the eligible dates.
     #
-
     scheduled_spots = []
     pending_spots = []
 
-
     date_index = 0
 
-    dates_without_success = 0
-
-
-    while (
-        len(scheduled_spots)
-        < quantity_to_schedule
-    ):
-
-        air_date = eligible_dates[
-            date_index
-        ]
-
-
-        if not can_schedule_on_date(
-            contract_item_id,
-            air_date,
-            spots_per_day,
-            spots_per_week
-        ):
-
-            trace(
-                "DATE {}: scheduling limit reached; "
-                "date skipped".format(
-                    air_date
-                )
-            )
-
-            dates_without_success += 1
-
-            date_index += 1
-
-            if date_index >= len(
-                eligible_dates
-            ):
-
-                date_index = 0
-
-
-            if dates_without_success >= len(
-                eligible_dates
-            ):
-
-                break
-
-
-            continue
-
+    for _ in range(quantity_to_schedule):
 
         #
-        # Create the spot as Pending.
+        # Create one spot. This spot will be carried
+        # forward across eligible dates until it is
+        # successfully scheduled.
         #
-
         spot_id = add_spot(
             station_id=contract["station_id"],
             commercial_id=contract_item["commercial_id"],
@@ -1223,72 +1204,106 @@ def schedule_contract_item_quantity(
         )
 
         trace(
-            "DATE {}: created Pending spot {}".format(
-                air_date,
+            "Created Pending spot {}".format(
                 spot_id
             )
         )
 
+        scheduled = False
 
-        #
-        # Try to assign the Pending spot.
-        #
+        dates_checked = 0
 
-        success = assign_existing_spot(
-            spot_id,
-            contract_item_id,
-            contract_item["commercial_id"],
-            air_date
-        )
+        while dates_checked < len(
+            eligible_dates
+        ):
 
+            air_date = eligible_dates[
+                date_index
+            ]
 
-        trace(
-            "DATE {}: spot {} assignment result: {}".format(
+            #
+            # Check daily and weekly limits.
+            #
+            if not can_schedule_on_date(
+                contract_item_id,
                 air_date,
-                spot_id,
-                success
-            )
-        )
+                spots_per_day,
+                spots_per_week
+            ):
 
+                trace(
+                    "DATE {}: scheduling limit reached; "
+                    "spot {} carried forward".format(
+                        air_date,
+                        spot_id
+                    )
+                )
 
-        if success:
+            else:
 
-            scheduled_spots.append(
-                spot_id
-            )
+                #
+                # Try to assign this SAME spot.
+                #
+                success = assign_existing_spot(
+                    spot_id,
+                    contract_item_id,
+                    contract_item["commercial_id"],
+                    air_date
+                )
 
-            dates_without_success = 0
+                trace(
+                    "DATE {}: spot {} assignment result: {}".format(
+                        air_date,
+                        spot_id,
+                        success
+                    )
+                )
 
-        else:
+                if success:
+
+                    scheduled_spots.append(
+                        spot_id
+                    )
+
+                    scheduled = True
+
+                    break
+
+            #
+            # Move this same spot to the next
+            # eligible date.
+            #
+            date_index += 1
+
+            if date_index >= len(
+                eligible_dates
+            ):
+                date_index = 0
+
+            dates_checked += 1
+
+        #
+        # This spot could not be scheduled on
+        # any eligible date. Leave it Pending.
+        #
+        if not scheduled:
 
             pending_spots.append(
                 spot_id
             )
 
-            dates_without_success += 1
+            trace(
+                "Spot {} could not be scheduled on "
+                "any eligible date; leaving Pending".format(
+                    spot_id
+                )
+            )
 
-
-        #
-        # Move to the next eligible date.
-        #
-
-        date_index += 1
-
-        if date_index >= len(
-            eligible_dates
-        ):
-
-            date_index = 0
-
-
-        #
-        # If every eligible date has failed since
-        # the last successful assignment, stop.
-        #
-
-        if dates_without_success >= len(
-            eligible_dates
-        ):
+            #
+            # No further spots can be scheduled during
+            # this scheduling pass. Create the remainder
+            # as Pending without attempting assignment.
+            #
 
             break
 
@@ -1320,15 +1335,15 @@ def schedule_contract_item_quantity(
         pending_spots.append(
             spot_id
         )
-################################################################
 
-    # dR - sort of stands on its own.
+
+    
     zexisting_spots = count_spots_for_contract_item(
         contract_item_id
     )
 
 
-    # dR - sort of stands on its own.
+    
     zrequired_quantity = contract_item["quantity"]
 
 
