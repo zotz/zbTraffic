@@ -31,6 +31,19 @@ from traffic.contracts import (
     get_contract
 )
 
+from traffic.contracts import (
+    get_contract
+)
+
+from traffic.customers import (
+    get_customer
+)
+
+from traffic.separation_rules import (
+    passes_separation_rules
+)
+
+
 from traffic.separation_rules import (
     passes_separation_rules
 )
@@ -1046,6 +1059,10 @@ def schedule_contract_item_quantity(
         )
 
 
+    customer = get_customer(
+        contract["customer_id"]
+    )
+
     spots_per_day, spots_per_week = (
         get_scheduling_limits(
             contract_item_id
@@ -1080,16 +1097,26 @@ def schedule_contract_item_quantity(
     trace("")
     trace("=" * 60)
     trace(
+        "{}".format(
+            customer["company_name"]
+        )
+    )
+    trace(
         "SCHEDULING CONTRACT ITEM {}".format(
             contract_item_id
         )
     )
-    trace("=" * 60)
+    trace(
+        "{}".format(
+            contract_item["commercial_title"]
+        )
+    )
     trace(
         "Contract: {}".format(
             contract["id"]
         )
     )
+    trace("=" * 60)
     trace(
         "Required quantity: {}".format(
             required_quantity
