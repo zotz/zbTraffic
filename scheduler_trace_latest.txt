@@ -1,0 +1,2266 @@
+
+============================================================
+SCHEDULING CONTRACT ITEM 20
+============================================================
+Contract: 19
+Required quantity: 35
+Existing spots: 0
+Quantity to schedule: 35
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 10
+DATE 2026-08-15: spot 10 ASSIGNED to avail 8847
+DATE 2026-08-15: spot 10 assignment result: True
+DATE 2026-08-16: created Pending spot 11
+DATE 2026-08-16: spot 11 ASSIGNED to avail 8886
+DATE 2026-08-16: spot 11 assignment result: True
+DATE 2026-08-17: created Pending spot 12
+DATE 2026-08-17: spot 12 ASSIGNED to avail 8921
+DATE 2026-08-17: spot 12 assignment result: True
+DATE 2026-08-18: created Pending spot 13
+DATE 2026-08-18: spot 13 ASSIGNED to avail 8961
+DATE 2026-08-18: spot 13 assignment result: True
+DATE 2026-08-19: created Pending spot 14
+DATE 2026-08-19: spot 14 ASSIGNED to avail 9003
+DATE 2026-08-19: spot 14 assignment result: True
+DATE 2026-08-20: created Pending spot 15
+DATE 2026-08-20: spot 15 ASSIGNED to avail 9041
+DATE 2026-08-20: spot 15 assignment result: True
+DATE 2026-08-21: created Pending spot 16
+DATE 2026-08-21: spot 16 ASSIGNED to avail 9080
+DATE 2026-08-21: spot 16 assignment result: True
+DATE 2026-08-22: created Pending spot 17
+DATE 2026-08-22: spot 17 ASSIGNED to avail 9118
+DATE 2026-08-22: spot 17 assignment result: True
+DATE 2026-08-23: created Pending spot 18
+DATE 2026-08-23: spot 18 ASSIGNED to avail 9155
+DATE 2026-08-23: spot 18 assignment result: True
+DATE 2026-08-24: created Pending spot 19
+DATE 2026-08-24: spot 19 ASSIGNED to avail 9193
+DATE 2026-08-24: spot 19 assignment result: True
+DATE 2026-08-25: created Pending spot 20
+DATE 2026-08-25: spot 20 ASSIGNED to avail 9234
+DATE 2026-08-25: spot 20 assignment result: True
+DATE 2026-08-26: created Pending spot 21
+DATE 2026-08-26: spot 21 ASSIGNED to avail 9271
+DATE 2026-08-26: spot 21 assignment result: True
+DATE 2026-08-27: created Pending spot 22
+DATE 2026-08-27: spot 22 ASSIGNED to avail 9312
+DATE 2026-08-27: spot 22 assignment result: True
+DATE 2026-08-28: created Pending spot 23
+DATE 2026-08-28: spot 23 ASSIGNED to avail 9354
+DATE 2026-08-28: spot 23 assignment result: True
+DATE 2026-08-29: created Pending spot 24
+DATE 2026-08-29: spot 24 ASSIGNED to avail 9393
+DATE 2026-08-29: spot 24 assignment result: True
+DATE 2026-08-30: created Pending spot 25
+DATE 2026-08-30: spot 25 ASSIGNED to avail 9429
+DATE 2026-08-30: spot 25 assignment result: True
+DATE 2026-08-31: created Pending spot 26
+DATE 2026-08-31: spot 26 ASSIGNED to avail 9469
+DATE 2026-08-31: spot 26 assignment result: True
+DATE 2026-09-01: created Pending spot 27
+DATE 2026-09-01: spot 27 ASSIGNED to avail 9507
+DATE 2026-09-01: spot 27 assignment result: True
+DATE 2026-09-02: created Pending spot 28
+DATE 2026-09-02: spot 28 ASSIGNED to avail 9545
+DATE 2026-09-02: spot 28 assignment result: True
+DATE 2026-09-03: created Pending spot 29
+DATE 2026-09-03: spot 29 ASSIGNED to avail 9588
+DATE 2026-09-03: spot 29 assignment result: True
+DATE 2026-09-04: created Pending spot 30
+DATE 2026-09-04: spot 30 ASSIGNED to avail 9625
+DATE 2026-09-04: spot 30 assignment result: True
+DATE 2026-09-05: created Pending spot 31
+DATE 2026-09-05: spot 31 ASSIGNED to avail 9664
+DATE 2026-09-05: spot 31 assignment result: True
+DATE 2026-09-06: created Pending spot 32
+DATE 2026-09-06: spot 32 ASSIGNED to avail 9702
+DATE 2026-09-06: spot 32 assignment result: True
+DATE 2026-09-07: created Pending spot 33
+DATE 2026-09-07: spot 33 ASSIGNED to avail 9742
+DATE 2026-09-07: spot 33 assignment result: True
+DATE 2026-09-08: created Pending spot 34
+DATE 2026-09-08: spot 34 ASSIGNED to avail 9779
+DATE 2026-09-08: spot 34 assignment result: True
+DATE 2026-09-09: created Pending spot 35
+DATE 2026-09-09: spot 35 ASSIGNED to avail 9820
+DATE 2026-09-09: spot 35 assignment result: True
+DATE 2026-09-10: created Pending spot 36
+DATE 2026-09-10: spot 36 ASSIGNED to avail 9861
+DATE 2026-09-10: spot 36 assignment result: True
+DATE 2026-09-11: created Pending spot 37
+DATE 2026-09-11: spot 37 ASSIGNED to avail 9897
+DATE 2026-09-11: spot 37 assignment result: True
+DATE 2026-09-12: created Pending spot 38
+DATE 2026-09-12: spot 38 ASSIGNED to avail 9938
+DATE 2026-09-12: spot 38 assignment result: True
+DATE 2026-09-13: created Pending spot 39
+DATE 2026-09-13: spot 39 ASSIGNED to avail 9973
+DATE 2026-09-13: spot 39 assignment result: True
+DATE 2026-09-14: created Pending spot 40
+DATE 2026-09-14: spot 40 ASSIGNED to avail 10015
+DATE 2026-09-14: spot 40 assignment result: True
+DATE 2026-09-15: created Pending spot 41
+DATE 2026-09-15: spot 41 ASSIGNED to avail 10052
+DATE 2026-09-15: spot 41 assignment result: True
+DATE 2026-08-15: created Pending spot 42
+DATE 2026-08-15: spot 42 ASSIGNED to avail 8845
+DATE 2026-08-15: spot 42 assignment result: True
+DATE 2026-08-16: created Pending spot 43
+DATE 2026-08-16: spot 43 ASSIGNED to avail 8881
+DATE 2026-08-16: spot 43 assignment result: True
+DATE 2026-08-17: created Pending spot 44
+DATE 2026-08-17: spot 44 ASSIGNED to avail 8920
+DATE 2026-08-17: spot 44 assignment result: True
+Contract: 19
+Required quantity: 35
+Existing spots: 35
+Scheduled Spots: 35
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 19
+============================================================
+Contract: 18
+Required quantity: 30
+Existing spots: 0
+Quantity to schedule: 30
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 45
+DATE 2026-08-15: spot 45 avail 8847 FAILED separation rules
+DATE 2026-08-15: spot 45 avail 8846 FAILED separation rules
+DATE 2026-08-15: spot 45 avail 8843 FAILED separation rules
+DATE 2026-08-15: spot 45 avail 8844 FAILED separation rules
+DATE 2026-08-15: spot 45 ASSIGNED to avail 8842
+DATE 2026-08-15: spot 45 assignment result: True
+DATE 2026-08-16: created Pending spot 46
+DATE 2026-08-16: spot 46 avail 8886 FAILED separation rules
+DATE 2026-08-16: spot 46 avail 8882 FAILED separation rules
+DATE 2026-08-16: spot 46 avail 8881 FAILED separation rules
+DATE 2026-08-16: spot 46 avail 8884 FAILED separation rules
+DATE 2026-08-16: spot 46 avail 8885 FAILED separation rules
+DATE 2026-08-16: spot 46 avail 8883 FAILED separation rules
+DATE 2026-08-16: spot 46 assignment failed - all candidates rejected
+DATE 2026-08-16: spot 46 assignment result: False
+DATE 2026-08-17: created Pending spot 47
+DATE 2026-08-17: spot 47 avail 8921 FAILED separation rules
+DATE 2026-08-17: spot 47 ASSIGNED to avail 8925
+DATE 2026-08-17: spot 47 assignment result: True
+DATE 2026-08-18: created Pending spot 48
+DATE 2026-08-18: spot 48 avail 8961 FAILED separation rules
+DATE 2026-08-18: spot 48 avail 8959 FAILED separation rules
+DATE 2026-08-18: spot 48 avail 8962 FAILED separation rules
+DATE 2026-08-18: spot 48 avail 8960 FAILED separation rules
+DATE 2026-08-18: spot 48 ASSIGNED to avail 8964
+DATE 2026-08-18: spot 48 assignment result: True
+DATE 2026-08-19: created Pending spot 49
+DATE 2026-08-19: spot 49 avail 9003 FAILED separation rules
+DATE 2026-08-19: spot 49 ASSIGNED to avail 9000
+DATE 2026-08-19: spot 49 assignment result: True
+DATE 2026-08-20: created Pending spot 50
+DATE 2026-08-20: spot 50 avail 9041 FAILED separation rules
+DATE 2026-08-20: spot 50 avail 9039 FAILED separation rules
+DATE 2026-08-20: spot 50 avail 9040 FAILED separation rules
+DATE 2026-08-20: spot 50 ASSIGNED to avail 9038
+DATE 2026-08-20: spot 50 assignment result: True
+DATE 2026-08-21: created Pending spot 51
+DATE 2026-08-21: spot 51 avail 9080 FAILED separation rules
+DATE 2026-08-21: spot 51 ASSIGNED to avail 9077
+DATE 2026-08-21: spot 51 assignment result: True
+DATE 2026-08-22: created Pending spot 52
+DATE 2026-08-22: spot 52 avail 9118 FAILED separation rules
+DATE 2026-08-22: spot 52 avail 9119 FAILED separation rules
+DATE 2026-08-22: spot 52 avail 9117 FAILED separation rules
+DATE 2026-08-22: spot 52 avail 9116 FAILED separation rules
+DATE 2026-08-22: spot 52 avail 9120 FAILED separation rules
+DATE 2026-08-22: spot 52 ASSIGNED to avail 9115
+DATE 2026-08-22: spot 52 assignment result: True
+DATE 2026-08-23: created Pending spot 53
+DATE 2026-08-23: spot 53 avail 9155 FAILED separation rules
+DATE 2026-08-23: spot 53 ASSIGNED to avail 9159
+DATE 2026-08-23: spot 53 assignment result: True
+DATE 2026-08-24: created Pending spot 54
+DATE 2026-08-24: spot 54 avail 9193 FAILED separation rules
+DATE 2026-08-24: spot 54 ASSIGNED to avail 9197
+DATE 2026-08-24: spot 54 assignment result: True
+DATE 2026-08-25: created Pending spot 55
+DATE 2026-08-25: spot 55 avail 9234 FAILED separation rules
+DATE 2026-08-25: spot 55 avail 9235 FAILED separation rules
+DATE 2026-08-25: spot 55 avail 9236 FAILED separation rules
+DATE 2026-08-25: spot 55 ASSIGNED to avail 9237
+DATE 2026-08-25: spot 55 assignment result: True
+DATE 2026-08-26: created Pending spot 56
+DATE 2026-08-26: spot 56 avail 9271 FAILED separation rules
+DATE 2026-08-26: spot 56 avail 9273 FAILED separation rules
+DATE 2026-08-26: spot 56 ASSIGNED to avail 9274
+DATE 2026-08-26: spot 56 assignment result: True
+DATE 2026-08-27: created Pending spot 57
+DATE 2026-08-27: spot 57 avail 9312 FAILED separation rules
+DATE 2026-08-27: spot 57 ASSIGNED to avail 9315
+DATE 2026-08-27: spot 57 assignment result: True
+DATE 2026-08-28: created Pending spot 58
+DATE 2026-08-28: spot 58 avail 9354 FAILED separation rules
+DATE 2026-08-28: spot 58 ASSIGNED to avail 9351
+DATE 2026-08-28: spot 58 assignment result: True
+DATE 2026-08-29: created Pending spot 59
+DATE 2026-08-29: spot 59 avail 9393 FAILED separation rules
+DATE 2026-08-29: spot 59 avail 9392 FAILED separation rules
+DATE 2026-08-29: spot 59 ASSIGNED to avail 9388
+DATE 2026-08-29: spot 59 assignment result: True
+DATE 2026-08-30: created Pending spot 60
+DATE 2026-08-30: spot 60 avail 9429 FAILED separation rules
+DATE 2026-08-30: spot 60 avail 9431 FAILED separation rules
+DATE 2026-08-30: spot 60 avail 9428 FAILED separation rules
+DATE 2026-08-30: spot 60 ASSIGNED to avail 9432
+DATE 2026-08-30: spot 60 assignment result: True
+DATE 2026-08-31: created Pending spot 61
+DATE 2026-08-31: spot 61 avail 9469 FAILED separation rules
+DATE 2026-08-31: spot 61 avail 9471 FAILED separation rules
+DATE 2026-08-31: spot 61 avail 9470 FAILED separation rules
+DATE 2026-08-31: spot 61 avail 9467 FAILED separation rules
+DATE 2026-08-31: spot 61 avail 9468 FAILED separation rules
+DATE 2026-08-31: spot 61 ASSIGNED to avail 9466
+DATE 2026-08-31: spot 61 assignment result: True
+DATE 2026-09-01: created Pending spot 62
+DATE 2026-09-01: spot 62 avail 9507 FAILED separation rules
+DATE 2026-09-01: spot 62 avail 9506 FAILED separation rules
+DATE 2026-09-01: spot 62 ASSIGNED to avail 9510
+DATE 2026-09-01: spot 62 assignment result: True
+DATE 2026-09-02: created Pending spot 63
+DATE 2026-09-02: spot 63 avail 9545 FAILED separation rules
+DATE 2026-09-02: spot 63 avail 9544 FAILED separation rules
+DATE 2026-09-02: spot 63 ASSIGNED to avail 9549
+DATE 2026-09-02: spot 63 assignment result: True
+DATE 2026-09-03: created Pending spot 64
+DATE 2026-09-03: spot 64 avail 9588 FAILED separation rules
+DATE 2026-09-03: spot 64 avail 9586 FAILED separation rules
+DATE 2026-09-03: spot 64 avail 9587 FAILED separation rules
+DATE 2026-09-03: spot 64 ASSIGNED to avail 9584
+DATE 2026-09-03: spot 64 assignment result: True
+DATE 2026-09-04: created Pending spot 65
+DATE 2026-09-04: spot 65 avail 9625 FAILED separation rules
+DATE 2026-09-04: spot 65 avail 9626 FAILED separation rules
+DATE 2026-09-04: spot 65 ASSIGNED to avail 9622
+DATE 2026-09-04: spot 65 assignment result: True
+DATE 2026-09-05: created Pending spot 66
+DATE 2026-09-05: spot 66 avail 9664 FAILED separation rules
+DATE 2026-09-05: spot 66 ASSIGNED to avail 9661
+DATE 2026-09-05: spot 66 assignment result: True
+DATE 2026-09-06: created Pending spot 67
+DATE 2026-09-06: spot 67 avail 9702 FAILED separation rules
+DATE 2026-09-06: spot 67 avail 9703 FAILED separation rules
+DATE 2026-09-06: spot 67 ASSIGNED to avail 9705
+DATE 2026-09-06: spot 67 assignment result: True
+DATE 2026-09-07: created Pending spot 68
+DATE 2026-09-07: spot 68 avail 9742 FAILED separation rules
+DATE 2026-09-07: spot 68 avail 9741 FAILED separation rules
+DATE 2026-09-07: spot 68 avail 9744 FAILED separation rules
+DATE 2026-09-07: spot 68 ASSIGNED to avail 9739
+DATE 2026-09-07: spot 68 assignment result: True
+DATE 2026-09-08: created Pending spot 69
+DATE 2026-09-08: spot 69 avail 9779 FAILED separation rules
+DATE 2026-09-08: spot 69 avail 9780 FAILED separation rules
+DATE 2026-09-08: spot 69 ASSIGNED to avail 9783
+DATE 2026-09-08: spot 69 assignment result: True
+DATE 2026-09-09: created Pending spot 70
+DATE 2026-09-09: spot 70 avail 9820 FAILED separation rules
+DATE 2026-09-09: spot 70 avail 9821 FAILED separation rules
+DATE 2026-09-09: spot 70 avail 9822 FAILED separation rules
+DATE 2026-09-09: spot 70 avail 9819 FAILED separation rules
+DATE 2026-09-09: spot 70 ASSIGNED to avail 9817
+DATE 2026-09-09: spot 70 assignment result: True
+DATE 2026-09-10: created Pending spot 71
+DATE 2026-09-10: spot 71 avail 9861 FAILED separation rules
+DATE 2026-09-10: spot 71 ASSIGNED to avail 9856
+DATE 2026-09-10: spot 71 assignment result: True
+DATE 2026-09-11: created Pending spot 72
+DATE 2026-09-11: spot 72 avail 9897 FAILED separation rules
+DATE 2026-09-11: spot 72 avail 9895 FAILED separation rules
+DATE 2026-09-11: spot 72 avail 9896 FAILED separation rules
+DATE 2026-09-11: spot 72 ASSIGNED to avail 9900
+DATE 2026-09-11: spot 72 assignment result: True
+DATE 2026-09-12: created Pending spot 73
+DATE 2026-09-12: spot 73 avail 9938 FAILED separation rules
+DATE 2026-09-12: spot 73 avail 9939 FAILED separation rules
+DATE 2026-09-12: spot 73 avail 9936 FAILED separation rules
+DATE 2026-09-12: spot 73 ASSIGNED to avail 9935
+DATE 2026-09-12: spot 73 assignment result: True
+DATE 2026-09-13: created Pending spot 74
+DATE 2026-09-13: spot 74 avail 9973 FAILED separation rules
+DATE 2026-09-13: spot 74 avail 9975 FAILED separation rules
+DATE 2026-09-13: spot 74 ASSIGNED to avail 9976
+DATE 2026-09-13: spot 74 assignment result: True
+DATE 2026-09-14: created Pending spot 75
+DATE 2026-09-14: spot 75 avail 10015 FAILED separation rules
+DATE 2026-09-14: spot 75 avail 10014 FAILED separation rules
+DATE 2026-09-14: spot 75 avail 10017 FAILED separation rules
+DATE 2026-09-14: spot 75 ASSIGNED to avail 10012
+DATE 2026-09-14: spot 75 assignment result: True
+Contract: 18
+Required quantity: 30
+Existing spots: 31
+Scheduled Spots: 30
+Pending Spots: 1
+Quantity to schedule: -1
+
+============================================================
+SCHEDULING CONTRACT ITEM 18
+============================================================
+Contract: 17
+Required quantity: 30
+Existing spots: 0
+Quantity to schedule: 30
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 76
+DATE 2026-08-15: spot 76 ASSIGNED to avail 8835
+DATE 2026-08-15: spot 76 assignment result: True
+DATE 2026-08-16: created Pending spot 77
+DATE 2026-08-16: spot 77 ASSIGNED to avail 8874
+DATE 2026-08-16: spot 77 assignment result: True
+DATE 2026-08-17: created Pending spot 78
+DATE 2026-08-17: spot 78 ASSIGNED to avail 8913
+DATE 2026-08-17: spot 78 assignment result: True
+DATE 2026-08-18: created Pending spot 79
+DATE 2026-08-18: spot 79 ASSIGNED to avail 8952
+DATE 2026-08-18: spot 79 assignment result: True
+DATE 2026-08-19: created Pending spot 80
+DATE 2026-08-19: spot 80 ASSIGNED to avail 8991
+DATE 2026-08-19: spot 80 assignment result: True
+DATE 2026-08-20: created Pending spot 81
+DATE 2026-08-20: spot 81 ASSIGNED to avail 9030
+DATE 2026-08-20: spot 81 assignment result: True
+DATE 2026-08-21: created Pending spot 82
+DATE 2026-08-21: spot 82 ASSIGNED to avail 9069
+DATE 2026-08-21: spot 82 assignment result: True
+DATE 2026-08-22: created Pending spot 83
+DATE 2026-08-22: spot 83 ASSIGNED to avail 9108
+DATE 2026-08-22: spot 83 assignment result: True
+DATE 2026-08-23: created Pending spot 84
+DATE 2026-08-23: spot 84 ASSIGNED to avail 9147
+DATE 2026-08-23: spot 84 assignment result: True
+DATE 2026-08-24: created Pending spot 85
+DATE 2026-08-24: spot 85 ASSIGNED to avail 9186
+DATE 2026-08-24: spot 85 assignment result: True
+DATE 2026-08-25: created Pending spot 86
+DATE 2026-08-25: spot 86 ASSIGNED to avail 9225
+DATE 2026-08-25: spot 86 assignment result: True
+DATE 2026-08-26: created Pending spot 87
+DATE 2026-08-26: spot 87 ASSIGNED to avail 9264
+DATE 2026-08-26: spot 87 assignment result: True
+DATE 2026-08-27: created Pending spot 88
+DATE 2026-08-27: spot 88 ASSIGNED to avail 9303
+DATE 2026-08-27: spot 88 assignment result: True
+DATE 2026-08-28: created Pending spot 89
+DATE 2026-08-28: spot 89 ASSIGNED to avail 9342
+DATE 2026-08-28: spot 89 assignment result: True
+DATE 2026-08-29: created Pending spot 90
+DATE 2026-08-29: spot 90 ASSIGNED to avail 9381
+DATE 2026-08-29: spot 90 assignment result: True
+DATE 2026-08-30: created Pending spot 91
+DATE 2026-08-30: spot 91 ASSIGNED to avail 9420
+DATE 2026-08-30: spot 91 assignment result: True
+DATE 2026-08-31: created Pending spot 92
+DATE 2026-08-31: spot 92 ASSIGNED to avail 9459
+DATE 2026-08-31: spot 92 assignment result: True
+DATE 2026-09-01: created Pending spot 93
+DATE 2026-09-01: spot 93 ASSIGNED to avail 9498
+DATE 2026-09-01: spot 93 assignment result: True
+DATE 2026-09-02: created Pending spot 94
+DATE 2026-09-02: spot 94 ASSIGNED to avail 9537
+DATE 2026-09-02: spot 94 assignment result: True
+DATE 2026-09-03: created Pending spot 95
+DATE 2026-09-03: spot 95 ASSIGNED to avail 9576
+DATE 2026-09-03: spot 95 assignment result: True
+DATE 2026-09-04: created Pending spot 96
+DATE 2026-09-04: spot 96 ASSIGNED to avail 9615
+DATE 2026-09-04: spot 96 assignment result: True
+DATE 2026-09-05: created Pending spot 97
+DATE 2026-09-05: spot 97 ASSIGNED to avail 9654
+DATE 2026-09-05: spot 97 assignment result: True
+DATE 2026-09-06: created Pending spot 98
+DATE 2026-09-06: spot 98 ASSIGNED to avail 9693
+DATE 2026-09-06: spot 98 assignment result: True
+DATE 2026-09-07: created Pending spot 99
+DATE 2026-09-07: spot 99 ASSIGNED to avail 9732
+DATE 2026-09-07: spot 99 assignment result: True
+DATE 2026-09-08: created Pending spot 100
+DATE 2026-09-08: spot 100 ASSIGNED to avail 9771
+DATE 2026-09-08: spot 100 assignment result: True
+DATE 2026-09-09: created Pending spot 101
+DATE 2026-09-09: spot 101 ASSIGNED to avail 9810
+DATE 2026-09-09: spot 101 assignment result: True
+DATE 2026-09-10: created Pending spot 102
+DATE 2026-09-10: spot 102 ASSIGNED to avail 9849
+DATE 2026-09-10: spot 102 assignment result: True
+DATE 2026-09-11: created Pending spot 103
+DATE 2026-09-11: spot 103 ASSIGNED to avail 9888
+DATE 2026-09-11: spot 103 assignment result: True
+DATE 2026-09-12: created Pending spot 104
+DATE 2026-09-12: spot 104 ASSIGNED to avail 9927
+DATE 2026-09-12: spot 104 assignment result: True
+DATE 2026-09-13: created Pending spot 105
+DATE 2026-09-13: spot 105 ASSIGNED to avail 9966
+DATE 2026-09-13: spot 105 assignment result: True
+Contract: 17
+Required quantity: 30
+Existing spots: 30
+Scheduled Spots: 30
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 17
+============================================================
+Contract: 16
+Required quantity: 20
+Existing spots: 0
+Quantity to schedule: 20
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 106
+DATE 2026-08-15: spot 106 ASSIGNED to avail 8843
+DATE 2026-08-15: spot 106 assignment result: True
+DATE 2026-08-16: created Pending spot 107
+DATE 2026-08-16: spot 107 ASSIGNED to avail 8882
+DATE 2026-08-16: spot 107 assignment result: True
+DATE 2026-08-17: created Pending spot 108
+DATE 2026-08-17: spot 108 ASSIGNED to avail 8921
+DATE 2026-08-17: spot 108 assignment result: True
+DATE 2026-08-18: created Pending spot 109
+DATE 2026-08-18: spot 109 ASSIGNED to avail 8960
+DATE 2026-08-18: spot 109 assignment result: True
+DATE 2026-08-19: created Pending spot 110
+DATE 2026-08-19: spot 110 ASSIGNED to avail 8999
+DATE 2026-08-19: spot 110 assignment result: True
+DATE 2026-08-20: created Pending spot 111
+DATE 2026-08-20: spot 111 ASSIGNED to avail 9038
+DATE 2026-08-20: spot 111 assignment result: True
+DATE 2026-08-21: created Pending spot 112
+DATE 2026-08-21: spot 112 ASSIGNED to avail 9077
+DATE 2026-08-21: spot 112 assignment result: True
+DATE 2026-08-22: created Pending spot 113
+DATE 2026-08-22: spot 113 ASSIGNED to avail 9116
+DATE 2026-08-22: spot 113 assignment result: True
+DATE 2026-08-23: created Pending spot 114
+DATE 2026-08-23: spot 114 ASSIGNED to avail 9155
+DATE 2026-08-23: spot 114 assignment result: True
+DATE 2026-08-24: created Pending spot 115
+DATE 2026-08-24: spot 115 ASSIGNED to avail 9194
+DATE 2026-08-24: spot 115 assignment result: True
+DATE 2026-08-25: created Pending spot 116
+DATE 2026-08-25: spot 116 ASSIGNED to avail 9233
+DATE 2026-08-25: spot 116 assignment result: True
+DATE 2026-08-26: created Pending spot 117
+DATE 2026-08-26: spot 117 ASSIGNED to avail 9272
+DATE 2026-08-26: spot 117 assignment result: True
+DATE 2026-08-27: created Pending spot 118
+DATE 2026-08-27: spot 118 ASSIGNED to avail 9311
+DATE 2026-08-27: spot 118 assignment result: True
+DATE 2026-08-28: created Pending spot 119
+DATE 2026-08-28: spot 119 ASSIGNED to avail 9350
+DATE 2026-08-28: spot 119 assignment result: True
+DATE 2026-08-29: created Pending spot 120
+DATE 2026-08-29: spot 120 ASSIGNED to avail 9389
+DATE 2026-08-29: spot 120 assignment result: True
+DATE 2026-08-30: created Pending spot 121
+DATE 2026-08-30: spot 121 ASSIGNED to avail 9428
+DATE 2026-08-30: spot 121 assignment result: True
+DATE 2026-08-31: created Pending spot 122
+DATE 2026-08-31: spot 122 ASSIGNED to avail 9467
+DATE 2026-08-31: spot 122 assignment result: True
+DATE 2026-09-01: created Pending spot 123
+DATE 2026-09-01: spot 123 ASSIGNED to avail 9506
+DATE 2026-09-01: spot 123 assignment result: True
+DATE 2026-09-02: created Pending spot 124
+DATE 2026-09-02: spot 124 ASSIGNED to avail 9545
+DATE 2026-09-02: spot 124 assignment result: True
+DATE 2026-09-03: created Pending spot 125
+DATE 2026-09-03: spot 125 ASSIGNED to avail 9584
+DATE 2026-09-03: spot 125 assignment result: True
+Contract: 16
+Required quantity: 20
+Existing spots: 20
+Scheduled Spots: 20
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 16
+============================================================
+Contract: 15
+Required quantity: 15
+Existing spots: 0
+Quantity to schedule: 15
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 126
+DATE 2026-08-15: spot 126 ASSIGNED to avail 8840
+DATE 2026-08-15: spot 126 assignment result: True
+DATE 2026-08-16: created Pending spot 127
+DATE 2026-08-16: spot 127 ASSIGNED to avail 8879
+DATE 2026-08-16: spot 127 assignment result: True
+DATE 2026-08-17: created Pending spot 128
+DATE 2026-08-17: spot 128 ASSIGNED to avail 8917
+DATE 2026-08-17: spot 128 assignment result: True
+DATE 2026-08-18: created Pending spot 129
+DATE 2026-08-18: spot 129 ASSIGNED to avail 8957
+DATE 2026-08-18: spot 129 assignment result: True
+DATE 2026-08-19: created Pending spot 130
+DATE 2026-08-19: spot 130 ASSIGNED to avail 8991
+DATE 2026-08-19: spot 130 assignment result: True
+DATE 2026-08-20: created Pending spot 131
+DATE 2026-08-20: spot 131 ASSIGNED to avail 9030
+DATE 2026-08-20: spot 131 assignment result: True
+DATE 2026-08-21: created Pending spot 132
+DATE 2026-08-21: spot 132 ASSIGNED to avail 9073
+DATE 2026-08-21: spot 132 assignment result: True
+DATE 2026-08-22: created Pending spot 133
+DATE 2026-08-22: spot 133 ASSIGNED to avail 9111
+DATE 2026-08-22: spot 133 assignment result: True
+DATE 2026-08-23: created Pending spot 134
+DATE 2026-08-23: spot 134 ASSIGNED to avail 9151
+DATE 2026-08-23: spot 134 assignment result: True
+DATE 2026-08-24: created Pending spot 135
+DATE 2026-08-24: spot 135 ASSIGNED to avail 9189
+DATE 2026-08-24: spot 135 assignment result: True
+DATE 2026-08-25: created Pending spot 136
+DATE 2026-08-25: spot 136 ASSIGNED to avail 9229
+DATE 2026-08-25: spot 136 assignment result: True
+DATE 2026-08-26: created Pending spot 137
+DATE 2026-08-26: spot 137 ASSIGNED to avail 9268
+DATE 2026-08-26: spot 137 assignment result: True
+DATE 2026-08-27: created Pending spot 138
+DATE 2026-08-27: spot 138 ASSIGNED to avail 9309
+DATE 2026-08-27: spot 138 assignment result: True
+DATE 2026-08-28: created Pending spot 139
+DATE 2026-08-28: spot 139 ASSIGNED to avail 9342
+DATE 2026-08-28: spot 139 assignment result: True
+DATE 2026-08-29: created Pending spot 140
+DATE 2026-08-29: spot 140 ASSIGNED to avail 9384
+DATE 2026-08-29: spot 140 assignment result: True
+Contract: 15
+Required quantity: 15
+Existing spots: 15
+Scheduled Spots: 15
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 15
+============================================================
+Contract: 14
+Required quantity: 15
+Existing spots: 0
+Quantity to schedule: 15
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 141
+DATE 2026-08-15: spot 141 ASSIGNED to avail 8821
+DATE 2026-08-15: spot 141 assignment result: True
+DATE 2026-08-16: created Pending spot 142
+DATE 2026-08-16: spot 142 ASSIGNED to avail 8860
+DATE 2026-08-16: spot 142 assignment result: True
+DATE 2026-08-17: created Pending spot 143
+DATE 2026-08-17: spot 143 ASSIGNED to avail 8899
+DATE 2026-08-17: spot 143 assignment result: True
+DATE 2026-08-18: created Pending spot 144
+DATE 2026-08-18: spot 144 ASSIGNED to avail 8938
+DATE 2026-08-18: spot 144 assignment result: True
+DATE 2026-08-19: created Pending spot 145
+DATE 2026-08-19: spot 145 ASSIGNED to avail 8977
+DATE 2026-08-19: spot 145 assignment result: True
+DATE 2026-08-20: created Pending spot 146
+DATE 2026-08-20: spot 146 ASSIGNED to avail 9016
+DATE 2026-08-20: spot 146 assignment result: True
+DATE 2026-08-21: created Pending spot 147
+DATE 2026-08-21: spot 147 ASSIGNED to avail 9055
+DATE 2026-08-21: spot 147 assignment result: True
+DATE 2026-08-22: created Pending spot 148
+DATE 2026-08-22: spot 148 ASSIGNED to avail 9094
+DATE 2026-08-22: spot 148 assignment result: True
+DATE 2026-08-23: created Pending spot 149
+DATE 2026-08-23: spot 149 ASSIGNED to avail 9133
+DATE 2026-08-23: spot 149 assignment result: True
+DATE 2026-08-24: created Pending spot 150
+DATE 2026-08-24: spot 150 ASSIGNED to avail 9172
+DATE 2026-08-24: spot 150 assignment result: True
+DATE 2026-08-25: created Pending spot 151
+DATE 2026-08-25: spot 151 ASSIGNED to avail 9211
+DATE 2026-08-25: spot 151 assignment result: True
+DATE 2026-08-26: created Pending spot 152
+DATE 2026-08-26: spot 152 ASSIGNED to avail 9250
+DATE 2026-08-26: spot 152 assignment result: True
+DATE 2026-08-27: created Pending spot 153
+DATE 2026-08-27: spot 153 ASSIGNED to avail 9289
+DATE 2026-08-27: spot 153 assignment result: True
+DATE 2026-08-28: created Pending spot 154
+DATE 2026-08-28: spot 154 ASSIGNED to avail 9328
+DATE 2026-08-28: spot 154 assignment result: True
+DATE 2026-08-29: created Pending spot 155
+DATE 2026-08-29: spot 155 ASSIGNED to avail 9367
+DATE 2026-08-29: spot 155 assignment result: True
+Contract: 14
+Required quantity: 15
+Existing spots: 15
+Scheduled Spots: 15
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 14
+============================================================
+Contract: 13
+Required quantity: 35
+Existing spots: 0
+Quantity to schedule: 35
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 156
+DATE 2026-08-15: spot 156 ASSIGNED to avail 8833
+DATE 2026-08-15: spot 156 assignment result: True
+DATE 2026-08-16: created Pending spot 157
+DATE 2026-08-16: spot 157 ASSIGNED to avail 8872
+DATE 2026-08-16: spot 157 assignment result: True
+DATE 2026-08-17: created Pending spot 158
+DATE 2026-08-17: spot 158 ASSIGNED to avail 8911
+DATE 2026-08-17: spot 158 assignment result: True
+DATE 2026-08-18: created Pending spot 159
+DATE 2026-08-18: spot 159 ASSIGNED to avail 8950
+DATE 2026-08-18: spot 159 assignment result: True
+DATE 2026-08-19: created Pending spot 160
+DATE 2026-08-19: spot 160 ASSIGNED to avail 8989
+DATE 2026-08-19: spot 160 assignment result: True
+DATE 2026-08-20: created Pending spot 161
+DATE 2026-08-20: spot 161 ASSIGNED to avail 9028
+DATE 2026-08-20: spot 161 assignment result: True
+DATE 2026-08-21: created Pending spot 162
+DATE 2026-08-21: spot 162 ASSIGNED to avail 9067
+DATE 2026-08-21: spot 162 assignment result: True
+DATE 2026-08-22: created Pending spot 163
+DATE 2026-08-22: spot 163 ASSIGNED to avail 9106
+DATE 2026-08-22: spot 163 assignment result: True
+DATE 2026-08-23: created Pending spot 164
+DATE 2026-08-23: spot 164 ASSIGNED to avail 9145
+DATE 2026-08-23: spot 164 assignment result: True
+DATE 2026-08-24: created Pending spot 165
+DATE 2026-08-24: spot 165 ASSIGNED to avail 9184
+DATE 2026-08-24: spot 165 assignment result: True
+DATE 2026-08-25: created Pending spot 166
+DATE 2026-08-25: spot 166 ASSIGNED to avail 9223
+DATE 2026-08-25: spot 166 assignment result: True
+DATE 2026-08-26: created Pending spot 167
+DATE 2026-08-26: spot 167 ASSIGNED to avail 9262
+DATE 2026-08-26: spot 167 assignment result: True
+DATE 2026-08-27: created Pending spot 168
+DATE 2026-08-27: spot 168 ASSIGNED to avail 9301
+DATE 2026-08-27: spot 168 assignment result: True
+DATE 2026-08-28: created Pending spot 169
+DATE 2026-08-28: spot 169 ASSIGNED to avail 9340
+DATE 2026-08-28: spot 169 assignment result: True
+DATE 2026-08-29: created Pending spot 170
+DATE 2026-08-29: spot 170 ASSIGNED to avail 9379
+DATE 2026-08-29: spot 170 assignment result: True
+DATE 2026-08-30: created Pending spot 171
+DATE 2026-08-30: spot 171 ASSIGNED to avail 9418
+DATE 2026-08-30: spot 171 assignment result: True
+DATE 2026-08-31: created Pending spot 172
+DATE 2026-08-31: spot 172 ASSIGNED to avail 9457
+DATE 2026-08-31: spot 172 assignment result: True
+DATE 2026-09-01: created Pending spot 173
+DATE 2026-09-01: spot 173 ASSIGNED to avail 9496
+DATE 2026-09-01: spot 173 assignment result: True
+DATE 2026-09-02: created Pending spot 174
+DATE 2026-09-02: spot 174 ASSIGNED to avail 9535
+DATE 2026-09-02: spot 174 assignment result: True
+DATE 2026-09-03: created Pending spot 175
+DATE 2026-09-03: spot 175 ASSIGNED to avail 9574
+DATE 2026-09-03: spot 175 assignment result: True
+DATE 2026-09-04: created Pending spot 176
+DATE 2026-09-04: spot 176 ASSIGNED to avail 9613
+DATE 2026-09-04: spot 176 assignment result: True
+DATE 2026-09-05: created Pending spot 177
+DATE 2026-09-05: spot 177 ASSIGNED to avail 9652
+DATE 2026-09-05: spot 177 assignment result: True
+DATE 2026-09-06: created Pending spot 178
+DATE 2026-09-06: spot 178 ASSIGNED to avail 9691
+DATE 2026-09-06: spot 178 assignment result: True
+DATE 2026-09-07: created Pending spot 179
+DATE 2026-09-07: spot 179 ASSIGNED to avail 9730
+DATE 2026-09-07: spot 179 assignment result: True
+DATE 2026-09-08: created Pending spot 180
+DATE 2026-09-08: spot 180 ASSIGNED to avail 9769
+DATE 2026-09-08: spot 180 assignment result: True
+DATE 2026-09-09: created Pending spot 181
+DATE 2026-09-09: spot 181 ASSIGNED to avail 9808
+DATE 2026-09-09: spot 181 assignment result: True
+DATE 2026-09-10: created Pending spot 182
+DATE 2026-09-10: spot 182 ASSIGNED to avail 9847
+DATE 2026-09-10: spot 182 assignment result: True
+DATE 2026-09-11: created Pending spot 183
+DATE 2026-09-11: spot 183 ASSIGNED to avail 9886
+DATE 2026-09-11: spot 183 assignment result: True
+DATE 2026-09-12: created Pending spot 184
+DATE 2026-09-12: spot 184 ASSIGNED to avail 9925
+DATE 2026-09-12: spot 184 assignment result: True
+DATE 2026-09-13: created Pending spot 185
+DATE 2026-09-13: spot 185 ASSIGNED to avail 9964
+DATE 2026-09-13: spot 185 assignment result: True
+DATE 2026-09-14: created Pending spot 186
+DATE 2026-09-14: spot 186 ASSIGNED to avail 10003
+DATE 2026-09-14: spot 186 assignment result: True
+DATE 2026-09-15: created Pending spot 187
+DATE 2026-09-15: spot 187 ASSIGNED to avail 10042
+DATE 2026-09-15: spot 187 assignment result: True
+DATE 2026-08-15: created Pending spot 188
+DATE 2026-08-15: spot 188 avail 8833 FAILED separation rules
+DATE 2026-08-15: spot 188 assignment failed - all candidates rejected
+DATE 2026-08-15: spot 188 assignment result: False
+DATE 2026-08-16: created Pending spot 189
+DATE 2026-08-16: spot 189 avail 8872 FAILED separation rules
+DATE 2026-08-16: spot 189 assignment failed - all candidates rejected
+DATE 2026-08-16: spot 189 assignment result: False
+DATE 2026-08-17: created Pending spot 190
+DATE 2026-08-17: spot 190 avail 8911 FAILED separation rules
+DATE 2026-08-17: spot 190 assignment failed - all candidates rejected
+DATE 2026-08-17: spot 190 assignment result: False
+DATE 2026-08-18: created Pending spot 191
+DATE 2026-08-18: spot 191 avail 8950 FAILED separation rules
+DATE 2026-08-18: spot 191 assignment failed - all candidates rejected
+DATE 2026-08-18: spot 191 assignment result: False
+DATE 2026-08-19: created Pending spot 192
+DATE 2026-08-19: spot 192 avail 8989 FAILED separation rules
+DATE 2026-08-19: spot 192 assignment failed - all candidates rejected
+DATE 2026-08-19: spot 192 assignment result: False
+DATE 2026-08-20: created Pending spot 193
+DATE 2026-08-20: spot 193 avail 9028 FAILED separation rules
+DATE 2026-08-20: spot 193 assignment failed - all candidates rejected
+DATE 2026-08-20: spot 193 assignment result: False
+DATE 2026-08-21: created Pending spot 194
+DATE 2026-08-21: spot 194 avail 9067 FAILED separation rules
+DATE 2026-08-21: spot 194 assignment failed - all candidates rejected
+DATE 2026-08-21: spot 194 assignment result: False
+DATE 2026-08-22: created Pending spot 195
+DATE 2026-08-22: spot 195 avail 9106 FAILED separation rules
+DATE 2026-08-22: spot 195 assignment failed - all candidates rejected
+DATE 2026-08-22: spot 195 assignment result: False
+DATE 2026-08-23: created Pending spot 196
+DATE 2026-08-23: spot 196 avail 9145 FAILED separation rules
+DATE 2026-08-23: spot 196 assignment failed - all candidates rejected
+DATE 2026-08-23: spot 196 assignment result: False
+DATE 2026-08-24: created Pending spot 197
+DATE 2026-08-24: spot 197 avail 9184 FAILED separation rules
+DATE 2026-08-24: spot 197 assignment failed - all candidates rejected
+DATE 2026-08-24: spot 197 assignment result: False
+DATE 2026-08-25: created Pending spot 198
+DATE 2026-08-25: spot 198 avail 9223 FAILED separation rules
+DATE 2026-08-25: spot 198 assignment failed - all candidates rejected
+DATE 2026-08-25: spot 198 assignment result: False
+DATE 2026-08-26: created Pending spot 199
+DATE 2026-08-26: spot 199 avail 9262 FAILED separation rules
+DATE 2026-08-26: spot 199 assignment failed - all candidates rejected
+DATE 2026-08-26: spot 199 assignment result: False
+DATE 2026-08-27: created Pending spot 200
+DATE 2026-08-27: spot 200 avail 9301 FAILED separation rules
+DATE 2026-08-27: spot 200 assignment failed - all candidates rejected
+DATE 2026-08-27: spot 200 assignment result: False
+DATE 2026-08-28: created Pending spot 201
+DATE 2026-08-28: spot 201 avail 9340 FAILED separation rules
+DATE 2026-08-28: spot 201 assignment failed - all candidates rejected
+DATE 2026-08-28: spot 201 assignment result: False
+DATE 2026-08-29: created Pending spot 202
+DATE 2026-08-29: spot 202 avail 9379 FAILED separation rules
+DATE 2026-08-29: spot 202 assignment failed - all candidates rejected
+DATE 2026-08-29: spot 202 assignment result: False
+DATE 2026-08-30: created Pending spot 203
+DATE 2026-08-30: spot 203 avail 9418 FAILED separation rules
+DATE 2026-08-30: spot 203 assignment failed - all candidates rejected
+DATE 2026-08-30: spot 203 assignment result: False
+DATE 2026-08-31: created Pending spot 204
+DATE 2026-08-31: spot 204 avail 9457 FAILED separation rules
+DATE 2026-08-31: spot 204 assignment failed - all candidates rejected
+DATE 2026-08-31: spot 204 assignment result: False
+DATE 2026-09-01: created Pending spot 205
+DATE 2026-09-01: spot 205 avail 9496 FAILED separation rules
+DATE 2026-09-01: spot 205 assignment failed - all candidates rejected
+DATE 2026-09-01: spot 205 assignment result: False
+DATE 2026-09-02: created Pending spot 206
+DATE 2026-09-02: spot 206 avail 9535 FAILED separation rules
+DATE 2026-09-02: spot 206 assignment failed - all candidates rejected
+DATE 2026-09-02: spot 206 assignment result: False
+DATE 2026-09-03: created Pending spot 207
+DATE 2026-09-03: spot 207 avail 9574 FAILED separation rules
+DATE 2026-09-03: spot 207 assignment failed - all candidates rejected
+DATE 2026-09-03: spot 207 assignment result: False
+DATE 2026-09-04: created Pending spot 208
+DATE 2026-09-04: spot 208 avail 9613 FAILED separation rules
+DATE 2026-09-04: spot 208 assignment failed - all candidates rejected
+DATE 2026-09-04: spot 208 assignment result: False
+DATE 2026-09-05: created Pending spot 209
+DATE 2026-09-05: spot 209 avail 9652 FAILED separation rules
+DATE 2026-09-05: spot 209 assignment failed - all candidates rejected
+DATE 2026-09-05: spot 209 assignment result: False
+DATE 2026-09-06: created Pending spot 210
+DATE 2026-09-06: spot 210 avail 9691 FAILED separation rules
+DATE 2026-09-06: spot 210 assignment failed - all candidates rejected
+DATE 2026-09-06: spot 210 assignment result: False
+DATE 2026-09-07: created Pending spot 211
+DATE 2026-09-07: spot 211 avail 9730 FAILED separation rules
+DATE 2026-09-07: spot 211 assignment failed - all candidates rejected
+DATE 2026-09-07: spot 211 assignment result: False
+DATE 2026-09-08: created Pending spot 212
+DATE 2026-09-08: spot 212 avail 9769 FAILED separation rules
+DATE 2026-09-08: spot 212 assignment failed - all candidates rejected
+DATE 2026-09-08: spot 212 assignment result: False
+DATE 2026-09-09: created Pending spot 213
+DATE 2026-09-09: spot 213 avail 9808 FAILED separation rules
+DATE 2026-09-09: spot 213 assignment failed - all candidates rejected
+DATE 2026-09-09: spot 213 assignment result: False
+DATE 2026-09-10: created Pending spot 214
+DATE 2026-09-10: spot 214 avail 9847 FAILED separation rules
+DATE 2026-09-10: spot 214 assignment failed - all candidates rejected
+DATE 2026-09-10: spot 214 assignment result: False
+DATE 2026-09-11: created Pending spot 215
+DATE 2026-09-11: spot 215 avail 9886 FAILED separation rules
+DATE 2026-09-11: spot 215 assignment failed - all candidates rejected
+DATE 2026-09-11: spot 215 assignment result: False
+DATE 2026-09-12: created Pending spot 216
+DATE 2026-09-12: spot 216 avail 9925 FAILED separation rules
+DATE 2026-09-12: spot 216 assignment failed - all candidates rejected
+DATE 2026-09-12: spot 216 assignment result: False
+DATE 2026-09-13: created Pending spot 217
+DATE 2026-09-13: spot 217 avail 9964 FAILED separation rules
+DATE 2026-09-13: spot 217 assignment failed - all candidates rejected
+DATE 2026-09-13: spot 217 assignment result: False
+DATE 2026-09-14: created Pending spot 218
+DATE 2026-09-14: spot 218 avail 10003 FAILED separation rules
+DATE 2026-09-14: spot 218 assignment failed - all candidates rejected
+DATE 2026-09-14: spot 218 assignment result: False
+DATE 2026-09-15: created Pending spot 219
+DATE 2026-09-15: spot 219 avail 10042 FAILED separation rules
+DATE 2026-09-15: spot 219 assignment failed - all candidates rejected
+DATE 2026-09-15: spot 219 assignment result: False
+Contract: 13
+Required quantity: 35
+Existing spots: 64
+Scheduled Spots: 32
+Pending Spots: 32
+Quantity to schedule: -29
+
+============================================================
+SCHEDULING CONTRACT ITEM 13
+============================================================
+Contract: 12
+Required quantity: 35
+Existing spots: 0
+Quantity to schedule: 35
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 220
+DATE 2026-08-15: spot 220 ASSIGNED to avail 8826
+DATE 2026-08-15: spot 220 assignment result: True
+DATE 2026-08-16: created Pending spot 221
+DATE 2026-08-16: spot 221 ASSIGNED to avail 8865
+DATE 2026-08-16: spot 221 assignment result: True
+DATE 2026-08-17: created Pending spot 222
+DATE 2026-08-17: spot 222 ASSIGNED to avail 8900
+DATE 2026-08-17: spot 222 assignment result: True
+DATE 2026-08-18: created Pending spot 223
+DATE 2026-08-18: spot 223 ASSIGNED to avail 8940
+DATE 2026-08-18: spot 223 assignment result: True
+DATE 2026-08-19: created Pending spot 224
+DATE 2026-08-19: spot 224 ASSIGNED to avail 8982
+DATE 2026-08-19: spot 224 assignment result: True
+DATE 2026-08-20: created Pending spot 225
+DATE 2026-08-20: spot 225 ASSIGNED to avail 9020
+DATE 2026-08-20: spot 225 assignment result: True
+DATE 2026-08-21: created Pending spot 226
+DATE 2026-08-21: spot 226 ASSIGNED to avail 9059
+DATE 2026-08-21: spot 226 assignment result: True
+DATE 2026-08-22: created Pending spot 227
+DATE 2026-08-22: spot 227 ASSIGNED to avail 9097
+DATE 2026-08-22: spot 227 assignment result: True
+DATE 2026-08-23: created Pending spot 228
+DATE 2026-08-23: spot 228 ASSIGNED to avail 9134
+DATE 2026-08-23: spot 228 assignment result: True
+DATE 2026-08-24: created Pending spot 229
+DATE 2026-08-24: spot 229 ASSIGNED to avail 9172
+DATE 2026-08-24: spot 229 assignment result: True
+DATE 2026-08-25: created Pending spot 230
+DATE 2026-08-25: spot 230 ASSIGNED to avail 9213
+DATE 2026-08-25: spot 230 assignment result: True
+DATE 2026-08-26: created Pending spot 231
+DATE 2026-08-26: spot 231 ASSIGNED to avail 9250
+DATE 2026-08-26: spot 231 assignment result: True
+DATE 2026-08-27: created Pending spot 232
+DATE 2026-08-27: spot 232 ASSIGNED to avail 9291
+DATE 2026-08-27: spot 232 assignment result: True
+DATE 2026-08-28: created Pending spot 233
+DATE 2026-08-28: spot 233 ASSIGNED to avail 9333
+DATE 2026-08-28: spot 233 assignment result: True
+DATE 2026-08-29: created Pending spot 234
+DATE 2026-08-29: spot 234 ASSIGNED to avail 9372
+DATE 2026-08-29: spot 234 assignment result: True
+DATE 2026-08-30: created Pending spot 235
+DATE 2026-08-30: spot 235 ASSIGNED to avail 9408
+DATE 2026-08-30: spot 235 assignment result: True
+DATE 2026-08-31: created Pending spot 236
+DATE 2026-08-31: spot 236 ASSIGNED to avail 9448
+DATE 2026-08-31: spot 236 assignment result: True
+DATE 2026-09-01: created Pending spot 237
+DATE 2026-09-01: spot 237 ASSIGNED to avail 9486
+DATE 2026-09-01: spot 237 assignment result: True
+DATE 2026-09-02: created Pending spot 238
+DATE 2026-09-02: spot 238 ASSIGNED to avail 9524
+DATE 2026-09-02: spot 238 assignment result: True
+DATE 2026-09-03: created Pending spot 239
+DATE 2026-09-03: spot 239 ASSIGNED to avail 9567
+DATE 2026-09-03: spot 239 assignment result: True
+DATE 2026-09-04: created Pending spot 240
+DATE 2026-09-04: spot 240 ASSIGNED to avail 9604
+DATE 2026-09-04: spot 240 assignment result: True
+DATE 2026-09-05: created Pending spot 241
+DATE 2026-09-05: spot 241 ASSIGNED to avail 9643
+DATE 2026-09-05: spot 241 assignment result: True
+DATE 2026-09-06: created Pending spot 242
+DATE 2026-09-06: spot 242 ASSIGNED to avail 9681
+DATE 2026-09-06: spot 242 assignment result: True
+DATE 2026-09-07: created Pending spot 243
+DATE 2026-09-07: spot 243 ASSIGNED to avail 9721
+DATE 2026-09-07: spot 243 assignment result: True
+DATE 2026-09-08: created Pending spot 244
+DATE 2026-09-08: spot 244 ASSIGNED to avail 9758
+DATE 2026-09-08: spot 244 assignment result: True
+DATE 2026-09-09: created Pending spot 245
+DATE 2026-09-09: spot 245 ASSIGNED to avail 9799
+DATE 2026-09-09: spot 245 assignment result: True
+DATE 2026-09-10: created Pending spot 246
+DATE 2026-09-10: spot 246 ASSIGNED to avail 9840
+DATE 2026-09-10: spot 246 assignment result: True
+DATE 2026-09-11: created Pending spot 247
+DATE 2026-09-11: spot 247 ASSIGNED to avail 9876
+DATE 2026-09-11: spot 247 assignment result: True
+DATE 2026-09-12: created Pending spot 248
+DATE 2026-09-12: spot 248 ASSIGNED to avail 9917
+DATE 2026-09-12: spot 248 assignment result: True
+DATE 2026-09-13: created Pending spot 249
+DATE 2026-09-13: spot 249 ASSIGNED to avail 9952
+DATE 2026-09-13: spot 249 assignment result: True
+DATE 2026-09-14: created Pending spot 250
+DATE 2026-09-14: spot 250 ASSIGNED to avail 9994
+DATE 2026-09-14: spot 250 assignment result: True
+DATE 2026-09-15: created Pending spot 251
+DATE 2026-09-15: spot 251 ASSIGNED to avail 10031
+DATE 2026-09-15: spot 251 assignment result: True
+DATE 2026-08-15: created Pending spot 252
+DATE 2026-08-15: spot 252 ASSIGNED to avail 8824
+DATE 2026-08-15: spot 252 assignment result: True
+DATE 2026-08-16: created Pending spot 253
+DATE 2026-08-16: spot 253 ASSIGNED to avail 8860
+DATE 2026-08-16: spot 253 assignment result: True
+DATE 2026-08-17: created Pending spot 254
+DATE 2026-08-17: spot 254 ASSIGNED to avail 8899
+DATE 2026-08-17: spot 254 assignment result: True
+Contract: 12
+Required quantity: 35
+Existing spots: 35
+Scheduled Spots: 35
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 12
+============================================================
+Contract: 11
+Required quantity: 45
+Existing spots: 0
+Quantity to schedule: 45
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 255
+DATE 2026-08-15: spot 255 ASSIGNED to avail 8834
+DATE 2026-08-15: spot 255 assignment result: True
+DATE 2026-08-16: created Pending spot 256
+DATE 2026-08-16: spot 256 ASSIGNED to avail 8873
+DATE 2026-08-16: spot 256 assignment result: True
+DATE 2026-08-17: created Pending spot 257
+DATE 2026-08-17: spot 257 ASSIGNED to avail 8911
+DATE 2026-08-17: spot 257 assignment result: True
+DATE 2026-08-18: created Pending spot 258
+DATE 2026-08-18: spot 258 ASSIGNED to avail 8951
+DATE 2026-08-18: spot 258 assignment result: True
+DATE 2026-08-19: created Pending spot 259
+DATE 2026-08-19: spot 259 ASSIGNED to avail 8984
+DATE 2026-08-19: spot 259 assignment result: True
+DATE 2026-08-20: created Pending spot 260
+DATE 2026-08-20: spot 260 ASSIGNED to avail 9023
+DATE 2026-08-20: spot 260 assignment result: True
+DATE 2026-08-21: created Pending spot 261
+DATE 2026-08-21: spot 261 ASSIGNED to avail 9062
+DATE 2026-08-21: spot 261 assignment result: True
+DATE 2026-08-22: created Pending spot 262
+DATE 2026-08-22: spot 262 ASSIGNED to avail 9100
+DATE 2026-08-22: spot 262 assignment result: True
+DATE 2026-08-23: created Pending spot 263
+DATE 2026-08-23: spot 263 ASSIGNED to avail 9144
+DATE 2026-08-23: spot 263 assignment result: True
+DATE 2026-08-24: created Pending spot 264
+DATE 2026-08-24: spot 264 ASSIGNED to avail 9184
+DATE 2026-08-24: spot 264 assignment result: True
+DATE 2026-08-25: created Pending spot 265
+DATE 2026-08-25: spot 265 ASSIGNED to avail 9222
+DATE 2026-08-25: spot 265 assignment result: True
+DATE 2026-08-26: created Pending spot 266
+DATE 2026-08-26: spot 266 ASSIGNED to avail 9262
+DATE 2026-08-26: spot 266 assignment result: True
+DATE 2026-08-27: created Pending spot 267
+DATE 2026-08-27: spot 267 ASSIGNED to avail 9301
+DATE 2026-08-27: spot 267 assignment result: True
+DATE 2026-08-28: created Pending spot 268
+DATE 2026-08-28: spot 268 ASSIGNED to avail 9342
+DATE 2026-08-28: spot 268 assignment result: True
+DATE 2026-08-29: created Pending spot 269
+DATE 2026-08-29: spot 269 ASSIGNED to avail 9375
+DATE 2026-08-29: spot 269 assignment result: True
+DATE 2026-08-30: created Pending spot 270
+DATE 2026-08-30: spot 270 ASSIGNED to avail 9417
+DATE 2026-08-30: spot 270 assignment result: True
+DATE 2026-08-31: created Pending spot 271
+DATE 2026-08-31: spot 271 ASSIGNED to avail 9458
+DATE 2026-08-31: spot 271 assignment result: True
+DATE 2026-09-01: created Pending spot 272
+DATE 2026-09-01: spot 272 ASSIGNED to avail 9490
+DATE 2026-09-01: spot 272 assignment result: True
+DATE 2026-09-02: created Pending spot 273
+DATE 2026-09-02: spot 273 ASSIGNED to avail 9533
+DATE 2026-09-02: spot 273 assignment result: True
+DATE 2026-09-03: created Pending spot 274
+DATE 2026-09-03: spot 274 ASSIGNED to avail 9575
+DATE 2026-09-03: spot 274 assignment result: True
+DATE 2026-09-04: created Pending spot 275
+DATE 2026-09-04: spot 275 ASSIGNED to avail 9608
+DATE 2026-09-04: spot 275 assignment result: True
+DATE 2026-09-05: created Pending spot 276
+DATE 2026-09-05: spot 276 ASSIGNED to avail 9650
+DATE 2026-09-05: spot 276 assignment result: True
+DATE 2026-09-06: created Pending spot 277
+DATE 2026-09-06: spot 277 ASSIGNED to avail 9685
+DATE 2026-09-06: spot 277 assignment result: True
+DATE 2026-09-07: created Pending spot 278
+DATE 2026-09-07: spot 278 ASSIGNED to avail 9730
+DATE 2026-09-07: spot 278 assignment result: True
+DATE 2026-09-08: created Pending spot 279
+DATE 2026-09-08: spot 279 ASSIGNED to avail 9768
+DATE 2026-09-08: spot 279 assignment result: True
+DATE 2026-09-09: created Pending spot 280
+DATE 2026-09-09: spot 280 ASSIGNED to avail 9805
+DATE 2026-09-09: spot 280 assignment result: True
+DATE 2026-09-10: created Pending spot 281
+DATE 2026-09-10: spot 281 ASSIGNED to avail 9849
+DATE 2026-09-10: spot 281 assignment result: True
+DATE 2026-09-11: created Pending spot 282
+DATE 2026-09-11: spot 282 ASSIGNED to avail 9887
+DATE 2026-09-11: spot 282 assignment result: True
+DATE 2026-09-12: created Pending spot 283
+DATE 2026-09-12: spot 283 ASSIGNED to avail 9927
+DATE 2026-09-12: spot 283 assignment result: True
+DATE 2026-09-13: created Pending spot 284
+DATE 2026-09-13: spot 284 ASSIGNED to avail 9958
+DATE 2026-09-13: spot 284 assignment result: True
+DATE 2026-09-14: created Pending spot 285
+DATE 2026-09-14: spot 285 ASSIGNED to avail 10004
+DATE 2026-09-14: spot 285 assignment result: True
+DATE 2026-09-15: created Pending spot 286
+DATE 2026-09-15: spot 286 ASSIGNED to avail 10041
+DATE 2026-09-15: spot 286 assignment result: True
+DATE 2026-08-15: created Pending spot 287
+DATE 2026-08-15: spot 287 ASSIGNED to avail 8835
+DATE 2026-08-15: spot 287 assignment result: True
+DATE 2026-08-16: created Pending spot 288
+DATE 2026-08-16: spot 288 ASSIGNED to avail 8870
+DATE 2026-08-16: spot 288 assignment result: True
+DATE 2026-08-17: created Pending spot 289
+DATE 2026-08-17: spot 289 ASSIGNED to avail 8913
+DATE 2026-08-17: spot 289 assignment result: True
+DATE 2026-08-18: created Pending spot 290
+DATE 2026-08-18: spot 290 ASSIGNED to avail 8946
+DATE 2026-08-18: spot 290 assignment result: True
+DATE 2026-08-19: created Pending spot 291
+DATE 2026-08-19: spot 291 ASSIGNED to avail 8985
+DATE 2026-08-19: spot 291 assignment result: True
+DATE 2026-08-20: scheduling limit reached; date skipped
+DATE 2026-08-21: scheduling limit reached; date skipped
+DATE 2026-08-22: scheduling limit reached; date skipped
+DATE 2026-08-23: scheduling limit reached; date skipped
+DATE 2026-08-24: created Pending spot 292
+DATE 2026-08-24: spot 292 ASSIGNED to avail 9182
+DATE 2026-08-24: spot 292 assignment result: True
+DATE 2026-08-25: created Pending spot 293
+DATE 2026-08-25: spot 293 ASSIGNED to avail 9225
+DATE 2026-08-25: spot 293 assignment result: True
+DATE 2026-08-26: created Pending spot 294
+DATE 2026-08-26: spot 294 ASSIGNED to avail 9258
+DATE 2026-08-26: spot 294 assignment result: True
+DATE 2026-08-27: scheduling limit reached; date skipped
+DATE 2026-08-28: scheduling limit reached; date skipped
+DATE 2026-08-29: scheduling limit reached; date skipped
+DATE 2026-08-30: scheduling limit reached; date skipped
+DATE 2026-08-31: created Pending spot 295
+DATE 2026-08-31: spot 295 ASSIGNED to avail 9451
+DATE 2026-08-31: spot 295 assignment result: True
+DATE 2026-09-01: created Pending spot 296
+DATE 2026-09-01: spot 296 ASSIGNED to avail 9491
+DATE 2026-09-01: spot 296 assignment result: True
+DATE 2026-09-02: created Pending spot 297
+DATE 2026-09-02: spot 297 avail 9533 FAILED separation rules
+DATE 2026-09-02: spot 297 ASSIGNED to avail 9531
+DATE 2026-09-02: spot 297 assignment result: True
+DATE 2026-09-03: scheduling limit reached; date skipped
+DATE 2026-09-04: scheduling limit reached; date skipped
+DATE 2026-09-05: scheduling limit reached; date skipped
+DATE 2026-09-06: scheduling limit reached; date skipped
+DATE 2026-09-07: created Pending spot 298
+DATE 2026-09-07: spot 298 avail 9730 FAILED separation rules
+DATE 2026-09-07: spot 298 ASSIGNED to avail 9724
+DATE 2026-09-07: spot 298 assignment result: True
+DATE 2026-09-08: created Pending spot 299
+DATE 2026-09-08: spot 299 ASSIGNED to avail 9764
+DATE 2026-09-08: spot 299 assignment result: True
+Contract: 11
+Required quantity: 45
+Existing spots: 45
+Scheduled Spots: 45
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 11
+============================================================
+Contract: 10
+Required quantity: 45
+Existing spots: 0
+Quantity to schedule: 45
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 300
+DATE 2026-08-15: spot 300 ASSIGNED to avail 8821
+DATE 2026-08-15: spot 300 assignment result: True
+DATE 2026-08-16: created Pending spot 301
+DATE 2026-08-16: spot 301 ASSIGNED to avail 8860
+DATE 2026-08-16: spot 301 assignment result: True
+DATE 2026-08-17: created Pending spot 302
+DATE 2026-08-17: spot 302 ASSIGNED to avail 8899
+DATE 2026-08-17: spot 302 assignment result: True
+DATE 2026-08-18: created Pending spot 303
+DATE 2026-08-18: spot 303 ASSIGNED to avail 8938
+DATE 2026-08-18: spot 303 assignment result: True
+DATE 2026-08-19: created Pending spot 304
+DATE 2026-08-19: spot 304 ASSIGNED to avail 8977
+DATE 2026-08-19: spot 304 assignment result: True
+DATE 2026-08-20: created Pending spot 305
+DATE 2026-08-20: spot 305 ASSIGNED to avail 9016
+DATE 2026-08-20: spot 305 assignment result: True
+DATE 2026-08-21: created Pending spot 306
+DATE 2026-08-21: spot 306 ASSIGNED to avail 9055
+DATE 2026-08-21: spot 306 assignment result: True
+DATE 2026-08-22: created Pending spot 307
+DATE 2026-08-22: spot 307 ASSIGNED to avail 9094
+DATE 2026-08-22: spot 307 assignment result: True
+DATE 2026-08-23: created Pending spot 308
+DATE 2026-08-23: spot 308 ASSIGNED to avail 9133
+DATE 2026-08-23: spot 308 assignment result: True
+DATE 2026-08-24: created Pending spot 309
+DATE 2026-08-24: spot 309 ASSIGNED to avail 9172
+DATE 2026-08-24: spot 309 assignment result: True
+DATE 2026-08-25: created Pending spot 310
+DATE 2026-08-25: spot 310 ASSIGNED to avail 9211
+DATE 2026-08-25: spot 310 assignment result: True
+DATE 2026-08-26: created Pending spot 311
+DATE 2026-08-26: spot 311 ASSIGNED to avail 9250
+DATE 2026-08-26: spot 311 assignment result: True
+DATE 2026-08-27: created Pending spot 312
+DATE 2026-08-27: spot 312 ASSIGNED to avail 9289
+DATE 2026-08-27: spot 312 assignment result: True
+DATE 2026-08-28: created Pending spot 313
+DATE 2026-08-28: spot 313 ASSIGNED to avail 9328
+DATE 2026-08-28: spot 313 assignment result: True
+DATE 2026-08-29: created Pending spot 314
+DATE 2026-08-29: spot 314 ASSIGNED to avail 9367
+DATE 2026-08-29: spot 314 assignment result: True
+DATE 2026-08-30: created Pending spot 315
+DATE 2026-08-30: spot 315 ASSIGNED to avail 9406
+DATE 2026-08-30: spot 315 assignment result: True
+DATE 2026-08-31: created Pending spot 316
+DATE 2026-08-31: spot 316 ASSIGNED to avail 9445
+DATE 2026-08-31: spot 316 assignment result: True
+DATE 2026-09-01: created Pending spot 317
+DATE 2026-09-01: spot 317 ASSIGNED to avail 9484
+DATE 2026-09-01: spot 317 assignment result: True
+DATE 2026-09-02: created Pending spot 318
+DATE 2026-09-02: spot 318 ASSIGNED to avail 9523
+DATE 2026-09-02: spot 318 assignment result: True
+DATE 2026-09-03: created Pending spot 319
+DATE 2026-09-03: spot 319 ASSIGNED to avail 9562
+DATE 2026-09-03: spot 319 assignment result: True
+DATE 2026-09-04: created Pending spot 320
+DATE 2026-09-04: spot 320 ASSIGNED to avail 9601
+DATE 2026-09-04: spot 320 assignment result: True
+DATE 2026-09-05: created Pending spot 321
+DATE 2026-09-05: spot 321 ASSIGNED to avail 9640
+DATE 2026-09-05: spot 321 assignment result: True
+DATE 2026-09-06: created Pending spot 322
+DATE 2026-09-06: spot 322 ASSIGNED to avail 9679
+DATE 2026-09-06: spot 322 assignment result: True
+DATE 2026-09-07: created Pending spot 323
+DATE 2026-09-07: spot 323 ASSIGNED to avail 9718
+DATE 2026-09-07: spot 323 assignment result: True
+DATE 2026-09-08: created Pending spot 324
+DATE 2026-09-08: spot 324 ASSIGNED to avail 9757
+DATE 2026-09-08: spot 324 assignment result: True
+DATE 2026-09-09: created Pending spot 325
+DATE 2026-09-09: spot 325 ASSIGNED to avail 9796
+DATE 2026-09-09: spot 325 assignment result: True
+DATE 2026-09-10: created Pending spot 326
+DATE 2026-09-10: spot 326 ASSIGNED to avail 9835
+DATE 2026-09-10: spot 326 assignment result: True
+DATE 2026-09-11: created Pending spot 327
+DATE 2026-09-11: spot 327 ASSIGNED to avail 9874
+DATE 2026-09-11: spot 327 assignment result: True
+DATE 2026-09-12: created Pending spot 328
+DATE 2026-09-12: spot 328 ASSIGNED to avail 9913
+DATE 2026-09-12: spot 328 assignment result: True
+DATE 2026-09-13: created Pending spot 329
+DATE 2026-09-13: spot 329 ASSIGNED to avail 9952
+DATE 2026-09-13: spot 329 assignment result: True
+DATE 2026-09-14: created Pending spot 330
+DATE 2026-09-14: spot 330 ASSIGNED to avail 9991
+DATE 2026-09-14: spot 330 assignment result: True
+DATE 2026-09-15: created Pending spot 331
+DATE 2026-09-15: spot 331 ASSIGNED to avail 10030
+DATE 2026-09-15: spot 331 assignment result: True
+DATE 2026-08-15: created Pending spot 332
+DATE 2026-08-15: spot 332 avail 8821 FAILED separation rules
+DATE 2026-08-15: spot 332 assignment failed - all candidates rejected
+DATE 2026-08-15: spot 332 assignment result: False
+DATE 2026-08-16: created Pending spot 333
+DATE 2026-08-16: spot 333 avail 8860 FAILED separation rules
+DATE 2026-08-16: spot 333 assignment failed - all candidates rejected
+DATE 2026-08-16: spot 333 assignment result: False
+DATE 2026-08-17: created Pending spot 334
+DATE 2026-08-17: spot 334 avail 8899 FAILED separation rules
+DATE 2026-08-17: spot 334 assignment failed - all candidates rejected
+DATE 2026-08-17: spot 334 assignment result: False
+DATE 2026-08-18: created Pending spot 335
+DATE 2026-08-18: spot 335 avail 8938 FAILED separation rules
+DATE 2026-08-18: spot 335 assignment failed - all candidates rejected
+DATE 2026-08-18: spot 335 assignment result: False
+DATE 2026-08-19: created Pending spot 336
+DATE 2026-08-19: spot 336 avail 8977 FAILED separation rules
+DATE 2026-08-19: spot 336 assignment failed - all candidates rejected
+DATE 2026-08-19: spot 336 assignment result: False
+DATE 2026-08-20: created Pending spot 337
+DATE 2026-08-20: spot 337 avail 9016 FAILED separation rules
+DATE 2026-08-20: spot 337 assignment failed - all candidates rejected
+DATE 2026-08-20: spot 337 assignment result: False
+DATE 2026-08-21: created Pending spot 338
+DATE 2026-08-21: spot 338 avail 9055 FAILED separation rules
+DATE 2026-08-21: spot 338 assignment failed - all candidates rejected
+DATE 2026-08-21: spot 338 assignment result: False
+DATE 2026-08-22: created Pending spot 339
+DATE 2026-08-22: spot 339 avail 9094 FAILED separation rules
+DATE 2026-08-22: spot 339 assignment failed - all candidates rejected
+DATE 2026-08-22: spot 339 assignment result: False
+DATE 2026-08-23: created Pending spot 340
+DATE 2026-08-23: spot 340 avail 9133 FAILED separation rules
+DATE 2026-08-23: spot 340 assignment failed - all candidates rejected
+DATE 2026-08-23: spot 340 assignment result: False
+DATE 2026-08-24: created Pending spot 341
+DATE 2026-08-24: spot 341 avail 9172 FAILED separation rules
+DATE 2026-08-24: spot 341 assignment failed - all candidates rejected
+DATE 2026-08-24: spot 341 assignment result: False
+DATE 2026-08-25: created Pending spot 342
+DATE 2026-08-25: spot 342 avail 9211 FAILED separation rules
+DATE 2026-08-25: spot 342 assignment failed - all candidates rejected
+DATE 2026-08-25: spot 342 assignment result: False
+DATE 2026-08-26: created Pending spot 343
+DATE 2026-08-26: spot 343 avail 9250 FAILED separation rules
+DATE 2026-08-26: spot 343 assignment failed - all candidates rejected
+DATE 2026-08-26: spot 343 assignment result: False
+DATE 2026-08-27: created Pending spot 344
+DATE 2026-08-27: spot 344 avail 9289 FAILED separation rules
+DATE 2026-08-27: spot 344 assignment failed - all candidates rejected
+DATE 2026-08-27: spot 344 assignment result: False
+DATE 2026-08-28: created Pending spot 345
+DATE 2026-08-28: spot 345 avail 9328 FAILED separation rules
+DATE 2026-08-28: spot 345 assignment failed - all candidates rejected
+DATE 2026-08-28: spot 345 assignment result: False
+DATE 2026-08-29: created Pending spot 346
+DATE 2026-08-29: spot 346 avail 9367 FAILED separation rules
+DATE 2026-08-29: spot 346 assignment failed - all candidates rejected
+DATE 2026-08-29: spot 346 assignment result: False
+DATE 2026-08-30: created Pending spot 347
+DATE 2026-08-30: spot 347 avail 9406 FAILED separation rules
+DATE 2026-08-30: spot 347 assignment failed - all candidates rejected
+DATE 2026-08-30: spot 347 assignment result: False
+DATE 2026-08-31: created Pending spot 348
+DATE 2026-08-31: spot 348 avail 9445 FAILED separation rules
+DATE 2026-08-31: spot 348 assignment failed - all candidates rejected
+DATE 2026-08-31: spot 348 assignment result: False
+DATE 2026-09-01: created Pending spot 349
+DATE 2026-09-01: spot 349 avail 9484 FAILED separation rules
+DATE 2026-09-01: spot 349 assignment failed - all candidates rejected
+DATE 2026-09-01: spot 349 assignment result: False
+DATE 2026-09-02: created Pending spot 350
+DATE 2026-09-02: spot 350 avail 9523 FAILED separation rules
+DATE 2026-09-02: spot 350 assignment failed - all candidates rejected
+DATE 2026-09-02: spot 350 assignment result: False
+DATE 2026-09-03: created Pending spot 351
+DATE 2026-09-03: spot 351 avail 9562 FAILED separation rules
+DATE 2026-09-03: spot 351 assignment failed - all candidates rejected
+DATE 2026-09-03: spot 351 assignment result: False
+DATE 2026-09-04: created Pending spot 352
+DATE 2026-09-04: spot 352 avail 9601 FAILED separation rules
+DATE 2026-09-04: spot 352 assignment failed - all candidates rejected
+DATE 2026-09-04: spot 352 assignment result: False
+DATE 2026-09-05: created Pending spot 353
+DATE 2026-09-05: spot 353 avail 9640 FAILED separation rules
+DATE 2026-09-05: spot 353 assignment failed - all candidates rejected
+DATE 2026-09-05: spot 353 assignment result: False
+DATE 2026-09-06: created Pending spot 354
+DATE 2026-09-06: spot 354 avail 9679 FAILED separation rules
+DATE 2026-09-06: spot 354 assignment failed - all candidates rejected
+DATE 2026-09-06: spot 354 assignment result: False
+DATE 2026-09-07: created Pending spot 355
+DATE 2026-09-07: spot 355 avail 9718 FAILED separation rules
+DATE 2026-09-07: spot 355 assignment failed - all candidates rejected
+DATE 2026-09-07: spot 355 assignment result: False
+DATE 2026-09-08: created Pending spot 356
+DATE 2026-09-08: spot 356 avail 9757 FAILED separation rules
+DATE 2026-09-08: spot 356 assignment failed - all candidates rejected
+DATE 2026-09-08: spot 356 assignment result: False
+DATE 2026-09-09: created Pending spot 357
+DATE 2026-09-09: spot 357 avail 9796 FAILED separation rules
+DATE 2026-09-09: spot 357 assignment failed - all candidates rejected
+DATE 2026-09-09: spot 357 assignment result: False
+DATE 2026-09-10: created Pending spot 358
+DATE 2026-09-10: spot 358 avail 9835 FAILED separation rules
+DATE 2026-09-10: spot 358 assignment failed - all candidates rejected
+DATE 2026-09-10: spot 358 assignment result: False
+DATE 2026-09-11: created Pending spot 359
+DATE 2026-09-11: spot 359 avail 9874 FAILED separation rules
+DATE 2026-09-11: spot 359 assignment failed - all candidates rejected
+DATE 2026-09-11: spot 359 assignment result: False
+DATE 2026-09-12: created Pending spot 360
+DATE 2026-09-12: spot 360 avail 9913 FAILED separation rules
+DATE 2026-09-12: spot 360 assignment failed - all candidates rejected
+DATE 2026-09-12: spot 360 assignment result: False
+DATE 2026-09-13: created Pending spot 361
+DATE 2026-09-13: spot 361 avail 9952 FAILED separation rules
+DATE 2026-09-13: spot 361 assignment failed - all candidates rejected
+DATE 2026-09-13: spot 361 assignment result: False
+DATE 2026-09-14: created Pending spot 362
+DATE 2026-09-14: spot 362 avail 9991 FAILED separation rules
+DATE 2026-09-14: spot 362 assignment failed - all candidates rejected
+DATE 2026-09-14: spot 362 assignment result: False
+DATE 2026-09-15: created Pending spot 363
+DATE 2026-09-15: spot 363 avail 10030 FAILED separation rules
+DATE 2026-09-15: spot 363 assignment failed - all candidates rejected
+DATE 2026-09-15: spot 363 assignment result: False
+Contract: 10
+Required quantity: 45
+Existing spots: 64
+Scheduled Spots: 32
+Pending Spots: 32
+Quantity to schedule: -19
+
+============================================================
+SCHEDULING CONTRACT ITEM 10
+============================================================
+Contract: 9
+Required quantity: 25
+Existing spots: 0
+Quantity to schedule: 25
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 364
+DATE 2026-08-15: spot 364 ASSIGNED to avail 8831
+DATE 2026-08-15: spot 364 assignment result: True
+DATE 2026-08-16: created Pending spot 365
+DATE 2026-08-16: spot 365 ASSIGNED to avail 8870
+DATE 2026-08-16: spot 365 assignment result: True
+DATE 2026-08-17: created Pending spot 366
+DATE 2026-08-17: spot 366 ASSIGNED to avail 8909
+DATE 2026-08-17: spot 366 assignment result: True
+DATE 2026-08-18: created Pending spot 367
+DATE 2026-08-18: spot 367 ASSIGNED to avail 8948
+DATE 2026-08-18: spot 367 assignment result: True
+DATE 2026-08-19: created Pending spot 368
+DATE 2026-08-19: spot 368 ASSIGNED to avail 8987
+DATE 2026-08-19: spot 368 assignment result: True
+DATE 2026-08-20: created Pending spot 369
+DATE 2026-08-20: spot 369 ASSIGNED to avail 9026
+DATE 2026-08-20: spot 369 assignment result: True
+DATE 2026-08-21: created Pending spot 370
+DATE 2026-08-21: spot 370 ASSIGNED to avail 9065
+DATE 2026-08-21: spot 370 assignment result: True
+DATE 2026-08-22: created Pending spot 371
+DATE 2026-08-22: spot 371 ASSIGNED to avail 9104
+DATE 2026-08-22: spot 371 assignment result: True
+DATE 2026-08-23: created Pending spot 372
+DATE 2026-08-23: spot 372 ASSIGNED to avail 9143
+DATE 2026-08-23: spot 372 assignment result: True
+DATE 2026-08-24: created Pending spot 373
+DATE 2026-08-24: spot 373 ASSIGNED to avail 9182
+DATE 2026-08-24: spot 373 assignment result: True
+DATE 2026-08-25: created Pending spot 374
+DATE 2026-08-25: spot 374 ASSIGNED to avail 9221
+DATE 2026-08-25: spot 374 assignment result: True
+DATE 2026-08-26: created Pending spot 375
+DATE 2026-08-26: spot 375 ASSIGNED to avail 9260
+DATE 2026-08-26: spot 375 assignment result: True
+DATE 2026-08-27: created Pending spot 376
+DATE 2026-08-27: spot 376 ASSIGNED to avail 9299
+DATE 2026-08-27: spot 376 assignment result: True
+DATE 2026-08-28: created Pending spot 377
+DATE 2026-08-28: spot 377 ASSIGNED to avail 9338
+DATE 2026-08-28: spot 377 assignment result: True
+DATE 2026-08-29: created Pending spot 378
+DATE 2026-08-29: spot 378 ASSIGNED to avail 9377
+DATE 2026-08-29: spot 378 assignment result: True
+DATE 2026-08-30: created Pending spot 379
+DATE 2026-08-30: spot 379 ASSIGNED to avail 9416
+DATE 2026-08-30: spot 379 assignment result: True
+DATE 2026-08-31: created Pending spot 380
+DATE 2026-08-31: spot 380 ASSIGNED to avail 9455
+DATE 2026-08-31: spot 380 assignment result: True
+DATE 2026-09-01: created Pending spot 381
+DATE 2026-09-01: spot 381 ASSIGNED to avail 9494
+DATE 2026-09-01: spot 381 assignment result: True
+DATE 2026-09-02: created Pending spot 382
+DATE 2026-09-02: spot 382 ASSIGNED to avail 9533
+DATE 2026-09-02: spot 382 assignment result: True
+DATE 2026-09-03: created Pending spot 383
+DATE 2026-09-03: spot 383 ASSIGNED to avail 9572
+DATE 2026-09-03: spot 383 assignment result: True
+DATE 2026-09-04: created Pending spot 384
+DATE 2026-09-04: spot 384 ASSIGNED to avail 9611
+DATE 2026-09-04: spot 384 assignment result: True
+DATE 2026-09-05: created Pending spot 385
+DATE 2026-09-05: spot 385 ASSIGNED to avail 9650
+DATE 2026-09-05: spot 385 assignment result: True
+DATE 2026-09-06: created Pending spot 386
+DATE 2026-09-06: spot 386 ASSIGNED to avail 9689
+DATE 2026-09-06: spot 386 assignment result: True
+DATE 2026-09-07: created Pending spot 387
+DATE 2026-09-07: spot 387 ASSIGNED to avail 9728
+DATE 2026-09-07: spot 387 assignment result: True
+DATE 2026-09-08: created Pending spot 388
+DATE 2026-09-08: spot 388 ASSIGNED to avail 9767
+DATE 2026-09-08: spot 388 assignment result: True
+Contract: 9
+Required quantity: 25
+Existing spots: 25
+Scheduled Spots: 25
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 9
+============================================================
+Contract: 8
+Required quantity: 25
+Existing spots: 0
+Quantity to schedule: 25
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 389
+DATE 2026-08-15: spot 389 ASSIGNED to avail 8834
+DATE 2026-08-15: spot 389 assignment result: True
+DATE 2026-08-16: created Pending spot 390
+DATE 2026-08-16: spot 390 ASSIGNED to avail 8873
+DATE 2026-08-16: spot 390 assignment result: True
+DATE 2026-08-17: created Pending spot 391
+DATE 2026-08-17: spot 391 avail 8911 FAILED separation rules
+DATE 2026-08-17: spot 391 avail 8907 FAILED separation rules
+DATE 2026-08-17: spot 391 ASSIGNED to avail 8905
+DATE 2026-08-17: spot 391 assignment result: True
+DATE 2026-08-18: created Pending spot 392
+DATE 2026-08-18: spot 392 ASSIGNED to avail 8951
+DATE 2026-08-18: spot 392 assignment result: True
+DATE 2026-08-19: created Pending spot 393
+DATE 2026-08-19: spot 393 ASSIGNED to avail 8984
+DATE 2026-08-19: spot 393 assignment result: True
+DATE 2026-08-20: created Pending spot 394
+DATE 2026-08-20: spot 394 ASSIGNED to avail 9023
+DATE 2026-08-20: spot 394 assignment result: True
+DATE 2026-08-21: created Pending spot 395
+DATE 2026-08-21: spot 395 ASSIGNED to avail 9062
+DATE 2026-08-21: spot 395 assignment result: True
+DATE 2026-08-22: created Pending spot 396
+DATE 2026-08-22: spot 396 ASSIGNED to avail 9100
+DATE 2026-08-22: spot 396 assignment result: True
+DATE 2026-08-23: created Pending spot 397
+DATE 2026-08-23: spot 397 avail 9144 FAILED separation rules
+DATE 2026-08-23: spot 397 avail 9143 FAILED separation rules
+DATE 2026-08-23: spot 397 avail 9142 FAILED separation rules
+DATE 2026-08-23: spot 397 avail 9145 FAILED separation rules
+DATE 2026-08-23: spot 397 ASSIGNED to avail 9146
+DATE 2026-08-23: spot 397 assignment result: True
+DATE 2026-08-24: created Pending spot 398
+DATE 2026-08-24: spot 398 avail 9184 FAILED separation rules
+DATE 2026-08-24: spot 398 avail 9182 FAILED separation rules
+DATE 2026-08-24: spot 398 ASSIGNED to avail 9185
+DATE 2026-08-24: spot 398 assignment result: True
+DATE 2026-08-25: created Pending spot 399
+DATE 2026-08-25: spot 399 avail 9222 FAILED separation rules
+DATE 2026-08-25: spot 399 avail 9223 FAILED separation rules
+DATE 2026-08-25: spot 399 avail 9221 FAILED separation rules
+DATE 2026-08-25: spot 399 avail 9219 FAILED separation rules
+DATE 2026-08-25: spot 399 ASSIGNED to avail 9217
+DATE 2026-08-25: spot 399 assignment result: True
+DATE 2026-08-26: created Pending spot 400
+DATE 2026-08-26: spot 400 avail 9262 FAILED separation rules
+DATE 2026-08-26: spot 400 ASSIGNED to avail 9257
+DATE 2026-08-26: spot 400 assignment result: True
+DATE 2026-08-27: created Pending spot 401
+DATE 2026-08-27: spot 401 avail 9301 FAILED separation rules
+DATE 2026-08-27: spot 401 ASSIGNED to avail 9302
+DATE 2026-08-27: spot 401 assignment result: True
+DATE 2026-08-28: created Pending spot 402
+DATE 2026-08-28: spot 402 avail 9340 FAILED separation rules
+DATE 2026-08-28: spot 402 avail 9337 FAILED separation rules
+DATE 2026-08-28: spot 402 ASSIGNED to avail 9334
+DATE 2026-08-28: spot 402 assignment result: True
+DATE 2026-08-29: created Pending spot 403
+DATE 2026-08-29: spot 403 ASSIGNED to avail 9381
+DATE 2026-08-29: spot 403 assignment result: True
+DATE 2026-08-30: created Pending spot 404
+DATE 2026-08-30: spot 404 avail 9417 FAILED separation rules
+DATE 2026-08-30: spot 404 avail 9418 FAILED separation rules
+DATE 2026-08-30: spot 404 ASSIGNED to avail 9419
+DATE 2026-08-30: spot 404 assignment result: True
+DATE 2026-08-31: created Pending spot 405
+DATE 2026-08-31: spot 405 ASSIGNED to avail 9458
+DATE 2026-08-31: spot 405 assignment result: True
+DATE 2026-09-01: created Pending spot 406
+DATE 2026-09-01: spot 406 ASSIGNED to avail 9490
+DATE 2026-09-01: spot 406 assignment result: True
+DATE 2026-09-02: created Pending spot 407
+DATE 2026-09-02: spot 407 avail 9533 FAILED separation rules
+DATE 2026-09-02: spot 407 avail 9535 FAILED separation rules
+DATE 2026-09-02: spot 407 avail 9531 FAILED separation rules
+DATE 2026-09-02: spot 407 ASSIGNED to avail 9536
+DATE 2026-09-02: spot 407 assignment result: True
+DATE 2026-09-03: created Pending spot 408
+DATE 2026-09-03: spot 408 ASSIGNED to avail 9575
+DATE 2026-09-03: spot 408 assignment result: True
+DATE 2026-09-04: created Pending spot 409
+DATE 2026-09-04: spot 409 ASSIGNED to avail 9608
+DATE 2026-09-04: spot 409 assignment result: True
+DATE 2026-09-05: created Pending spot 410
+DATE 2026-09-05: spot 410 avail 9650 FAILED separation rules
+DATE 2026-09-05: spot 410 ASSIGNED to avail 9647
+DATE 2026-09-05: spot 410 assignment result: True
+DATE 2026-09-06: created Pending spot 411
+DATE 2026-09-06: spot 411 ASSIGNED to avail 9685
+DATE 2026-09-06: spot 411 assignment result: True
+DATE 2026-09-07: created Pending spot 412
+DATE 2026-09-07: spot 412 avail 9730 FAILED separation rules
+DATE 2026-09-07: spot 412 avail 9728 FAILED separation rules
+DATE 2026-09-07: spot 412 avail 9729 FAILED separation rules
+DATE 2026-09-07: spot 412 ASSIGNED to avail 9725
+DATE 2026-09-07: spot 412 assignment result: True
+DATE 2026-09-08: created Pending spot 413
+DATE 2026-09-08: spot 413 avail 9768 FAILED separation rules
+DATE 2026-09-08: spot 413 avail 9765 FAILED separation rules
+DATE 2026-09-08: spot 413 avail 9766 FAILED separation rules
+DATE 2026-09-08: spot 413 ASSIGNED to avail 9770
+DATE 2026-09-08: spot 413 assignment result: True
+Contract: 8
+Required quantity: 25
+Existing spots: 25
+Scheduled Spots: 25
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 8
+============================================================
+Contract: 7
+Required quantity: 30
+Existing spots: 0
+Quantity to schedule: 30
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 414
+DATE 2026-08-15: spot 414 ASSIGNED to avail 8841
+DATE 2026-08-15: spot 414 assignment result: True
+DATE 2026-08-16: created Pending spot 415
+DATE 2026-08-16: spot 415 ASSIGNED to avail 8870
+DATE 2026-08-16: spot 415 assignment result: True
+DATE 2026-08-17: created Pending spot 416
+DATE 2026-08-17: spot 416 ASSIGNED to avail 8912
+DATE 2026-08-17: spot 416 assignment result: True
+DATE 2026-08-18: created Pending spot 417
+DATE 2026-08-18: spot 417 ASSIGNED to avail 8948
+DATE 2026-08-18: spot 417 assignment result: True
+DATE 2026-08-19: created Pending spot 418
+DATE 2026-08-19: spot 418 ASSIGNED to avail 8988
+DATE 2026-08-19: spot 418 assignment result: True
+DATE 2026-08-20: created Pending spot 419
+DATE 2026-08-20: spot 419 ASSIGNED to avail 9034
+DATE 2026-08-20: spot 419 assignment result: True
+DATE 2026-08-21: created Pending spot 420
+DATE 2026-08-21: spot 420 ASSIGNED to avail 9070
+DATE 2026-08-21: spot 420 assignment result: True
+DATE 2026-08-22: created Pending spot 421
+DATE 2026-08-22: spot 421 ASSIGNED to avail 9106
+DATE 2026-08-22: spot 421 assignment result: True
+DATE 2026-08-23: created Pending spot 422
+DATE 2026-08-23: spot 422 ASSIGNED to avail 9148
+DATE 2026-08-23: spot 422 assignment result: True
+DATE 2026-08-24: created Pending spot 423
+DATE 2026-08-24: spot 423 ASSIGNED to avail 9187
+DATE 2026-08-24: spot 423 assignment result: True
+DATE 2026-08-25: created Pending spot 424
+DATE 2026-08-25: spot 424 ASSIGNED to avail 9224
+DATE 2026-08-25: spot 424 assignment result: True
+DATE 2026-08-26: created Pending spot 425
+DATE 2026-08-26: spot 425 ASSIGNED to avail 9261
+DATE 2026-08-26: spot 425 assignment result: True
+DATE 2026-08-27: created Pending spot 426
+DATE 2026-08-27: spot 426 ASSIGNED to avail 9298
+DATE 2026-08-27: spot 426 assignment result: True
+DATE 2026-08-28: created Pending spot 427
+DATE 2026-08-28: spot 427 ASSIGNED to avail 9340
+DATE 2026-08-28: spot 427 assignment result: True
+DATE 2026-08-29: created Pending spot 428
+DATE 2026-08-29: spot 428 ASSIGNED to avail 9386
+DATE 2026-08-29: spot 428 assignment result: True
+DATE 2026-08-30: created Pending spot 429
+DATE 2026-08-30: spot 429 ASSIGNED to avail 9419
+DATE 2026-08-30: spot 429 assignment result: True
+DATE 2026-08-31: created Pending spot 430
+DATE 2026-08-31: spot 430 ASSIGNED to avail 9463
+DATE 2026-08-31: spot 430 assignment result: True
+DATE 2026-09-01: created Pending spot 431
+DATE 2026-09-01: spot 431 ASSIGNED to avail 9499
+DATE 2026-09-01: spot 431 assignment result: True
+DATE 2026-09-02: created Pending spot 432
+DATE 2026-09-02: spot 432 ASSIGNED to avail 9540
+DATE 2026-09-02: spot 432 assignment result: True
+DATE 2026-09-03: created Pending spot 433
+DATE 2026-09-03: spot 433 ASSIGNED to avail 9580
+DATE 2026-09-03: spot 433 assignment result: True
+DATE 2026-09-04: created Pending spot 434
+DATE 2026-09-04: spot 434 ASSIGNED to avail 9618
+DATE 2026-09-04: spot 434 assignment result: True
+DATE 2026-09-05: created Pending spot 435
+DATE 2026-09-05: spot 435 ASSIGNED to avail 9649
+DATE 2026-09-05: spot 435 assignment result: True
+DATE 2026-09-06: created Pending spot 436
+DATE 2026-09-06: spot 436 ASSIGNED to avail 9697
+DATE 2026-09-06: spot 436 assignment result: True
+DATE 2026-09-07: created Pending spot 437
+DATE 2026-09-07: spot 437 ASSIGNED to avail 9728
+DATE 2026-09-07: spot 437 assignment result: True
+DATE 2026-09-08: created Pending spot 438
+DATE 2026-09-08: spot 438 ASSIGNED to avail 9770
+DATE 2026-09-08: spot 438 assignment result: True
+DATE 2026-09-09: created Pending spot 439
+DATE 2026-09-09: spot 439 ASSIGNED to avail 9814
+DATE 2026-09-09: spot 439 assignment result: True
+DATE 2026-09-10: created Pending spot 440
+DATE 2026-09-10: spot 440 ASSIGNED to avail 9853
+DATE 2026-09-10: spot 440 assignment result: True
+DATE 2026-09-11: created Pending spot 441
+DATE 2026-09-11: spot 441 ASSIGNED to avail 9892
+DATE 2026-09-11: spot 441 assignment result: True
+DATE 2026-09-12: created Pending spot 442
+DATE 2026-09-12: spot 442 ASSIGNED to avail 9933
+DATE 2026-09-12: spot 442 assignment result: True
+DATE 2026-09-13: created Pending spot 443
+DATE 2026-09-13: spot 443 ASSIGNED to avail 9962
+DATE 2026-09-13: spot 443 assignment result: True
+Contract: 7
+Required quantity: 30
+Existing spots: 30
+Scheduled Spots: 30
+Pending Spots: 0
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 7
+============================================================
+Contract: 6
+Required quantity: 30
+Existing spots: 0
+Quantity to schedule: 30
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 444
+DATE 2026-08-15: spot 444 ASSIGNED to avail 8828
+DATE 2026-08-15: spot 444 assignment result: True
+DATE 2026-08-16: created Pending spot 445
+DATE 2026-08-16: spot 445 ASSIGNED to avail 8867
+DATE 2026-08-16: spot 445 assignment result: True
+DATE 2026-08-17: created Pending spot 446
+DATE 2026-08-17: spot 446 ASSIGNED to avail 8906
+DATE 2026-08-17: spot 446 assignment result: True
+DATE 2026-08-18: created Pending spot 447
+DATE 2026-08-18: spot 447 ASSIGNED to avail 8945
+DATE 2026-08-18: spot 447 assignment result: True
+DATE 2026-08-19: created Pending spot 448
+DATE 2026-08-19: spot 448 ASSIGNED to avail 8984
+DATE 2026-08-19: spot 448 assignment result: True
+DATE 2026-08-20: created Pending spot 449
+DATE 2026-08-20: spot 449 ASSIGNED to avail 9023
+DATE 2026-08-20: spot 449 assignment result: True
+DATE 2026-08-21: created Pending spot 450
+DATE 2026-08-21: spot 450 ASSIGNED to avail 9062
+DATE 2026-08-21: spot 450 assignment result: True
+DATE 2026-08-22: created Pending spot 451
+DATE 2026-08-22: spot 451 ASSIGNED to avail 9101
+DATE 2026-08-22: spot 451 assignment result: True
+DATE 2026-08-23: created Pending spot 452
+DATE 2026-08-23: spot 452 ASSIGNED to avail 9140
+DATE 2026-08-23: spot 452 assignment result: True
+DATE 2026-08-24: created Pending spot 453
+DATE 2026-08-24: spot 453 ASSIGNED to avail 9179
+DATE 2026-08-24: spot 453 assignment result: True
+DATE 2026-08-25: created Pending spot 454
+DATE 2026-08-25: spot 454 ASSIGNED to avail 9218
+DATE 2026-08-25: spot 454 assignment result: True
+DATE 2026-08-26: created Pending spot 455
+DATE 2026-08-26: spot 455 ASSIGNED to avail 9257
+DATE 2026-08-26: spot 455 assignment result: True
+DATE 2026-08-27: created Pending spot 456
+DATE 2026-08-27: spot 456 avail 9296 FAILED separation rules
+DATE 2026-08-27: spot 456 assignment failed - all candidates rejected
+DATE 2026-08-27: spot 456 assignment result: False
+DATE 2026-08-28: created Pending spot 457
+DATE 2026-08-28: spot 457 ASSIGNED to avail 9335
+DATE 2026-08-28: spot 457 assignment result: True
+DATE 2026-08-29: created Pending spot 458
+DATE 2026-08-29: spot 458 ASSIGNED to avail 9374
+DATE 2026-08-29: spot 458 assignment result: True
+DATE 2026-08-30: created Pending spot 459
+DATE 2026-08-30: spot 459 ASSIGNED to avail 9413
+DATE 2026-08-30: spot 459 assignment result: True
+DATE 2026-08-31: created Pending spot 460
+DATE 2026-08-31: spot 460 ASSIGNED to avail 9452
+DATE 2026-08-31: spot 460 assignment result: True
+DATE 2026-09-01: created Pending spot 461
+DATE 2026-09-01: spot 461 ASSIGNED to avail 9491
+DATE 2026-09-01: spot 461 assignment result: True
+DATE 2026-09-02: created Pending spot 462
+DATE 2026-09-02: spot 462 ASSIGNED to avail 9530
+DATE 2026-09-02: spot 462 assignment result: True
+DATE 2026-09-03: created Pending spot 463
+DATE 2026-09-03: spot 463 ASSIGNED to avail 9569
+DATE 2026-09-03: spot 463 assignment result: True
+DATE 2026-09-04: created Pending spot 464
+DATE 2026-09-04: spot 464 ASSIGNED to avail 9608
+DATE 2026-09-04: spot 464 assignment result: True
+DATE 2026-09-05: created Pending spot 465
+DATE 2026-09-05: spot 465 avail 9647 FAILED separation rules
+DATE 2026-09-05: spot 465 assignment failed - all candidates rejected
+DATE 2026-09-05: spot 465 assignment result: False
+DATE 2026-09-06: created Pending spot 466
+DATE 2026-09-06: spot 466 ASSIGNED to avail 9686
+DATE 2026-09-06: spot 466 assignment result: True
+DATE 2026-09-07: created Pending spot 467
+DATE 2026-09-07: spot 467 ASSIGNED to avail 9725
+DATE 2026-09-07: spot 467 assignment result: True
+DATE 2026-09-08: created Pending spot 468
+DATE 2026-09-08: spot 468 ASSIGNED to avail 9764
+DATE 2026-09-08: spot 468 assignment result: True
+DATE 2026-09-09: created Pending spot 469
+DATE 2026-09-09: spot 469 ASSIGNED to avail 9803
+DATE 2026-09-09: spot 469 assignment result: True
+DATE 2026-09-10: created Pending spot 470
+DATE 2026-09-10: spot 470 ASSIGNED to avail 9842
+DATE 2026-09-10: spot 470 assignment result: True
+DATE 2026-09-11: created Pending spot 471
+DATE 2026-09-11: spot 471 ASSIGNED to avail 9881
+DATE 2026-09-11: spot 471 assignment result: True
+DATE 2026-09-12: created Pending spot 472
+DATE 2026-09-12: spot 472 ASSIGNED to avail 9920
+DATE 2026-09-12: spot 472 assignment result: True
+DATE 2026-09-13: created Pending spot 473
+DATE 2026-09-13: spot 473 ASSIGNED to avail 9959
+DATE 2026-09-13: spot 473 assignment result: True
+DATE 2026-09-14: created Pending spot 474
+DATE 2026-09-14: spot 474 ASSIGNED to avail 9998
+DATE 2026-09-14: spot 474 assignment result: True
+DATE 2026-09-15: created Pending spot 475
+DATE 2026-09-15: spot 475 ASSIGNED to avail 10037
+DATE 2026-09-15: spot 475 assignment result: True
+Contract: 6
+Required quantity: 30
+Existing spots: 32
+Scheduled Spots: 30
+Pending Spots: 2
+Quantity to schedule: -2
+
+============================================================
+SCHEDULING CONTRACT ITEM 6
+============================================================
+Contract: 5
+Required quantity: 60
+Existing spots: 0
+Quantity to schedule: 60
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 476
+DATE 2026-08-15: spot 476 ASSIGNED to avail 8826
+DATE 2026-08-15: spot 476 assignment result: True
+DATE 2026-08-16: created Pending spot 477
+DATE 2026-08-16: spot 477 ASSIGNED to avail 8855
+DATE 2026-08-16: spot 477 assignment result: True
+DATE 2026-08-17: created Pending spot 478
+DATE 2026-08-17: spot 478 ASSIGNED to avail 8897
+DATE 2026-08-17: spot 478 assignment result: True
+DATE 2026-08-18: created Pending spot 479
+DATE 2026-08-18: spot 479 ASSIGNED to avail 8933
+DATE 2026-08-18: spot 479 assignment result: True
+DATE 2026-08-19: created Pending spot 480
+DATE 2026-08-19: spot 480 ASSIGNED to avail 8973
+DATE 2026-08-19: spot 480 assignment result: True
+DATE 2026-08-20: created Pending spot 481
+DATE 2026-08-20: spot 481 ASSIGNED to avail 9019
+DATE 2026-08-20: spot 481 assignment result: True
+DATE 2026-08-21: created Pending spot 482
+DATE 2026-08-21: spot 482 ASSIGNED to avail 9055
+DATE 2026-08-21: spot 482 assignment result: True
+DATE 2026-08-22: created Pending spot 483
+DATE 2026-08-22: spot 483 ASSIGNED to avail 9091
+DATE 2026-08-22: spot 483 assignment result: True
+DATE 2026-08-23: created Pending spot 484
+DATE 2026-08-23: spot 484 ASSIGNED to avail 9133
+DATE 2026-08-23: spot 484 assignment result: True
+DATE 2026-08-24: created Pending spot 485
+DATE 2026-08-24: spot 485 ASSIGNED to avail 9172
+DATE 2026-08-24: spot 485 assignment result: True
+DATE 2026-08-25: created Pending spot 486
+DATE 2026-08-25: spot 486 ASSIGNED to avail 9209
+DATE 2026-08-25: spot 486 assignment result: True
+DATE 2026-08-26: created Pending spot 487
+DATE 2026-08-26: spot 487 ASSIGNED to avail 9246
+DATE 2026-08-26: spot 487 assignment result: True
+DATE 2026-08-27: created Pending spot 488
+DATE 2026-08-27: spot 488 ASSIGNED to avail 9283
+DATE 2026-08-27: spot 488 assignment result: True
+DATE 2026-08-28: created Pending spot 489
+DATE 2026-08-28: spot 489 ASSIGNED to avail 9330
+DATE 2026-08-28: spot 489 assignment result: True
+DATE 2026-08-29: created Pending spot 490
+DATE 2026-08-29: spot 490 ASSIGNED to avail 9371
+DATE 2026-08-29: spot 490 assignment result: True
+DATE 2026-08-30: created Pending spot 491
+DATE 2026-08-30: spot 491 ASSIGNED to avail 9404
+DATE 2026-08-30: spot 491 assignment result: True
+DATE 2026-08-31: created Pending spot 492
+DATE 2026-08-31: spot 492 ASSIGNED to avail 9448
+DATE 2026-08-31: spot 492 assignment result: True
+DATE 2026-09-01: created Pending spot 493
+DATE 2026-09-01: spot 493 ASSIGNED to avail 9484
+DATE 2026-09-01: spot 493 assignment result: True
+DATE 2026-09-02: created Pending spot 494
+DATE 2026-09-02: spot 494 ASSIGNED to avail 9525
+DATE 2026-09-02: spot 494 assignment result: True
+DATE 2026-09-03: created Pending spot 495
+DATE 2026-09-03: spot 495 ASSIGNED to avail 9565
+DATE 2026-09-03: spot 495 assignment result: True
+DATE 2026-09-04: created Pending spot 496
+DATE 2026-09-04: spot 496 ASSIGNED to avail 9603
+DATE 2026-09-04: spot 496 assignment result: True
+DATE 2026-09-05: created Pending spot 497
+DATE 2026-09-05: spot 497 ASSIGNED to avail 9634
+DATE 2026-09-05: spot 497 assignment result: True
+DATE 2026-09-06: created Pending spot 498
+DATE 2026-09-06: spot 498 ASSIGNED to avail 9682
+DATE 2026-09-06: spot 498 assignment result: True
+DATE 2026-09-07: created Pending spot 499
+DATE 2026-09-07: spot 499 ASSIGNED to avail 9713
+DATE 2026-09-07: spot 499 assignment result: True
+DATE 2026-09-08: created Pending spot 500
+DATE 2026-09-08: spot 500 ASSIGNED to avail 9755
+DATE 2026-09-08: spot 500 assignment result: True
+DATE 2026-09-09: created Pending spot 501
+DATE 2026-09-09: spot 501 ASSIGNED to avail 9799
+DATE 2026-09-09: spot 501 assignment result: True
+DATE 2026-09-10: created Pending spot 502
+DATE 2026-09-10: spot 502 ASSIGNED to avail 9838
+DATE 2026-09-10: spot 502 assignment result: True
+DATE 2026-09-11: created Pending spot 503
+DATE 2026-09-11: spot 503 ASSIGNED to avail 9877
+DATE 2026-09-11: spot 503 assignment result: True
+DATE 2026-09-12: created Pending spot 504
+DATE 2026-09-12: spot 504 ASSIGNED to avail 9918
+DATE 2026-09-12: spot 504 assignment result: True
+DATE 2026-09-13: created Pending spot 505
+DATE 2026-09-13: spot 505 ASSIGNED to avail 9947
+DATE 2026-09-13: spot 505 assignment result: True
+DATE 2026-09-14: created Pending spot 506
+DATE 2026-09-14: spot 506 ASSIGNED to avail 9996
+DATE 2026-09-14: spot 506 assignment result: True
+DATE 2026-09-15: created Pending spot 507
+DATE 2026-09-15: spot 507 ASSIGNED to avail 10028
+DATE 2026-09-15: spot 507 assignment result: True
+DATE 2026-08-15: created Pending spot 508
+DATE 2026-08-15: spot 508 ASSIGNED to avail 8825
+DATE 2026-08-15: spot 508 assignment result: True
+DATE 2026-08-16: created Pending spot 509
+DATE 2026-08-16: spot 509 ASSIGNED to avail 8864
+DATE 2026-08-16: spot 509 assignment result: True
+DATE 2026-08-17: created Pending spot 510
+DATE 2026-08-17: spot 510 ASSIGNED to avail 8895
+DATE 2026-08-17: spot 510 assignment result: True
+DATE 2026-08-18: created Pending spot 511
+DATE 2026-08-18: spot 511 ASSIGNED to avail 8938
+DATE 2026-08-18: spot 511 assignment result: True
+DATE 2026-08-19: created Pending spot 512
+DATE 2026-08-19: spot 512 ASSIGNED to avail 8974
+DATE 2026-08-19: spot 512 assignment result: True
+DATE 2026-08-20: scheduling limit reached; date skipped
+DATE 2026-08-21: scheduling limit reached; date skipped
+DATE 2026-08-22: scheduling limit reached; date skipped
+DATE 2026-08-23: scheduling limit reached; date skipped
+DATE 2026-08-24: created Pending spot 513
+DATE 2026-08-24: spot 513 ASSIGNED to avail 9170
+DATE 2026-08-24: spot 513 assignment result: True
+DATE 2026-08-25: created Pending spot 514
+DATE 2026-08-25: spot 514 ASSIGNED to avail 9213
+DATE 2026-08-25: spot 514 assignment result: True
+DATE 2026-08-26: created Pending spot 515
+DATE 2026-08-26: spot 515 ASSIGNED to avail 9248
+DATE 2026-08-26: spot 515 assignment result: True
+DATE 2026-08-27: scheduling limit reached; date skipped
+DATE 2026-08-28: scheduling limit reached; date skipped
+DATE 2026-08-29: scheduling limit reached; date skipped
+DATE 2026-08-30: scheduling limit reached; date skipped
+DATE 2026-08-31: created Pending spot 516
+DATE 2026-08-31: spot 516 ASSIGNED to avail 9447
+DATE 2026-08-31: spot 516 assignment result: True
+DATE 2026-09-01: created Pending spot 517
+DATE 2026-09-01: spot 517 ASSIGNED to avail 9479
+DATE 2026-09-01: spot 517 assignment result: True
+DATE 2026-09-02: created Pending spot 518
+DATE 2026-09-02: spot 518 ASSIGNED to avail 9526
+DATE 2026-09-02: spot 518 assignment result: True
+DATE 2026-09-03: scheduling limit reached; date skipped
+DATE 2026-09-04: scheduling limit reached; date skipped
+DATE 2026-09-05: scheduling limit reached; date skipped
+DATE 2026-09-06: scheduling limit reached; date skipped
+DATE 2026-09-07: created Pending spot 519
+DATE 2026-09-07: spot 519 ASSIGNED to avail 9720
+DATE 2026-09-07: spot 519 assignment result: True
+DATE 2026-09-08: created Pending spot 520
+DATE 2026-09-08: spot 520 ASSIGNED to avail 9754
+DATE 2026-09-08: spot 520 assignment result: True
+DATE 2026-09-09: created Pending spot 521
+DATE 2026-09-09: spot 521 ASSIGNED to avail 9790
+DATE 2026-09-09: spot 521 assignment result: True
+DATE 2026-09-10: scheduling limit reached; date skipped
+DATE 2026-09-11: scheduling limit reached; date skipped
+DATE 2026-09-12: scheduling limit reached; date skipped
+DATE 2026-09-13: scheduling limit reached; date skipped
+DATE 2026-09-14: created Pending spot 522
+DATE 2026-09-14: spot 522 ASSIGNED to avail 9989
+DATE 2026-09-14: spot 522 assignment result: True
+DATE 2026-09-15: created Pending spot 523
+DATE 2026-09-15: spot 523 ASSIGNED to avail 10027
+DATE 2026-09-15: spot 523 assignment result: True
+DATE 2026-08-15: scheduling limit reached; date skipped
+DATE 2026-08-16: scheduling limit reached; date skipped
+DATE 2026-08-17: scheduling limit reached; date skipped
+DATE 2026-08-18: scheduling limit reached; date skipped
+DATE 2026-08-19: scheduling limit reached; date skipped
+DATE 2026-08-20: scheduling limit reached; date skipped
+DATE 2026-08-21: scheduling limit reached; date skipped
+DATE 2026-08-22: scheduling limit reached; date skipped
+DATE 2026-08-23: scheduling limit reached; date skipped
+DATE 2026-08-24: scheduling limit reached; date skipped
+DATE 2026-08-25: scheduling limit reached; date skipped
+DATE 2026-08-26: scheduling limit reached; date skipped
+DATE 2026-08-27: scheduling limit reached; date skipped
+DATE 2026-08-28: scheduling limit reached; date skipped
+DATE 2026-08-29: scheduling limit reached; date skipped
+DATE 2026-08-30: scheduling limit reached; date skipped
+DATE 2026-08-31: scheduling limit reached; date skipped
+DATE 2026-09-01: scheduling limit reached; date skipped
+DATE 2026-09-02: scheduling limit reached; date skipped
+DATE 2026-09-03: scheduling limit reached; date skipped
+DATE 2026-09-04: scheduling limit reached; date skipped
+DATE 2026-09-05: scheduling limit reached; date skipped
+DATE 2026-09-06: scheduling limit reached; date skipped
+DATE 2026-09-07: scheduling limit reached; date skipped
+DATE 2026-09-08: scheduling limit reached; date skipped
+DATE 2026-09-09: scheduling limit reached; date skipped
+DATE 2026-09-10: scheduling limit reached; date skipped
+DATE 2026-09-11: scheduling limit reached; date skipped
+DATE 2026-09-12: scheduling limit reached; date skipped
+DATE 2026-09-13: scheduling limit reached; date skipped
+DATE 2026-09-14: scheduling limit reached; date skipped
+DATE 2026-09-15: scheduling limit reached; date skipped
+Contract: 5
+Required quantity: 60
+Existing spots: 60
+Scheduled Spots: 48
+Pending Spots: 12
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 5
+============================================================
+Contract: 4
+Required quantity: 60
+Existing spots: 0
+Quantity to schedule: 60
+Eligible dates: 2026-08-15, 2026-08-16, 2026-08-17, 2026-08-18, 2026-08-19, 2026-08-20, 2026-08-21, 2026-08-22, 2026-08-23, 2026-08-24, 2026-08-25, 2026-08-26, 2026-08-27, 2026-08-28, 2026-08-29, 2026-08-30, 2026-08-31, 2026-09-01, 2026-09-02, 2026-09-03, 2026-09-04, 2026-09-05, 2026-09-06, 2026-09-07, 2026-09-08, 2026-09-09, 2026-09-10, 2026-09-11, 2026-09-12, 2026-09-13, 2026-09-14, 2026-09-15
+DATE 2026-08-15: created Pending spot 536
+DATE 2026-08-15: spot 536 ASSIGNED to avail 8815
+DATE 2026-08-15: spot 536 assignment result: True
+DATE 2026-08-16: created Pending spot 537
+DATE 2026-08-16: spot 537 avail 8854 FAILED separation rules
+DATE 2026-08-16: spot 537 assignment failed - all candidates rejected
+DATE 2026-08-16: spot 537 assignment result: False
+DATE 2026-08-17: created Pending spot 538
+DATE 2026-08-17: spot 538 avail 8893 FAILED separation rules
+DATE 2026-08-17: spot 538 assignment failed - all candidates rejected
+DATE 2026-08-17: spot 538 assignment result: False
+DATE 2026-08-18: created Pending spot 539
+DATE 2026-08-18: spot 539 avail 8932 FAILED separation rules
+DATE 2026-08-18: spot 539 assignment failed - all candidates rejected
+DATE 2026-08-18: spot 539 assignment result: False
+DATE 2026-08-19: created Pending spot 540
+DATE 2026-08-19: spot 540 avail 8971 FAILED separation rules
+DATE 2026-08-19: spot 540 assignment failed - all candidates rejected
+DATE 2026-08-19: spot 540 assignment result: False
+DATE 2026-08-20: created Pending spot 541
+DATE 2026-08-20: spot 541 ASSIGNED to avail 9010
+DATE 2026-08-20: spot 541 assignment result: True
+DATE 2026-08-21: created Pending spot 542
+DATE 2026-08-21: spot 542 ASSIGNED to avail 9049
+DATE 2026-08-21: spot 542 assignment result: True
+DATE 2026-08-22: created Pending spot 543
+DATE 2026-08-22: spot 543 ASSIGNED to avail 9088
+DATE 2026-08-22: spot 543 assignment result: True
+DATE 2026-08-23: created Pending spot 544
+DATE 2026-08-23: spot 544 ASSIGNED to avail 9127
+DATE 2026-08-23: spot 544 assignment result: True
+DATE 2026-08-24: created Pending spot 545
+DATE 2026-08-24: spot 545 ASSIGNED to avail 9166
+DATE 2026-08-24: spot 545 assignment result: True
+DATE 2026-08-25: created Pending spot 546
+DATE 2026-08-25: spot 546 ASSIGNED to avail 9205
+DATE 2026-08-25: spot 546 assignment result: True
+DATE 2026-08-26: created Pending spot 547
+DATE 2026-08-26: spot 547 avail 9244 FAILED separation rules
+DATE 2026-08-26: spot 547 assignment failed - all candidates rejected
+DATE 2026-08-26: spot 547 assignment result: False
+DATE 2026-08-27: created Pending spot 548
+DATE 2026-08-27: spot 548 avail 9283 FAILED separation rules
+DATE 2026-08-27: spot 548 assignment failed - all candidates rejected
+DATE 2026-08-27: spot 548 assignment result: False
+DATE 2026-08-28: created Pending spot 549
+DATE 2026-08-28: spot 549 ASSIGNED to avail 9322
+DATE 2026-08-28: spot 549 assignment result: True
+DATE 2026-08-29: created Pending spot 550
+DATE 2026-08-29: spot 550 ASSIGNED to avail 9361
+DATE 2026-08-29: spot 550 assignment result: True
+DATE 2026-08-30: created Pending spot 551
+DATE 2026-08-30: spot 551 ASSIGNED to avail 9400
+DATE 2026-08-30: spot 551 assignment result: True
+DATE 2026-08-31: created Pending spot 552
+DATE 2026-08-31: spot 552 ASSIGNED to avail 9439
+DATE 2026-08-31: spot 552 assignment result: True
+DATE 2026-09-01: created Pending spot 553
+DATE 2026-09-01: spot 553 avail 9478 FAILED separation rules
+DATE 2026-09-01: spot 553 assignment failed - all candidates rejected
+DATE 2026-09-01: spot 553 assignment result: False
+DATE 2026-09-02: created Pending spot 554
+DATE 2026-09-02: spot 554 ASSIGNED to avail 9517
+DATE 2026-09-02: spot 554 assignment result: True
+DATE 2026-09-03: created Pending spot 555
+DATE 2026-09-03: spot 555 ASSIGNED to avail 9556
+DATE 2026-09-03: spot 555 assignment result: True
+DATE 2026-09-04: created Pending spot 556
+DATE 2026-09-04: spot 556 ASSIGNED to avail 9595
+DATE 2026-09-04: spot 556 assignment result: True
+DATE 2026-09-05: created Pending spot 557
+DATE 2026-09-05: spot 557 avail 9634 FAILED separation rules
+DATE 2026-09-05: spot 557 assignment failed - all candidates rejected
+DATE 2026-09-05: spot 557 assignment result: False
+DATE 2026-09-06: created Pending spot 558
+DATE 2026-09-06: spot 558 ASSIGNED to avail 9673
+DATE 2026-09-06: spot 558 assignment result: True
+DATE 2026-09-07: created Pending spot 559
+DATE 2026-09-07: spot 559 avail 9712 FAILED separation rules
+DATE 2026-09-07: spot 559 assignment failed - all candidates rejected
+DATE 2026-09-07: spot 559 assignment result: False
+DATE 2026-09-08: created Pending spot 560
+DATE 2026-09-08: spot 560 ASSIGNED to avail 9751
+DATE 2026-09-08: spot 560 assignment result: True
+DATE 2026-09-09: created Pending spot 561
+DATE 2026-09-09: spot 561 avail 9790 FAILED separation rules
+DATE 2026-09-09: spot 561 assignment failed - all candidates rejected
+DATE 2026-09-09: spot 561 assignment result: False
+DATE 2026-09-10: created Pending spot 562
+DATE 2026-09-10: spot 562 ASSIGNED to avail 9829
+DATE 2026-09-10: spot 562 assignment result: True
+DATE 2026-09-11: created Pending spot 563
+DATE 2026-09-11: spot 563 ASSIGNED to avail 9868
+DATE 2026-09-11: spot 563 assignment result: True
+DATE 2026-09-12: created Pending spot 564
+DATE 2026-09-12: spot 564 ASSIGNED to avail 9907
+DATE 2026-09-12: spot 564 assignment result: True
+DATE 2026-09-13: created Pending spot 565
+DATE 2026-09-13: spot 565 avail 9946 FAILED separation rules
+DATE 2026-09-13: spot 565 assignment failed - all candidates rejected
+DATE 2026-09-13: spot 565 assignment result: False
+DATE 2026-09-14: created Pending spot 566
+DATE 2026-09-14: spot 566 ASSIGNED to avail 9985
+DATE 2026-09-14: spot 566 assignment result: True
+DATE 2026-09-15: created Pending spot 567
+DATE 2026-09-15: spot 567 ASSIGNED to avail 10024
+DATE 2026-09-15: spot 567 assignment result: True
+DATE 2026-08-15: created Pending spot 568
+DATE 2026-08-15: spot 568 avail 8815 FAILED separation rules
+DATE 2026-08-15: spot 568 assignment failed - all candidates rejected
+DATE 2026-08-15: spot 568 assignment result: False
+DATE 2026-08-16: created Pending spot 569
+DATE 2026-08-16: spot 569 avail 8854 FAILED separation rules
+DATE 2026-08-16: spot 569 assignment failed - all candidates rejected
+DATE 2026-08-16: spot 569 assignment result: False
+DATE 2026-08-17: created Pending spot 570
+DATE 2026-08-17: spot 570 avail 8893 FAILED separation rules
+DATE 2026-08-17: spot 570 assignment failed - all candidates rejected
+DATE 2026-08-17: spot 570 assignment result: False
+DATE 2026-08-18: created Pending spot 571
+DATE 2026-08-18: spot 571 avail 8932 FAILED separation rules
+DATE 2026-08-18: spot 571 assignment failed - all candidates rejected
+DATE 2026-08-18: spot 571 assignment result: False
+DATE 2026-08-19: created Pending spot 572
+DATE 2026-08-19: spot 572 avail 8971 FAILED separation rules
+DATE 2026-08-19: spot 572 assignment failed - all candidates rejected
+DATE 2026-08-19: spot 572 assignment result: False
+DATE 2026-08-20: created Pending spot 573
+DATE 2026-08-20: spot 573 avail 9010 FAILED separation rules
+DATE 2026-08-20: spot 573 assignment failed - all candidates rejected
+DATE 2026-08-20: spot 573 assignment result: False
+DATE 2026-08-21: created Pending spot 574
+DATE 2026-08-21: spot 574 avail 9049 FAILED separation rules
+DATE 2026-08-21: spot 574 assignment failed - all candidates rejected
+DATE 2026-08-21: spot 574 assignment result: False
+DATE 2026-08-22: created Pending spot 575
+DATE 2026-08-22: spot 575 avail 9088 FAILED separation rules
+DATE 2026-08-22: spot 575 assignment failed - all candidates rejected
+DATE 2026-08-22: spot 575 assignment result: False
+DATE 2026-08-23: created Pending spot 576
+DATE 2026-08-23: spot 576 avail 9127 FAILED separation rules
+DATE 2026-08-23: spot 576 assignment failed - all candidates rejected
+DATE 2026-08-23: spot 576 assignment result: False
+DATE 2026-08-24: created Pending spot 577
+DATE 2026-08-24: spot 577 avail 9166 FAILED separation rules
+DATE 2026-08-24: spot 577 assignment failed - all candidates rejected
+DATE 2026-08-24: spot 577 assignment result: False
+DATE 2026-08-25: created Pending spot 578
+DATE 2026-08-25: spot 578 avail 9205 FAILED separation rules
+DATE 2026-08-25: spot 578 assignment failed - all candidates rejected
+DATE 2026-08-25: spot 578 assignment result: False
+DATE 2026-08-26: created Pending spot 579
+DATE 2026-08-26: spot 579 avail 9244 FAILED separation rules
+DATE 2026-08-26: spot 579 assignment failed - all candidates rejected
+DATE 2026-08-26: spot 579 assignment result: False
+DATE 2026-08-27: created Pending spot 580
+DATE 2026-08-27: spot 580 avail 9283 FAILED separation rules
+DATE 2026-08-27: spot 580 assignment failed - all candidates rejected
+DATE 2026-08-27: spot 580 assignment result: False
+DATE 2026-08-28: created Pending spot 581
+DATE 2026-08-28: spot 581 avail 9322 FAILED separation rules
+DATE 2026-08-28: spot 581 assignment failed - all candidates rejected
+DATE 2026-08-28: spot 581 assignment result: False
+DATE 2026-08-29: created Pending spot 582
+DATE 2026-08-29: spot 582 avail 9361 FAILED separation rules
+DATE 2026-08-29: spot 582 assignment failed - all candidates rejected
+DATE 2026-08-29: spot 582 assignment result: False
+DATE 2026-08-30: created Pending spot 583
+DATE 2026-08-30: spot 583 avail 9400 FAILED separation rules
+DATE 2026-08-30: spot 583 assignment failed - all candidates rejected
+DATE 2026-08-30: spot 583 assignment result: False
+DATE 2026-08-31: created Pending spot 584
+DATE 2026-08-31: spot 584 avail 9439 FAILED separation rules
+DATE 2026-08-31: spot 584 assignment failed - all candidates rejected
+DATE 2026-08-31: spot 584 assignment result: False
+DATE 2026-09-01: created Pending spot 585
+DATE 2026-09-01: spot 585 avail 9478 FAILED separation rules
+DATE 2026-09-01: spot 585 assignment failed - all candidates rejected
+DATE 2026-09-01: spot 585 assignment result: False
+DATE 2026-09-02: created Pending spot 586
+DATE 2026-09-02: spot 586 avail 9517 FAILED separation rules
+DATE 2026-09-02: spot 586 assignment failed - all candidates rejected
+DATE 2026-09-02: spot 586 assignment result: False
+DATE 2026-09-03: created Pending spot 587
+DATE 2026-09-03: spot 587 avail 9556 FAILED separation rules
+DATE 2026-09-03: spot 587 assignment failed - all candidates rejected
+DATE 2026-09-03: spot 587 assignment result: False
+DATE 2026-09-04: created Pending spot 588
+DATE 2026-09-04: spot 588 avail 9595 FAILED separation rules
+DATE 2026-09-04: spot 588 assignment failed - all candidates rejected
+DATE 2026-09-04: spot 588 assignment result: False
+DATE 2026-09-05: created Pending spot 589
+DATE 2026-09-05: spot 589 avail 9634 FAILED separation rules
+DATE 2026-09-05: spot 589 assignment failed - all candidates rejected
+DATE 2026-09-05: spot 589 assignment result: False
+DATE 2026-09-06: created Pending spot 590
+DATE 2026-09-06: spot 590 avail 9673 FAILED separation rules
+DATE 2026-09-06: spot 590 assignment failed - all candidates rejected
+DATE 2026-09-06: spot 590 assignment result: False
+DATE 2026-09-07: created Pending spot 591
+DATE 2026-09-07: spot 591 avail 9712 FAILED separation rules
+DATE 2026-09-07: spot 591 assignment failed - all candidates rejected
+DATE 2026-09-07: spot 591 assignment result: False
+DATE 2026-09-08: created Pending spot 592
+DATE 2026-09-08: spot 592 avail 9751 FAILED separation rules
+DATE 2026-09-08: spot 592 assignment failed - all candidates rejected
+DATE 2026-09-08: spot 592 assignment result: False
+DATE 2026-09-09: created Pending spot 593
+DATE 2026-09-09: spot 593 avail 9790 FAILED separation rules
+DATE 2026-09-09: spot 593 assignment failed - all candidates rejected
+DATE 2026-09-09: spot 593 assignment result: False
+DATE 2026-09-10: created Pending spot 594
+DATE 2026-09-10: spot 594 avail 9829 FAILED separation rules
+DATE 2026-09-10: spot 594 assignment failed - all candidates rejected
+DATE 2026-09-10: spot 594 assignment result: False
+DATE 2026-09-11: created Pending spot 595
+DATE 2026-09-11: spot 595 avail 9868 FAILED separation rules
+DATE 2026-09-11: spot 595 assignment failed - all candidates rejected
+DATE 2026-09-11: spot 595 assignment result: False
+DATE 2026-09-12: created Pending spot 596
+DATE 2026-09-12: spot 596 avail 9907 FAILED separation rules
+DATE 2026-09-12: spot 596 assignment failed - all candidates rejected
+DATE 2026-09-12: spot 596 assignment result: False
+DATE 2026-09-13: created Pending spot 597
+DATE 2026-09-13: spot 597 avail 9946 FAILED separation rules
+DATE 2026-09-13: spot 597 assignment failed - all candidates rejected
+DATE 2026-09-13: spot 597 assignment result: False
+DATE 2026-09-14: created Pending spot 598
+DATE 2026-09-14: spot 598 avail 9985 FAILED separation rules
+DATE 2026-09-14: spot 598 assignment failed - all candidates rejected
+DATE 2026-09-14: spot 598 assignment result: False
+DATE 2026-09-15: created Pending spot 599
+DATE 2026-09-15: spot 599 avail 10024 FAILED separation rules
+DATE 2026-09-15: spot 599 assignment failed - all candidates rejected
+DATE 2026-09-15: spot 599 assignment result: False
+Contract: 4
+Required quantity: 60
+Existing spots: 64
+Scheduled Spots: 21
+Pending Spots: 43
+Quantity to schedule: -4
+
+============================================================
+SCHEDULING CONTRACT ITEM 1
+============================================================
+Contract: 1
+Required quantity: 4
+Existing spots: 4
+Quantity to schedule: 0
+
+============================================================
+SCHEDULING CONTRACT ITEM 3
+============================================================
+Contract: 2
+Required quantity: 5
+Existing spots: 5
+Quantity to schedule: 0
