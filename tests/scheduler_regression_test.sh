@@ -619,6 +619,7 @@ cursor.execute(
         s.id,
         s.air_date,
         s.air_time,
+        c.customer_id,
         c.category_id
     FROM spots s
     JOIN commercials c
@@ -646,6 +647,7 @@ for (
     spot_id,
     air_date,
     air_time,
+    customer_id,
     category_id
 ) in rows:
 
@@ -658,6 +660,7 @@ for (
         (
             spot_id,
             air_datetime,
+            customer_id,
             category_id
         )
     )
@@ -668,16 +671,32 @@ failed = False
 
 for i in range(len(spots)):
 
-    spot1_id, time1, category1_id = (
-        spots[i]
-    )
+    (
+        spot1_id,
+        time1,
+        customer1_id,
+        category1_id
+    ) = spots[i]
 
 
     for j in range(i + 1, len(spots)):
 
-        spot2_id, time2, category2_id = (
-            spots[j]
-        )
+        (
+            spot2_id,
+            time2,
+            customer2_id,
+            category2_id
+        ) = spots[j]
+
+
+        #
+        # Separation rules do not apply
+        # between spots for the same customer.
+        #
+
+        if customer1_id == customer2_id:
+
+            continue
 
 
         required_minutes = (
@@ -724,9 +743,8 @@ print("PASS")
 PY
 
 if [ $? -ne 0 ]; then
-exit 1
+    exit 1
 fi
-
 
 echo
 echo "========================================"
