@@ -178,9 +178,13 @@ def add_customer(data=None, company_name=None, telephone=None, email=None, categ
     if data_dict.get("country") is not None and data_dict.get("country_code") is None:
         data_dict["country_code"]=data_dict.pop("country")
 
+
+
     validation=validate_customer_data(data_dict, partial=False)
     if not validation["valid"]:
         return None, validation["errors"]
+
+
 
     company_name = _get_cleaned(validation, "company_name")
     addr1 = validation["cleaned"].get("address_line1")
@@ -193,8 +197,37 @@ def add_customer(data=None, company_name=None, telephone=None, email=None, categ
     em = validation["cleaned"].get("email")
     cat_id = validation["cleaned"].get("category_id")
 
-    connection=get_connection()
-    cursor=connection.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT id
+        FROM customers
+        WHERE company_name = ?
+        """,
+        (company_name,)
+    )
+
+    existing = cursor.fetchone()
+
+    if existing:
+        connection.close()
+        return None, [
+            f"Customer already exists: {company_name}"
+        ]
+
+
+
+
+
+
+
+
+
+
+
+
     now=current_timestamp()
     cursor.execute(
         """
