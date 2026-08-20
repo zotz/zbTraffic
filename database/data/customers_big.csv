@@ -1,4 +1,7 @@
 company_name,address_line1,address_line2,locality,administrative_area,postal_code,country_code,telephone,email,category
+zbT First Test Customer,,,,,,,242-555-8699,ron@zbT.com,
+zbT Second Test Customer,,,,,,,242-555-0000,second@2zbT.com,
+zbT Third Test Customer,,,,,,,242-555-0001,third@3zbT.com,
 zbT Thunderbay Motors,,,,,,BS,,,Automotive
 zbT WaveRider Auto Group,,,,,,BS,,,Automotive
 zbT Spiny Lobster Café,,,,,,BS,,,Restaurant
