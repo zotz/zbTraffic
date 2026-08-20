@@ -31,13 +31,14 @@ MODULES = [
 ("Traffic Days Table", "prototype.traffic_days_table"),
 (">>> MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui"),
 (">>> New MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui_new"),
+("Log Reconcile", "prototype.log_reconcile"),
 ]
 
 class Launcher:
     def __init__(self, root):
         self.root=root
         root.title("zbTraffic - Daily Operations v3 FIXED")
-        root.geometry("500x590")
+        root.geometry("500x610")
         ttk.Label(root,text="Throwaway zbTraffic - Daily Operations v3 - FIXED",font=("Arial",14,"bold")).pack(pady=10)
         ttk.Label(root,text="Filterable + H/V Scrollbars + Sortable\nLaunches as modules so 'traffic' always found",foreground="gray",justify="center").pack(pady=5)
         for label, mod in MODULES:
