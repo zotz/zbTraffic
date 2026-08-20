@@ -9,7 +9,9 @@ rm data/traffic.db
 python3 -m database.create_database
 python3 -m database.create_initial_records
 python3 -m database.seed_database
+# seed2_database creates 3 customers now
 python3 -m database.seed2_database --spot-status No
+# seed2big_database imports the extra csv customers
 python3 -m database.seed2big_database
 python3 -m database.seed_programs_database
 python3 -m database.seed_stopsets --date 2026-08-08
