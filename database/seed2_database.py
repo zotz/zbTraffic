@@ -43,34 +43,34 @@ def seed_customers():
     # zbT Test Customer
     #
 
-    company_name = "zbT First Test Customer"
-
-
-    customer_id = get_customer_id_by_company_name(
-        company_name
-    )
-
-
-    if customer_id is None:
-
-        customer_id, errors = add_customer(
-            company_name=company_name,
-            telephone="242-555-8699",
-            email="ron@zbT.com"
-        )
-
-
-        if customer_id is None:
-
-            raise RuntimeError(
-                "Unable to create "
-                + company_name
-                + ": "
-                + ", ".join(errors)
-            )
-
-
-    customers["zbt_test"] = customer_id
+#     company_name = "zbT First Test Customer"
+# 
+# 
+#     customer_id = get_customer_id_by_company_name(
+#         company_name
+#     )
+# 
+# 
+#     if customer_id is None:
+# 
+#         customer_id, errors = add_customer(
+#             company_name=company_name,
+#             telephone="242-555-8699",
+#             email="ron@zbT.com"
+#         )
+# 
+# 
+#         if customer_id is None:
+# 
+#             raise RuntimeError(
+#                 "Unable to create "
+#                 + company_name
+#                 + ": "
+#                 + ", ".join(errors)
+#             )
+# 
+# 
+#     customers["zbt_test"] = customer_id
 
 
 
@@ -81,67 +81,67 @@ def seed_customers():
     # you want to use for future testing.
     #
 
-    company_name = "zbT Second Test Customer"
-
-
-    customer_id = get_customer_id_by_company_name(
-        company_name
-    )
-
-
-    if customer_id is None:
-
-        customer_id, errors = add_customer(
-            company_name=company_name,
-            telephone="242-555-0000",
-            email="second@2zbT.com"
-        )
-
-
-        if customer_id is None:
-
-            raise RuntimeError(
-                "Unable to create "
-                + company_name
-                + ": "
-                + ", ".join(errors)
-            )
-
-
-    customers["zbt_second_test"] = customer_id
+#     company_name = "zbT Second Test Customer"
+# 
+# 
+#     customer_id = get_customer_id_by_company_name(
+#         company_name
+#     )
+# 
+# 
+#     if customer_id is None:
+# 
+#         customer_id, errors = add_customer(
+#             company_name=company_name,
+#             telephone="242-555-0000",
+#             email="second@2zbT.com"
+#         )
+# 
+# 
+#         if customer_id is None:
+# 
+#             raise RuntimeError(
+#                 "Unable to create "
+#                 + company_name
+#                 + ": "
+#                 + ", ".join(errors)
+#             )
+# 
+# 
+#     customers["zbt_second_test"] = customer_id
 
     #
     # Third test customer
     #
 
-    company_name = "zbT Third Test Customer"
-
-
-    customer_id = get_customer_id_by_company_name(
-        company_name
-    )
-
-
-    if customer_id is None:
-
-        customer_id, errors = add_customer(
-            company_name=company_name,
-            telephone="242-555-0001",
-            email="third@3zbT.com"
-        )
-
-
-        if customer_id is None:
-
-            raise RuntimeError(
-                "Unable to create "
-                + company_name
-                + ": "
-                + ", ".join(errors)
-            )
-
-
-    customers["zbt_third_test"] = customer_id
+#     company_name = "zbT Third Test Customer"
+# 
+# 
+#     customer_id = get_customer_id_by_company_name(
+#         company_name
+#     )
+# 
+# 
+#     if customer_id is None:
+# 
+#         customer_id, errors = add_customer(
+#             company_name=company_name,
+#             telephone="242-555-0001",
+#             email="third@3zbT.com"
+#         )
+# 
+# 
+#         if customer_id is None:
+# 
+#             raise RuntimeError(
+#                 "Unable to create "
+#                 + company_name
+#                 + ": "
+#                 + ", ".join(errors)
+#             )
+# 
+# 
+#     customers["zbt_third_test"] = customer_id
 
     return customers
 
@@ -260,28 +260,28 @@ def seed_commercials(
     # zbT C1 Fake 30 sec ad
     #
 
-    commercial_id, errors = add_commercial(
-        customer_id=customers["zbt_test"],
-        title="zbT C1 Fake 30 sec ad",
-        length_seconds=30,
-        filename="000002_000.wav",
-        cart_number="000002",
-        category_id=2
-    )
-
-
-    if commercial_id is None:
-
-        raise RuntimeError(
-            "Unable to create zbT C1 Fake 30 sec ad: "
-            + ", ".join(errors)
-        )
-
-
-    commercials["c1_fake_30"] = {
-        "id": commercial_id,
-        "length": 30
-    }
+#     commercial_id, errors = add_commercial(
+#         customer_id=customers["zbt_test"],
+#         title="zbT C1 Fake 30 sec ad",
+#         length_seconds=30,
+#         filename="000002_000.wav",
+#         cart_number="000002",
+#         category_id=2
+#     )
+# 
+# 
+#     if commercial_id is None:
+# 
+#         raise RuntimeError(
+#             "Unable to create zbT C1 Fake 30 sec ad: "
+#             + ", ".join(errors)
+#         )
+# 
+# 
+#     commercials["c1_fake_30"] = {
+#         "id": commercial_id,
+#         "length": 30
+#     }
 
 
 
@@ -289,28 +289,28 @@ def seed_commercials(
     # zbT C2 Fake 60 sec ad
     #
 
-    commercial_id, errors = add_commercial(
-        customer_id=customers["zbt_second_test"],
-        title="zbT C2 Fake 60 sec ad",
-        length_seconds=60,
-        filename="000003_000.wav",
-        cart_number="000003",
-        category_id=4
-    )
-
-
-    if commercial_id is None:
-
-        raise RuntimeError(
-            "Unable to create zbT C2 Fake 60 sec ad: "
-            + ", ".join(errors)
-        )
-
-
-    commercials["c2_fake_60"] = {
-        "id": commercial_id,
-        "length": 60
-    }
+#     commercial_id, errors = add_commercial(
+#         customer_id=customers["zbt_second_test"],
+#         title="zbT C2 Fake 60 sec ad",
+#         length_seconds=60,
+#         filename="000003_000.wav",
+#         cart_number="000003",
+#         category_id=4
+#     )
+# 
+# 
+#     if commercial_id is None:
+# 
+#         raise RuntimeError(
+#             "Unable to create zbT C2 Fake 60 sec ad: "
+#             + ", ".join(errors)
+#         )
+# 
+# 
+#     commercials["c2_fake_60"] = {
+#         "id": commercial_id,
+#         "length": 60
+#     }
 
 
 
@@ -318,28 +318,28 @@ def seed_commercials(
     # zbT C3 Retail Test 30 sec ad
     #
 
-    commercial_id, errors = add_commercial(
-        customer_id=customers["zbt_third_test"],
-        title="zbT C3 Retail Test 30 sec ad",
-        length_seconds=30,
-        filename="000004_000.wav",
-        cart_number="000004",
-        category_id=1
-    )
-
-
-    if commercial_id is None:
-
-        raise RuntimeError(
-            "Unable to create zbT C3 Retail Test 30 sec ad: "
-            + ", ".join(errors)
-        )
-
-
-    commercials["c3_retail_30"] = {
-        "id": commercial_id,
-        "length": 30
-    }
+#     commercial_id, errors = add_commercial(
+#         customer_id=customers["zbt_third_test"],
+#         title="zbT C3 Retail Test 30 sec ad",
+#         length_seconds=30,
+#         filename="000004_000.wav",
+#         cart_number="000004",
+#         category_id=1
+#     )
+# 
+# 
+#     if commercial_id is None:
+# 
+#         raise RuntimeError(
+#             "Unable to create zbT C3 Retail Test 30 sec ad: "
+#             + ", ".join(errors)
+#         )
+# 
+# 
+#     commercials["c3_retail_30"] = {
+#         "id": commercial_id,
+#         "length": 30
+#     }
 
 
 
@@ -714,17 +714,17 @@ def main():
         )
 
 
-    customers = seed_customers()
+    # customers = seed_customers()
 
 
-    seed_contacts(
-        customers
-    )
+    # seed_contacts(
+    #    customers
+    #)
 
 
-    commercials = seed_commercials(
-        customers
-    )
+    #commercials = seed_commercials(
+    #    customers
+    #)
 
     if args.spot_status == "Pending":
 
@@ -746,7 +746,7 @@ def main():
 
         spots = seed_no_spots(
             station_id,
-            commercials,
+            "commercials",
             seed_date,
             args.spot_status
         )
