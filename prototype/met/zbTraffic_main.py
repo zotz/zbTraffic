@@ -25,6 +25,7 @@ MODULES = [
 ("Traffic Board", "prototype.traffic_board"),
 ("Traffic Days", "prototype.traffic_days"),
 ("Traffic Days Table", "prototype.traffic_days_table"),
+("Database Browser", "gui.database_browser"),
 ]
 
 class Launcher:
