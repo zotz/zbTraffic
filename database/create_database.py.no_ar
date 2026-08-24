@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# File: database/create_database.py
+# File: database/create_database.py.no_ar
 
 import sqlite3
 import os
@@ -36,10 +36,6 @@ DATABASE_NAME = os.path.join(
 # 13. spots
 # 14. separation_rules
 # 15. users
-# 16. invoices
-# 17. invoice_items
-# 18. invoice_item_spots
-# 19. payments
 #
 
 def create_database():
@@ -285,14 +281,6 @@ def create_database():
 
         active INTEGER NOT NULL DEFAULT 1,
 
-        -- Payment timing for this contract:
-        -- POSTPAID
-        -- PREPAID
-        payment_timing TEXT NOT NULL DEFAULT 'POSTPAID',
-
-        -- Primarily used for POSTPAID contracts.
-        payment_terms_days INTEGER NOT NULL DEFAULT 30,
-
         created_date TEXT,
         modified_date TEXT,
 
@@ -307,9 +295,6 @@ def create_database():
 
         FOREIGN KEY(station_id)
             REFERENCES stations(id)
-
-        -- Payment timing is intentionally kept at the contract
-        -- level, rather than on the customer or invoice.
     )
     """,
 
@@ -322,26 +307,12 @@ def create_database():
         contract_id INTEGER NOT NULL,
 
         commercial_id INTEGER,
-
+        
         commercial_title TEXT NOT NULL DEFAULT '',
 
         description TEXT NOT NULL DEFAULT '',
 
         quantity INTEGER NOT NULL DEFAULT 0,
-
-        -- PER_SPOT:
-        --     unit_price is authoritative.
-        --     total_price is calculated.
-        --
-        -- TOTAL:
-        --     total_price is authoritative.
-        --     unit_price is calculated and may contain many
-        --     decimal places.
-        pricing_type TEXT NOT NULL DEFAULT 'PER_SPOT',
-
-        unit_price REAL,
-
-        total_price REAL,
 
         spot_length_seconds INTEGER NOT NULL DEFAULT 0,
 
@@ -365,23 +336,7 @@ def create_database():
 
 
         FOREIGN KEY(commercial_id)
-            REFERENCES commercials(id),
-
-        CHECK (
-            pricing_type IN ('PER_SPOT', 'TOTAL')
-        ),
-
-        CHECK (
-            quantity >= 0
-        ),
-
-        CHECK (
-            unit_price IS NULL OR unit_price >= 0
-        ),
-
-        CHECK (
-            total_price IS NULL OR total_price >= 0
-        )
+            REFERENCES commercials(id)
     )
     """,
 
@@ -438,7 +393,7 @@ def create_database():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
 
         station_id INTEGER NOT NULL,
-
+        
         stopset_id INTEGER,
 
         air_date TEXT NOT NULL,
@@ -491,14 +446,12 @@ def create_database():
         air_time TEXT,
 
 
-        -- Traffic lifecycle only:
+        -- Lifecycle:
         -- Pending
         -- Scheduled
         -- Exported
         -- Completed
         -- Cancelled
-        --
-        -- Billing state is deliberately NOT part of this field.
 
         status TEXT DEFAULT 'Pending',
 
@@ -522,11 +475,7 @@ def create_database():
 
 
         FOREIGN KEY(commercial_id)
-            REFERENCES commercials(id),
-
-
-        FOREIGN KEY(avail_id)
-            REFERENCES avails(id)
+            REFERENCES commercials(id)
     )
     """,
 
@@ -577,192 +526,6 @@ def create_database():
         created_date TEXT,
         modified_date TEXT
     )
-    """,
-
-
-    #
-    # Billing / A/R
-    #
-    # An invoice represents a customer charge. It may be created
-    # before any spots air (for PREPAID contracts), or later from
-    # completed spots (for POSTPAID contracts).
-    #
-    # Invoice status is deliberately separate from spot status.
-    #
-    # Draft
-    # Issued
-    # Void
-    #
-    # Paid / partially paid / overdue are derived from payments,
-    # invoice total and due date.
-    #
-
-    """
-    CREATE TABLE IF NOT EXISTS invoices (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-        customer_id INTEGER NOT NULL,
-
-        contract_id INTEGER,
-
-        invoice_number TEXT NOT NULL UNIQUE,
-
-        invoice_date TEXT NOT NULL,
-
-        due_date TEXT,
-
-        status TEXT NOT NULL DEFAULT 'Draft',
-
-        subtotal REAL NOT NULL DEFAULT 0,
-
-        tax REAL NOT NULL DEFAULT 0,
-
-        total REAL NOT NULL DEFAULT 0,
-
-        notes TEXT,
-
-        created_date TEXT,
-        modified_date TEXT,
-
-
-        FOREIGN KEY(customer_id)
-            REFERENCES customers(id),
-
-
-        FOREIGN KEY(contract_id)
-            REFERENCES contracts(id),
-
-        CHECK (
-            status IN ('Draft', 'Issued', 'Void')
-        ),
-
-        CHECK (subtotal >= 0),
-
-        CHECK (tax >= 0),
-
-        CHECK (total >= 0)
-    )
-    """,
-
-
-    """
-    CREATE TABLE IF NOT EXISTS invoice_items (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-        invoice_id INTEGER NOT NULL,
-
-        contract_item_id INTEGER,
-
-        description TEXT NOT NULL,
-
-        quantity REAL NOT NULL DEFAULT 1,
-
-        unit_price REAL,
-
-        amount REAL NOT NULL DEFAULT 0,
-
-        created_date TEXT,
-        modified_date TEXT,
-
-
-        FOREIGN KEY(invoice_id)
-            REFERENCES invoices(id),
-
-
-        FOREIGN KEY(contract_item_id)
-            REFERENCES contract_items(id),
-
-        CHECK (quantity >= 0),
-
-        CHECK (
-            unit_price IS NULL OR unit_price >= 0
-        ),
-
-        CHECK (amount >= 0)
-    )
-    """,
-
-
-    #
-    # Links actual completed spots to the invoice item that billed them.
-    #
-    # This is what prevents the same spot from being billed twice.
-    #
-    # active = 1:
-    #     This association is currently valid.
-    #
-    # active = 0:
-    #     Historical/reversed association, such as after voiding
-    #     an invoice.
-    #
-
-    """
-    CREATE TABLE IF NOT EXISTS invoice_item_spots (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-        invoice_item_id INTEGER NOT NULL,
-
-        spot_id INTEGER NOT NULL,
-
-        active INTEGER NOT NULL DEFAULT 1,
-
-        created_date TEXT,
-        modified_date TEXT,
-
-
-        FOREIGN KEY(invoice_item_id)
-            REFERENCES invoice_items(id),
-
-
-        FOREIGN KEY(spot_id)
-            REFERENCES spots(id),
-
-        CHECK (active IN (0, 1))
-    )
-    """,
-
-
-    #
-    # Payments
-    #
-    # invoice_id may be NULL for an unapplied customer payment/credit.
-    #
-
-    """
-    CREATE TABLE IF NOT EXISTS payments (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-        customer_id INTEGER NOT NULL,
-
-        invoice_id INTEGER,
-
-        payment_date TEXT NOT NULL,
-
-        amount REAL NOT NULL,
-
-        payment_method TEXT,
-
-        reference TEXT,
-
-        notes TEXT,
-
-        created_date TEXT,
-        modified_date TEXT,
-
-
-        FOREIGN KEY(customer_id)
-            REFERENCES customers(id),
-
-
-        FOREIGN KEY(invoice_id)
-            REFERENCES invoices(id),
-
-        CHECK (amount > 0)
-    )
     """
 
     ]
@@ -770,123 +533,6 @@ def create_database():
 
     for table in tables:
         cursor.execute(table)
-
-
-    #
-    # Indexes used by existing traffic operations and the new
-    # billing/A/R operations.
-    #
-
-    indexes = [
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_contract_items_contract
-        ON contract_items(contract_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_contract_item_rules_item
-        ON contract_item_rules(contract_item_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_avails_air_date
-        ON avails(air_date)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_spots_contract_item
-        ON spots(contract_item_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_spots_air_date
-        ON spots(air_date)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_spots_status
-        ON spots(status)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoices_customer
-        ON invoices(customer_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoices_contract
-        ON invoices(contract_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoices_due_date
-        ON invoices(due_date)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoice_items_invoice
-        ON invoice_items(invoice_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoice_items_contract_item
-        ON invoice_items(contract_item_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoice_item_spots_invoice_item
-        ON invoice_item_spots(invoice_item_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_invoice_item_spots_spot
-        ON invoice_item_spots(spot_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_payments_customer
-        ON payments(customer_id)
-        """,
-
-        """
-        CREATE INDEX IF NOT EXISTS
-        idx_payments_invoice
-        ON payments(invoice_id)
-        """,
-
-        #
-        # A spot may have only ONE active billing association.
-        #
-        # Historical inactive associations are allowed.
-        #
-
-        """
-        CREATE UNIQUE INDEX IF NOT EXISTS
-        ux_invoice_item_spots_active_spot
-        ON invoice_item_spots(spot_id)
-        WHERE active = 1
-        """
-    ]
-
-
-    for index in indexes:
-        cursor.execute(index)
-
 
     #insert_default_data(
     #    cursor
