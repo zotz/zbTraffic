@@ -1,6 +1,7 @@
-# File: traffic/scheduler.py
+# File: traffic/scheduler_001.py
 
-# refactored Aug 10 2026
+# As of 2026-08-20
+# before big changes to the outer loop of the scheduling
 
 import random
 
@@ -1268,13 +1269,6 @@ def schedule_contract_item_quantity(
                     )
 
                     scheduled = True
-
-                    date_index += 1
-
-                    if date_index >= len(
-                        eligible_dates
-                    ):
-                        date_index = 0
 
                     break
 
