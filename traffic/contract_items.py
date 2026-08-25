@@ -75,6 +75,9 @@ def add_contract_item(
     commercial_title="",
     description="",
     quantity=0,
+    pricing_type="PER_SPOT",
+    unit_price=None,
+    total_price=None,
     spot_length_seconds=None,
     start_date=None,
     end_date=None,
@@ -86,10 +89,70 @@ def add_contract_item(
     Add a contract item.
     """
 
+    #
+    # Validate pricing type
+    #
+
+    if pricing_type not in ("PER_SPOT", "TOTAL"):
+
+        raise ValueError(
+            "pricing_type must be PER_SPOT or TOTAL"
+        )
+
+
+    #
+    # Calculate pricing
+    #
+
+    if pricing_type == "PER_SPOT":
+
+        if unit_price is None:
+
+            raise ValueError(
+                "unit_price is required for PER_SPOT pricing"
+            )
+
+        if quantity < 0:
+
+            raise ValueError(
+                "quantity cannot be negative"
+            )
+
+        total_price = (
+            unit_price * quantity
+        )
+
+
+    else:
+
+        if total_price is None:
+
+            raise ValueError(
+                "total_price is required for TOTAL pricing"
+            )
+
+        if quantity <= 0:
+
+            raise ValueError(
+                "quantity must be greater than zero "
+                "for TOTAL pricing"
+            )
+
+        #
+        # Calculate unit price in cents.
+        #
+        # Round half up:
+        #
+        #     (numerator + denominator // 2) // denominator
+        #
+
+        unit_price = (
+            total_price + quantity // 2
+        ) // quantity
 
     validate_contract_item(
         contract_id,
-        commercial_id=None
+        commercial_id
     )
 
 
@@ -98,38 +161,33 @@ def add_contract_item(
 
 
     #
-    # If spot length was not supplied,
-    # try to copy it from the commercial
+    # If a commercial is supplied,
+    # always copy its title and spot length.
     #
 
-    if spot_length_seconds is None:
+    if commercial_id is not None:
 
-        if commercial_id is not None:
-
-            cursor.execute(
-                """
-                SELECT
-                    length_seconds,
-                    title
-                FROM commercials
-                WHERE id = ?
-                """,
-                (
-                    commercial_id,
-                )
+        cursor.execute(
+            """
+            SELECT
+                length_seconds,
+                title
+            FROM commercials
+            WHERE id = ?
+            """,
+            (
+                commercial_id,
             )
+        )
 
-            commercial = cursor.fetchone()
+        commercial = cursor.fetchone()
 
 
-            if commercial is not None:
+        if commercial is not None:
 
-                spot_length_seconds = commercial["length_seconds"]
-                
-                if commercial_title == "":
-                
-                    commercial_title = commercial["title"]
+            spot_length_seconds = commercial["length_seconds"]
 
+            commercial_title = commercial["title"]
 
 
     #
@@ -143,7 +201,6 @@ def add_contract_item(
         raise ValueError(
             "Spot length is required for a contract item"
         )
-
 
 
     timestamp = current_timestamp()
@@ -162,6 +219,12 @@ def add_contract_item(
             description,
 
             quantity,
+
+            pricing_type,
+
+            unit_price,
+
+            total_price,
 
             spot_length_seconds,
 
@@ -187,6 +250,8 @@ def add_contract_item(
             ?, ?, ?,
 
             ?, ?,
+            
+            ?, ?, ?,
 
             ?,
 
@@ -215,6 +280,12 @@ def add_contract_item(
             description,
 
             quantity,
+
+            pricing_type,
+
+            unit_price,
+
+            total_price,
 
             spot_length_seconds,
 

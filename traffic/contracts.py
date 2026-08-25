@@ -89,7 +89,9 @@ def add_contract(
     start_date=None,
     end_date=None,
     status="Draft",
-    notes=""
+    notes="",
+    payment_timing="POSTPAID",
+    payment_terms_days=30
 ):
     """
     Add a new contract.
@@ -127,6 +129,9 @@ def add_contract(
 
             notes,
 
+            payment_timing,
+            payment_terms_days,
+
             active,
 
             created_date,
@@ -145,6 +150,8 @@ def add_contract(
             ?,
 
             ?,
+            
+            ?, ?,
 
             1,
 
@@ -166,6 +173,9 @@ def add_contract(
             status,
 
             notes,
+
+            payment_timing,
+            payment_terms_days,
 
             timestamp,
             timestamp
