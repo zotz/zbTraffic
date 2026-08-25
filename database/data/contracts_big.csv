@@ -1,17 +1,17 @@
-customer,salesperson,station,contract_number,description,start_date,end_date,status,notes,active
-zbT Thunderbay Motors,House,Default Station,TBM-2026-001,Thunderbay Motors August Campaign,2026-08-15,2026-09-15,Active,
-zbT WaveRider Auto Group,House,Default Station,WRA-2026-001,WaveRider Auto Group August Campaign,2026-08-15,2026-09-15,Active,
-zbT Spiny Lobster Café,House,Default Station,SLC-2026-001,Spiny Lobster Café August Campaign,2026-08-15,2026-09-15,Active,
-zbT Mango Moon Grill,House,Default Station,MMG-2026-001,Mango Moon Grill August Campaign,2026-08-15,2026-09-15,Active,
-zbT Seashell Emporium,House,Default Station,SEE-2026-001,Seashell Emporium August Campaign,2026-08-15,2026-09-15,Active,
-zbT Tradewind Outfitters,House,Default Station,TWO-2026-001,Tradewind Outfitters August Campaign,2026-08-15,2026-09-15,Active,
-zbT Coral Cay Realty,House,Default Station,CCR-2026-001,Coral Cay Realty August Campaign,2026-08-15,2026-09-15,Active,
-zbT Horizon Point Properties,House,Default Station,HPP-2026-001,Horizon Point Properties August Campaign,2026-08-15,2026-09-15,Active,
-zbT Sovereign Isle Bank,House,Default Station,SIB-2026-001,Sovereign Isle Bank August Campaign,2026-08-15,2026-09-15,Active,
-zbT Brightsmile Dental,House,Default Station,BSD-2026-001,Brightsmile Dental August Campaign,2026-08-15,2026-09-15,Active,
-zbT Anchor Law Group,House,Default Station,ALG-2026-001,Anchor Law Group August Campaign,2026-08-15,2026-09-15,Active,
-zbT Azure Cove Resort,House,Default Station,ACR-2026-001,Azure Cove Resort August Campaign,2026-08-15,2026-09-15,Active,
-zbT TropicLink Communications,House,Default Station,TLC-2026-001,TropicLink Communications August Campaign,2026-08-15,2026-09-15,Active,
-zbT Island Basket Market,House,Default Station,IBM-2026-001,Island Basket Market August Campaign,2026-08-15,2026-09-15,Active,
-zbT Shield & Sail Insurance,House,Default Station,SSI-2026-001,Shield & Sail Insurance August Campaign,2026-08-15,2026-09-15,Active,
-zbT Zephyr Life,House,Default Station,ZZL-2026-001,Zephyr Life August Campaign,2026-08-15,2026-09-15,Active,this is a note,
+customer,salesperson,station,contract_number,description,start_date,end_date,status,notes,active,payment_timing,payment_terms_days
+zbT Thunderbay Motors,House,Default Station,TBM-2026-001,Thunderbay Motors August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT WaveRider Auto Group,House,Default Station,WRA-2026-001,WaveRider Auto Group August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Spiny Lobster Café,House,Default Station,SLC-2026-001,Spiny Lobster Café August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Mango Moon Grill,House,Default Station,MMG-2026-001,Mango Moon Grill August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Seashell Emporium,House,Default Station,SEE-2026-001,Seashell Emporium August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Tradewind Outfitters,House,Default Station,TWO-2026-001,Tradewind Outfitters August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Coral Cay Realty,House,Default Station,CCR-2026-001,Coral Cay Realty August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Horizon Point Properties,House,Default Station,HPP-2026-001,Horizon Point Properties August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Sovereign Isle Bank,House,Default Station,SIB-2026-001,Sovereign Isle Bank August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Brightsmile Dental,House,Default Station,BSD-2026-001,Brightsmile Dental August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Anchor Law Group,House,Default Station,ALG-2026-001,Anchor Law Group August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Azure Cove Resort,House,Default Station,ACR-2026-001,Azure Cove Resort August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT TropicLink Communications,House,Default Station,TLC-2026-001,TropicLink Communications August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Island Basket Market,House,Default Station,IBM-2026-001,Island Basket Market August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Shield & Sail Insurance,House,Default Station,SSI-2026-001,Shield & Sail Insurance August Campaign,2026-08-15,2026-09-15,Active,this note,,POSTPAID,30
+zbT Zephyr Life,House,Default Station,ZZL-2026-001,Zephyr Life August Campaign,2026-08-15,2026-09-15,Active,this is a note,,POSTPAID,30

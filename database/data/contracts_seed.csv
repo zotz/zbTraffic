@@ -1,0 +1,4 @@
+customer,salesperson,station,contract_number,description,start_date,end_date,status,notes,active,payment_timing,payment_terms_days
+zbT First Test Customer,House,Default Station,"2026-001",Summer Boat Campaign,2026-08-08,2026-08-31,Active,Customer prefers morning drive,,POSTPAID,30
+zbT Second Test Customer,House,Default Station,"12345",Customer 2 summer,2026-08-08,2026-09-30,Active,Customer prefers Midday,,POSTPAID,30
+zbT Third Test Customer,House,Default Station,FX123,Customer 3 summer,2026-08-08,2026-09-30,Active,Customer prefers Afternoon,,POSTPAID,30
