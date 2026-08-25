@@ -26,10 +26,10 @@ if PROJECT_ROOT not in sys.path:
 from traffic.database import get_connection
 
 
-CONTRACT_NUMBER = "ZZL-2026-01"
+CONTRACT_NUMBER = "ZZL-2026-001"
 COMMERCIAL_TITLE = "zbT Zephyr Life 30"
 
-EXPECTED_QUANTITY = 35
+EXPECTED_QUANTITY = 15
 
 
 passed = 0
