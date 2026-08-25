@@ -23,8 +23,74 @@
 # invoice total and due date and belong in traffic/ar.py.
 #
 
+from decimal import Decimal, ROUND_HALF_UP
 from traffic.database import get_connection
 from traffic.utilities import current_timestamp
+
+
+def calculate_amount(quantity, unit_price):
+    """
+    Calculate an invoice amount in integer cents.
+
+    quantity may be fractional.
+    unit_price is integer cents.
+    """
+
+    if quantity is None or unit_price is None:
+        return 0
+
+    return int(
+        (
+            Decimal(str(quantity))
+            * Decimal(unit_price)
+        ).quantize(
+            Decimal("1"),
+            rounding=ROUND_HALF_UP
+        )
+    )
+
+
+
+def get_billed_totals_for_contract_item(contract_item_id):
+    """
+    Return the number of actively billed spots and the amount
+    already billed for a contract item.
+
+    Returns:
+        (spot_count, amount) where amount is integer cents.
+    """
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            COALESCE(SUM(spot_count), 0),
+            COALESCE(SUM(amount), 0)
+        FROM (
+            SELECT
+                iis.invoice_item_id,
+                COUNT(iis.id) AS spot_count,
+                ii.amount AS amount
+            FROM invoice_item_spots iis
+            JOIN invoice_items ii
+                ON ii.id = iis.invoice_item_id
+            WHERE ii.contract_item_id = ?
+              AND iis.active = 1
+            GROUP BY iis.invoice_item_id
+        )
+        """,
+        (contract_item_id,)
+    )
+
+    row = cursor.fetchone()
+
+    conn.close()
+
+    return row[0], row[1]
+
+
 
 #
 # Invoice operations
@@ -268,7 +334,12 @@ def add_invoice_item(invoice_id,
     """
 
     if amount == 0 and unit_price is not None:
-        amount = quantity * unit_price
+        #amount = quantity * unit_price
+        amount = calculate_amount(
+            quantity,
+            unit_price
+        )
+
 
     conn = get_connection()
     cursor = conn.cursor()
@@ -396,6 +467,19 @@ def update_invoice_item(invoice_item_id,
     conn = get_connection()
     cursor = conn.cursor()
 
+    #
+    # If no fields were supplied, this is a no-op.
+    #
+    if (
+        description is None
+        and quantity is None
+        and unit_price is None
+        and amount is None
+        and contract_item_id is None
+    ):
+        conn.close()
+        return False
+
     cursor.execute(
         """
         SELECT
@@ -422,8 +506,21 @@ def update_invoice_item(invoice_item_id,
     if unit_price is not None:
         new_unit_price = unit_price
 
-    if amount is None and new_unit_price is not None:
-        amount = new_quantity * new_unit_price
+    #
+    # If the caller did not explicitly supply an amount, but changed
+    # quantity and/or unit price, calculate the new amount.
+    #
+    if (
+        amount is None
+        and (quantity is not None or unit_price is not None)
+        and new_quantity is not None
+        and new_unit_price is not None
+    ):
+        #amount = new_quantity * new_unit_price
+        amount = calculate_amount(
+            new_quantity,
+            new_unit_price
+        )
 
     fields = []
     params = []
@@ -473,7 +570,6 @@ def update_invoice_item(invoice_item_id,
 
     return changed
 
-
 #
 # Invoice totals
 #
@@ -483,11 +579,13 @@ def recalculate_invoice_totals(invoice_id, tax=0):
     """
     Recalculate an invoice subtotal and total from its items.
 
+    All monetary values are integer cents.
+
     Tax is supplied by the caller because tax rules have not yet
     been implemented.
 
     Returns:
-        (subtotal, tax, total)
+        (subtotal, tax, total) in integer cents.
     """
 
     conn = get_connection()
@@ -771,7 +869,11 @@ def create_postpaid_invoice(customer_id,
             id,
             description,
             commercial_title,
-            spot_length_seconds
+            spot_length_seconds,
+            quantity,
+            pricing_type,
+            unit_price,
+            total_price
         FROM contract_items
         WHERE contract_id = ?
           AND active = 1
@@ -821,13 +923,72 @@ def create_postpaid_invoice(customer_id,
         if not description:
             description = "Advertising spots"
 
+        if contract_item["pricing_type"] == "PER_SPOT":
+
+            unit_price = contract_item["unit_price"]
+
+            amount = calculate_amount(
+                len(spots),
+                unit_price
+            )
+
+
+        else:
+            #
+            # TOTAL pricing:
+            #
+            # total_price is authoritative.  We prorate the contract
+            # total based on the number of completed spots.
+            #
+
+            if contract_item["quantity"] <= 0:
+
+                raise ValueError(
+                    "Contract item quantity must be greater than zero "
+                    "for TOTAL pricing"
+                )
+
+            previously_billed_spots, previously_billed_amount = (
+                get_billed_totals_for_contract_item(
+                    contract_item["id"]
+                )
+            )
+
+            new_spot_count = len(spots)
+
+            cumulative_spot_count = (
+                previously_billed_spots + new_spot_count
+            )
+
+            if cumulative_spot_count > contract_item["quantity"]:
+
+                raise ValueError(
+                    "Completed spots exceed contract item quantity"
+                )
+
+            cumulative_amount = int(
+                (
+                    Decimal(contract_item["total_price"])
+                    * Decimal(cumulative_spot_count)
+                    / Decimal(contract_item["quantity"])
+                ).quantize(
+                    Decimal("1"),
+                    rounding=ROUND_HALF_UP
+                )
+            )
+
+            amount = cumulative_amount - previously_billed_amount
+
+            unit_price = None
+
+
         invoice_item_id = add_invoice_item(
             invoice_id=invoice_id,
             contract_item_id=contract_item["id"],
             description=description,
             quantity=len(spots),
-            unit_price=None,
-            amount=0
+            unit_price=unit_price,
+            amount=amount
         )
 
         attach_spots_to_invoice_item(
