@@ -144,6 +144,10 @@ def import_contract_items_csv(
                 "commercial",
                 "description",
                 "quantity",
+                "pricing_type",
+                "unit_price",
+                "total_price",
+                "spot_length_seconds",
                 "start_date",
                 "end_date",
                 "priority",
@@ -206,10 +210,7 @@ def import_contract_items_csv(
                             "Contract number is empty"
                         )
 
-                    if not commercial_title:
-                        raise ValueError(
-                            "Commercial title is empty"
-                        )
+
 
                     #
                     # Quantity
@@ -233,6 +234,108 @@ def import_contract_items_csv(
                         raise ValueError(
                             "Quantity cannot be negative"
                         )
+
+                    #
+                    # Pricing type
+                    #
+
+                    pricing_type = (
+                        row["pricing_type"].strip()
+                        or "PER_SPOT"
+                    )
+
+                    if pricing_type not in (
+                        "PER_SPOT",
+                        "TOTAL"
+                    ):
+
+                        raise ValueError(
+                            f"Invalid pricing_type "
+                            f"'{pricing_type}'"
+                        )
+
+                    #
+                    # Prices
+                    #
+                    # Prices are stored in the CSV as integer cents.
+                    #
+
+                    try:
+
+                        unit_price = int(
+                            row["unit_price"].strip()
+                        )
+
+                    except ValueError:
+
+                        raise ValueError(
+                            f"Invalid unit_price "
+                            f"'{row['unit_price']}'"
+                        )
+
+
+                    try:
+
+                        total_price = int(
+                            row["total_price"].strip()
+                        )
+
+                    except ValueError:
+
+                        raise ValueError(
+                            f"Invalid total_price "
+                            f"'{row['total_price']}'"
+                        )
+
+
+                    if unit_price < 0:
+
+                        raise ValueError(
+                            "Unit price cannot be negative"
+                        )
+
+
+                    if total_price < 0:
+
+                        raise ValueError(
+                            "Total price cannot be negative"
+                        )
+
+
+                    #
+                    # Spot length
+                    #
+
+                    spot_length_text = (
+                        row["spot_length_seconds"].strip()
+                    )
+
+                    if spot_length_text:
+
+                        try:
+
+                            spot_length_seconds = int(
+                                spot_length_text
+                            )
+
+                        except ValueError:
+
+                            raise ValueError(
+                                f"Invalid spot length "
+                                f"'{row['spot_length_seconds']}'"
+                            )
+
+                        if spot_length_seconds <= 0:
+
+                            raise ValueError(
+                                "Spot length must be "
+                                "greater than zero"
+                            )
+
+                    else:
+
+                        spot_length_seconds = None
+
 
                     #
                     # Priority
@@ -308,21 +411,27 @@ def import_contract_items_csv(
                     # Find commercial
                     #
 
-                    commercial_id = find_commercial(
-                        cursor,
-                        customer_id,
-                        commercial_title
-                    )
+                    if commercial_title:
 
-                    if commercial_id is None:
-
-                        raise ValueError(
-                            f"Commercial "
-                            f"'{commercial_title}' "
-                            f"for customer "
-                            f"'{company_name}' "
-                            f"does not exist"
+                        commercial_id = find_commercial(
+                            cursor,
+                            customer_id,
+                            commercial_title
                         )
+
+                        if commercial_id is None:
+
+                            raise ValueError(
+                                f"Commercial "
+                                f"'{commercial_title}' "
+                                f"for customer "
+                                f"'{company_name}' "
+                                f"does not exist"
+                            )
+
+                    else:
+
+                        commercial_id = None
 
                     #
                     # Add contract item
@@ -333,6 +442,10 @@ def import_contract_items_csv(
                         commercial_id=commercial_id,
                         description=description,
                         quantity=quantity,
+                        pricing_type=pricing_type,
+                        unit_price=unit_price,
+                        total_price=total_price,
+                        spot_length_seconds=spot_length_seconds,
                         start_date=start_date,
                         end_date=end_date,
                         priority=priority,

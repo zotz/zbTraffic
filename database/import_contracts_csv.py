@@ -115,6 +115,8 @@ def import_contracts_csv(filename):
                 "end_date",
                 "status",
                 "notes",
+                "payment_timing",
+                "payment_terms_days",
             ]
 
             if reader.fieldnames is None:
@@ -172,6 +174,21 @@ def import_contracts_csv(filename):
                     row["notes"].strip()
                 )
 
+                payment_timing = row["payment_timing"].strip()
+                try:
+                    payment_terms_days = int(
+                        row["payment_terms_days"].strip()
+                    )
+                except ValueError:
+                    raise ValueError(
+                        f"Row {row_number}: "
+                        "payment_terms_days must be an integer"
+                    )
+
+
+
+
+
                 if not customer:
 
                     raise ValueError(
@@ -224,7 +241,9 @@ def import_contracts_csv(filename):
                     start_date,
                     end_date,
                     status,
-                    notes
+                    notes,
+                    payment_timing=payment_timing,
+                    payment_terms_days=payment_terms_days,
                 )
 
                 count += 1

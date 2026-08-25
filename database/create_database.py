@@ -339,9 +339,16 @@ def create_database():
         --     decimal places.
         pricing_type TEXT NOT NULL DEFAULT 'PER_SPOT',
 
-        unit_price REAL,
+        -- Prices are stored as integer cents.
+        -- For PER_SPOT, unit_price is authoritative.
+        -- For TOTAL, total_price is authoritative and
+        -- unit_price is calculated.
 
-        total_price REAL,
+        unit_price INTEGER,
+
+        total_price INTEGER,
+
+
 
         spot_length_seconds INTEGER NOT NULL DEFAULT 0,
 
