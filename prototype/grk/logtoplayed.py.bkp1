@@ -1,0 +1,139 @@
+#!/usr/bin/env python3
+"""
+Convert a fixed-width traffic log into a fixed-width as-played style report
+with realistic timing variance (for test data generation).
+
+Usage:
+    python3 convert.py input.log output.txt
+    python3 logtoplayed.py input.log output.txt
+"""
+
+import sys
+import random
+from datetime import datetime, timedelta
+
+# ---------- Fixed-width positions (0-based) ----------
+# Input
+IN_CART_START, IN_CART_LEN = 3, 6
+IN_TITLE_START, IN_TITLE_LEN = 12, 25
+IN_DUR_MIN_START = 37          # 2 chars
+IN_DUR_SEC_START = 39          # 2 chars
+IN_HH_START = 53               # 2 chars
+IN_MM_START = 56
+IN_SS_START = 59
+
+# Output (total line length 109)
+OUT_LINE_LEN = 109
+OUT_TITLE_START = 42
+OUT_TITLE_WIDTH = OUT_LINE_LEN - OUT_TITLE_START   # 67
+
+def parse_time(hh: str, mm: str, ss: str) -> datetime:
+    """Parse HH MM SS into a datetime (date is dummy)."""
+    return datetime(2000, 1, 1, int(hh), int(mm), int(ss))
+
+def format_time(dt: datetime) -> str:
+    return dt.strftime("%H:%M:%S")
+
+def format_planned_duration(total_seconds: int) -> str:
+    """H:MM:SS (no leading zero on hours)."""
+    h = total_seconds // 3600
+    m = (total_seconds % 3600) // 60
+    s = total_seconds % 60
+    return f"{h}:{m:02d}:{s:02d}"
+
+def format_actual_duration(total_seconds: int) -> str:
+    """HH:MM:SS."""
+    h = total_seconds // 3600
+    m = (total_seconds % 3600) // 60
+    s = total_seconds % 60
+    return f"{h:02d}:{m:02d}:{s:02d}"
+
+def random_start_offset() -> int:
+    """
+    Seconds offset for actual airtime.
+    - Very rare early (up to 2 min)
+    - Most spots 0–5 min late
+    - Some 5–13 min late
+    - Probability decreases with larger delay
+    """
+    r = random.random()
+    if r < 0.025:                          # ~2.5 % early
+        return -random.randint(1, 120)
+    else:
+        # Exponential-ish favouring smaller positive delays
+        # mean roughly 2–3 minutes, hard-capped at 13 min
+        delay = int(random.expovariate(1 / 150))
+        return min(delay, 780)
+
+def random_actual_duration(planned: int) -> int:
+    """Usually exact, occasionally ±1 or ±2 seconds."""
+    r = random.random()
+    if r < 0.70:
+        return planned
+    elif r < 0.85:
+        delta = random.choice([-1, 1])
+    else:
+        delta = random.choice([-2, 2])
+    return max(1, planned + delta)          # never zero or negative
+
+def convert_line(line: str) -> str | None:
+    line = line.rstrip("\n")
+    if len(line) < 61:                      # minimum useful length
+        return None
+
+    try:
+        cart = line[IN_CART_START:IN_CART_START + IN_CART_LEN]
+        title = line[IN_TITLE_START:IN_TITLE_START + IN_TITLE_LEN].rstrip()
+        dur_mm = line[IN_DUR_MIN_START:IN_DUR_MIN_START + 2]
+        dur_ss = line[IN_DUR_SEC_START:IN_DUR_SEC_START + 2]
+        hh = line[IN_HH_START:IN_HH_START + 2]
+        mm = line[IN_MM_START:IN_MM_START + 2]
+        ss = line[IN_SS_START:IN_SS_START + 2]
+
+        planned_secs = int(dur_mm) * 60 + int(dur_ss)
+        requested = parse_time(hh, mm, ss)
+
+        offset = random_start_offset()
+        actual_start = requested + timedelta(seconds=offset)
+
+        actual_secs = random_actual_duration(planned_secs)
+
+        # Build fixed-width output line
+        parts = [
+            format_time(requested),                     # 0-7
+            " ",
+            format_time(actual_start),                  # 9-16
+            " ",
+            f"{format_planned_duration(planned_secs):<7}",  # 18-24
+            " ",
+            format_actual_duration(actual_secs),        # 26-33
+            " ",
+            cart,                                       # 35-40
+            " ",
+            f"{title:<{OUT_TITLE_WIDTH}}",              # 42-end
+        ]
+        out = "".join(parts)
+        return out[:OUT_LINE_LEN].ljust(OUT_LINE_LEN)
+
+    except (ValueError, IndexError):
+        return None
+
+def main():
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} input.log output.txt", file=sys.stderr)
+        sys.exit(1)
+
+    infile, outfile = sys.argv[1], sys.argv[2]
+
+    with open(infile, "r", encoding="utf-8", errors="replace") as fin, \
+         open(outfile, "w", encoding="utf-8") as fout:
+
+        for line in fin:
+            converted = convert_line(line)
+            if converted:
+                fout.write(converted + "\n")
+
+    print(f"Converted → {outfile}")
+
+if __name__ == "__main__":
+    main()

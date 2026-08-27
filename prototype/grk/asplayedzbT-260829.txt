@@ -1,0 +1,19 @@
+06:15:00 06:16:56 0:01:00 00:01:00 000006 zbT WaveRider Auto Group                                           
+08:30:00 08:31:15 0:00:30 00:00:30 000005 zbT Thunderbay Motors 30                                           
+08:45:00 08:45:40 0:00:30 00:00:31 000015 zbT Anchor Law Group 30                                            
+08:45:00 08:47:40 0:00:30 00:00:30 000013 zbT Sovereign Isle Bank 3                                          
+08:45:00 08:46:48 0:00:30 00:00:30 000011 zbT Coral Cay Realty 30                                            
+10:15:00 10:15:05 0:01:00 00:01:01 000010 zbT Tradewind Outfitters                                           
+10:15:00 10:15:54 0:00:30 00:00:30 000007 zbT Spiny Lobster Café 30                                          
+10:45:00 10:45:25 0:01:00 00:01:00 000014 zbT Brightsmile Dental 60                                          
+10:45:00 10:45:19 0:01:00 00:00:59 000012 zbT Horizon Point Propert                                          
+11:15:00 11:17:02 0:01:00 00:01:02 000018 zbT Island Basket Market                                           
+11:15:00 11:15:15 0:01:00 00:01:00 000008 zbT Mango Moon Grill 60                                            
+11:45:00 11:45:02 0:00:30 00:00:30 000002 zbT C1 Fake 30 sec ad                                              
+11:45:00 11:46:29 0:01:00 00:01:01 000003 zbT C2 Fake 60 sec ad                                              
+12:45:00 12:45:44 0:01:00 00:00:59 000016 zbT Azure Cove Resort 60                                           
+12:45:00 12:45:25 0:00:30 00:00:30 000009 zbT Seashell Emporium 30                                           
+12:45:00 12:46:10 0:00:30 00:00:31 000007 zbT Spiny Lobster Café 30                                          
+15:45:00 15:47:48 0:00:30 00:00:30 000020 zbT Zephyr Life 30                                                 
+15:45:00 15:45:45 0:00:30 00:00:30 000017 zbT TropicLink Communicat                                          
+17:30:00 17:31:17 0:00:30 00:00:30 000019 zbT Shield & Sail Insuran                                          
