@@ -98,8 +98,8 @@ def get_billed_totals_for_contract_item(contract_item_id):
 
 
 def create_invoice(customer_id,
-                   invoice_number,
-                   invoice_date,
+                   invoice_number=None,
+                   invoice_date=None,
                    due_date=None,
                    contract_id=None,
                    status="Draft",
