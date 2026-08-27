@@ -834,16 +834,6 @@ class BillingBoard(tk.Tk):
 
         ttk.Button(
             item_buttons,
-            text="Mark Exported Completed",
-            command=self.mark_all_exported_completed
-        ).pack(
-            side="left",
-            padx=6
-        )
-
-
-        ttk.Button(
-            item_buttons,
             text="Create Postpaid Invoice",
             command=self.create_postpaid
         ).pack(
@@ -1067,11 +1057,6 @@ class BillingBoard(tk.Tk):
         )
 
 
-        self.spot_tree.bind(
-            "<Double-1>",
-            self.spot_double_click
-        )
-
 
         spot_buttons = ttk.Frame(
             spots_frame
@@ -1092,34 +1077,6 @@ class BillingBoard(tk.Tk):
         )
 
 
-        ttk.Button(
-            spot_buttons,
-            text="Mark Selected Completed",
-            command=self.mark_selected_completed
-        ).pack(
-            side="left",
-            padx=6
-        )
-
-
-        ttk.Button(
-            spot_buttons,
-            text="Mark All Exported Completed",
-            command=self.mark_all_exported_completed
-        ).pack(
-            side="left"
-        )
-
-
-        ttk.Label(
-            spots_frame,
-            text=(
-                "Double-click an Exported spot to mark it Completed."
-            )
-        ).pack(
-            anchor="w",
-            pady=(6, 0)
-        )
 
 
         #
@@ -1402,8 +1359,8 @@ class BillingBoard(tk.Tk):
 
 
         self.invoice_item_tree.pack(
-            fill="both",
-            expand=True,
+            fill="x",
+            expand=False,
             pady=(8, 6)
         )
 
@@ -1668,6 +1625,15 @@ class BillingBoard(tk.Tk):
         self.contract_items = fetch_contract_items(
             self.selected_contract_id
         )
+        
+        #
+        # Automatically select the first contract item.
+        #
+        if self.contract_items:
+
+            self.selected_contract_item_id = (
+                self.contract_items[0]["id"]
+            )
 
 
         for row in self.contract_items:
@@ -1715,6 +1681,26 @@ class BillingBoard(tk.Tk):
                     unbilled,
                 )
             )
+
+        if self.contract_items:
+
+            first_item_id = str(
+                self.contract_items[0]["id"]
+            )
+
+            self.item_tree.selection_set(
+                first_item_id
+            )
+
+            self.item_tree.focus(
+                first_item_id
+            )
+
+            self.item_tree.see(
+                first_item_id
+            )
+
+            self.load_contract_item_spots()
 
 
         self.status_var.set(
@@ -2138,276 +2124,6 @@ class BillingBoard(tk.Tk):
         )
 
 
-    def spot_double_click(
-        self,
-        event=None
-    ):
-
-        item = self.spot_tree.identify_row(
-            event.y
-        )
-
-
-        if not item:
-
-            return
-
-
-        spot_id = int(item)
-
-
-        values = self.spot_tree.item(
-            item,
-            "values"
-        )
-
-
-        if not values:
-
-            return
-
-
-        status = values[5]
-
-
-        if status != "Exported":
-
-            messagebox.showinfo(
-                "Complete Spot",
-                "Only Exported spots can be marked Completed."
-            )
-
-            return
-
-
-        confirmed = messagebox.askyesno(
-            "Complete Spot",
-            f"Mark spot {spot_id} as Completed?"
-        )
-
-
-        if not confirmed:
-
-            return
-
-
-        try:
-
-            changed = mark_spots_completed(
-                [spot_id]
-            )
-
-
-        except Exception as exc:
-
-            messagebox.showerror(
-                "Complete Spot",
-                str(exc)
-            )
-
-            return
-
-
-        if changed:
-
-            self.load_contract_item_spots()
-
-            self.load_contract_items()
-
-            self.status_var.set(
-                f"Spot {spot_id} marked Completed."
-            )
-
-        else:
-
-            messagebox.showwarning(
-                "Complete Spot",
-                "The spot was not changed. "
-                "Its status may no longer be Exported."
-            )
-
-
-    def mark_selected_completed(self):
-
-        selected = (
-            self.spot_tree.selection()
-        )
-
-
-        if not selected:
-
-            messagebox.showinfo(
-                "Complete Spots",
-                "Select one or more Exported spots first."
-            )
-
-            return
-
-
-        spot_ids = []
-
-
-        for iid in selected:
-
-            values = self.spot_tree.item(
-                iid,
-                "values"
-            )
-
-
-            if not values:
-
-                continue
-
-
-            spot_id = int(
-                values[0]
-            )
-
-
-            status = values[5]
-
-
-            if status == "Exported":
-
-                spot_ids.append(
-                    spot_id
-                )
-
-
-        if not spot_ids:
-
-            messagebox.showinfo(
-                "Complete Spots",
-                "None of the selected spots are Exported."
-            )
-
-            return
-
-
-        confirmed = messagebox.askyesno(
-            "Complete Spots",
-            (
-                f"Mark {len(spot_ids)} selected "
-                f"Exported spot(s) as Completed?"
-            )
-        )
-
-
-        if not confirmed:
-
-            return
-
-
-        try:
-
-            changed = mark_spots_completed(
-                spot_ids
-            )
-
-
-        except Exception as exc:
-
-            messagebox.showerror(
-                "Complete Spots",
-                str(exc)
-            )
-
-            return
-
-
-        self.load_contract_item_spots()
-
-        self.load_contract_items()
-
-
-        self.status_var.set(
-            f"Marked {changed} spot(s) Completed."
-        )
-
-
-    def mark_all_exported_completed(self):
-
-        if self.selected_contract_item_id is None:
-
-            messagebox.showinfo(
-                "Complete Spots",
-                "Select a contract item first."
-            )
-
-            return
-
-
-        spots = fetch_contract_item_spots(
-            self.selected_contract_item_id
-        )
-
-
-        spot_ids = [
-
-            spot["id"]
-
-            for spot in spots
-
-            if spot["status"] == "Exported"
-        ]
-
-
-        if not spot_ids:
-
-            messagebox.showinfo(
-                "Complete Spots",
-                (
-                    "There are no Exported spots "
-                    "for this contract item."
-                )
-            )
-
-            return
-
-
-        confirmed = messagebox.askyesno(
-            "Complete Spots",
-            (
-                f"Mark all {len(spot_ids)} Exported "
-                f"spot(s) for contract item "
-                f"{self.selected_contract_item_id} "
-                f"as Completed?"
-            )
-        )
-
-
-        if not confirmed:
-
-            return
-
-
-        try:
-
-            changed = mark_spots_completed(
-                spot_ids
-            )
-
-
-        except Exception as exc:
-
-            messagebox.showerror(
-                "Complete Spots",
-                str(exc)
-            )
-
-            return
-
-
-        self.load_contract_item_spots()
-
-        self.load_contract_items()
-
-
-        self.status_var.set(
-            f"Marked {changed} spot(s) Completed."
-        )
-
 
     # ------------------------------------------------------------------
     # Invoice operations
@@ -2436,16 +2152,6 @@ class BillingBoard(tk.Tk):
             "New Draft Invoice",
             [
                 (
-                    "Invoice number",
-                    ""
-                ),
-
-                (
-                    "Invoice date",
-                    str(date.today())
-                ),
-
-                (
                     "Due date",
                     ""
                 ),
@@ -2463,20 +2169,6 @@ class BillingBoard(tk.Tk):
             return
 
 
-        invoice_number = (
-            dialog.result[0].strip()
-        )
-
-
-        if not invoice_number:
-
-            messagebox.showerror(
-                "Invoice",
-                "Invoice number is required."
-            )
-
-            return
-
 
         try:
 
@@ -2485,16 +2177,12 @@ class BillingBoard(tk.Tk):
                     self.selected_customer_id
                 ),
 
-                invoice_number=(
-                    invoice_number
-                ),
+                invoice_number=None,
 
-                invoice_date=(
-                    dialog.result[1].strip()
-                ),
+                invoice_date=None,
 
                 due_date=(
-                    dialog.result[2].strip()
+                    dialog.result[0].strip()
                     or None
                 ),
 
@@ -2505,7 +2193,7 @@ class BillingBoard(tk.Tk):
                 status="Draft",
 
                 notes=(
-                    dialog.result[3].strip()
+                    dialog.result[1].strip()
                     or None
                 ),
             )
@@ -2628,20 +2316,13 @@ class BillingBoard(tk.Tk):
 
 
         self.invoice_info.set(
-            f"Invoice "
-            f"{invoice['invoice_number']}    "
-            f"Status: "
-            f"{invoice['status']}\n"
-            f"Date: "
-            f"{invoice['invoice_date']}    "
-            f"Due: "
-            f"{invoice['due_date'] or '-'}\n"
-            f"Subtotal: "
-            f"{money(invoice['subtotal'])}    "
-            f"Tax: "
-            f"{money(invoice['tax'])}    "
-            f"Total: "
-            f"{money(invoice['total'])}"
+            f"Invoice {invoice['invoice_number'] or '(Draft)'}    "
+            f"Status: {invoice['status']}    "
+            f"Date: {invoice['invoice_date'] or '-'}    "
+            f"Due: {invoice['due_date'] or '-'}    "
+            f"Subtotal: {money(invoice['subtotal'])}    "
+            f"Tax: {money(invoice['tax'])}    "
+            f"Total: {money(invoice['total'])}"
         )
 
 
@@ -2749,10 +2430,12 @@ class BillingBoard(tk.Tk):
             return
 
 
+        invoice_id = self.selected_invoice_id
+
         self.load_invoices()
 
         self.select_invoice(
-            self.selected_invoice_id
+            invoice_id
         )
 
 
@@ -2799,6 +2482,7 @@ class BillingBoard(tk.Tk):
 
             return
 
+        invoice_id = self.selected_invoice_id
 
         selected_contract_item = None
 
@@ -2958,7 +2642,7 @@ class BillingBoard(tk.Tk):
         self.load_invoices()
 
         self.select_invoice(
-            self.selected_invoice_id
+            invoice_id
         )
 
 
@@ -2978,6 +2662,7 @@ class BillingBoard(tk.Tk):
 
             return
 
+        invoice_id = self.selected_invoice_id
 
         item = get_invoice_item(
             self.selected_invoice_item_id
@@ -3103,7 +2788,7 @@ class BillingBoard(tk.Tk):
         self.load_invoices()
 
         self.select_invoice(
-            self.selected_invoice_id
+            invoice_id
         )
 
 
