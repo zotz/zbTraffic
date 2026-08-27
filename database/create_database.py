@@ -621,11 +621,11 @@ def create_database():
 
         status TEXT NOT NULL DEFAULT 'Draft',
 
-        subtotal REAL NOT NULL DEFAULT 0,
+        subtotal INTEGER NOT NULL DEFAULT 0,
 
-        tax REAL NOT NULL DEFAULT 0,
+        tax INTEGER NOT NULL DEFAULT 0,
 
-        total REAL NOT NULL DEFAULT 0,
+        total INTEGER NOT NULL DEFAULT 0,
 
         notes TEXT,
 
@@ -666,9 +666,9 @@ def create_database():
 
         quantity REAL NOT NULL DEFAULT 1,
 
-        unit_price REAL,
+        unit_price INTEGER,
 
-        amount REAL NOT NULL DEFAULT 0,
+        amount INTEGER NOT NULL DEFAULT 0,
 
         created_date TEXT,
         modified_date TEXT,
