@@ -168,6 +168,8 @@ def create_database():
         email TEXT,
 
         category_id INTEGER,
+        
+        tax_status TEXT NOT NULL DEFAULT 'TAXABLE',
 
         active INTEGER DEFAULT 1,
 
@@ -175,7 +177,11 @@ def create_database():
         modified_date TEXT,
 
         FOREIGN KEY(category_id)
-            REFERENCES categories(id)
+            REFERENCES categories(id),
+            
+        CHECK (
+            tax_status IN ('TAXABLE', 'EXEMPT')
+        )
     )
     """,
 
@@ -604,6 +610,22 @@ def create_database():
     # invoice total and due date.
     #
 
+
+    """
+    CREATE TABLE IF NOT EXISTS invoice_sequences (
+
+        year INTEGER PRIMARY KEY,
+
+        last_number INTEGER NOT NULL DEFAULT 0,
+
+        CHECK (year >= 2000),
+
+        CHECK (last_number >= 0)
+    )
+    """,
+
+
+
     """
     CREATE TABLE IF NOT EXISTS invoices (
 
@@ -613,15 +635,17 @@ def create_database():
 
         contract_id INTEGER,
 
-        invoice_number TEXT NOT NULL UNIQUE,
+        invoice_number TEXT UNIQUE,
 
-        invoice_date TEXT NOT NULL,
+        invoice_date TEXT,
 
         due_date TEXT,
 
         status TEXT NOT NULL DEFAULT 'Draft',
 
         subtotal INTEGER NOT NULL DEFAULT 0,
+        
+        taxable_subtotal INTEGER NOT NULL DEFAULT 0,
 
         tax INTEGER NOT NULL DEFAULT 0,
 
@@ -645,6 +669,8 @@ def create_database():
         ),
 
         CHECK (subtotal >= 0),
+        
+        CHECK (taxable_subtotal >= 0),
 
         CHECK (tax >= 0),
 
@@ -663,8 +689,18 @@ def create_database():
         contract_item_id INTEGER,
 
         description TEXT NOT NULL,
+        
+        taxable INTEGER NOT NULL DEFAULT 1,
 
         quantity REAL NOT NULL DEFAULT 1,
+        
+        -- Tax rate stored in basis points:
+        --     0    = 0%
+        --     500  = 5%
+        --     750  = 7.5%
+        --     1500 = 15%
+        
+        tax_rate INTEGER NOT NULL DEFAULT 0,
 
         unit_price INTEGER,
 
@@ -680,8 +716,12 @@ def create_database():
 
         FOREIGN KEY(contract_item_id)
             REFERENCES contract_items(id),
+            
+        CHECK (taxable IN (0, 1)),
 
         CHECK (quantity >= 0),
+        
+        CHECK (tax_rate >= 0),
 
         CHECK (
             unit_price IS NULL OR unit_price >= 0
@@ -748,8 +788,9 @@ def create_database():
         invoice_id INTEGER,
 
         payment_date TEXT NOT NULL,
-
-        amount REAL NOT NULL,
+        
+        -- Amount stored as integer cents.
+        amount INTEGER NOT NULL,
 
         payment_method TEXT,
 
