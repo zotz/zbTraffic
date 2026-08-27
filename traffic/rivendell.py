@@ -111,7 +111,7 @@ def format_rivendell_spot(
         line,
         CART_NUMBER_START,
         CART_NUMBER_END,
-        spot["cart_number"]
+        spot["cart_number"].zfill(6)
     )
 
     put_field(
