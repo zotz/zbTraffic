@@ -1,0 +1,17 @@
+06:15:00 06:15:35 0:00:30 00:00:30 000005 zbT Thunderbay Motors 30                                           
+09:15:00 09:16:11 0:01:00 00:01:00 000006 zbT WaveRider Auto Group                                           
+09:45:00 09:46:47 0:00:30 00:00:31 000015 zbT Anchor Law Group 30                                            
+09:45:00 09:46:57 0:00:30 00:00:32 000013 zbT Sovereign Isle Bank 3                                          
+09:45:00 09:47:39 0:00:30 00:00:28 000011 zbT Coral Cay Realty 30                                            
+10:15:00 10:23:43 0:00:30 00:00:31 000009 zbT Seashell Emporium 30                                           
+11:30:00 11:37:22 0:01:00 00:01:01 000014 zbT Brightsmile Dental 60                                          
+11:30:00 11:31:02 0:01:00 00:01:00 000012 zbT Horizon Point Propert                                          
+11:30:00 11:34:04 0:00:30 00:00:30 000007 zbT Spiny Lobster Café 30                                          
+13:15:00 13:17:50 0:01:00 00:01:01 000010 zbT Tradewind Outfitters                                           
+13:15:00 13:18:00 0:00:30 00:00:30 000007 zbT Spiny Lobster Café 30                                          
+13:30:00 13:30:00 0:01:00 00:01:00 000016 zbT Azure Cove Resort 60                                           
+14:15:00 14:15:25 0:01:00 00:01:00 000018 zbT Island Basket Market                                           
+14:15:00 14:16:55 0:01:00 00:01:00 000008 zbT Mango Moon Grill 60                                            
+16:30:00 16:33:44 0:00:30 00:00:30 000017 zbT TropicLink Communicat                                          
+16:45:00 16:45:23 0:00:30 00:00:30 000020 zbT Zephyr Life 30                                                 
+18:15:00 18:15:53 0:00:30 00:00:32 000019 zbT Shield & Sail Insuran                                          
