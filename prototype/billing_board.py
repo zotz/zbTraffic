@@ -47,6 +47,7 @@ from traffic.database import get_connection
 from traffic.billing import (
     create_invoice,
     get_invoice,
+    update_invoice,
     list_invoices,
     add_invoice_item,
     get_invoice_item,
@@ -508,7 +509,7 @@ class BillingBoard(tk.Tk):
         )
 
         self.geometry(
-            "1450x900"
+            "1450x1000"
         )
 
         self.minsize(
@@ -834,7 +835,7 @@ class BillingBoard(tk.Tk):
 
         ttk.Button(
             item_buttons,
-            text="Create Postpaid Invoice",
+            text="Invoice Completed Spots",
             command=self.create_postpaid
         ).pack(
             side="left",
@@ -1241,13 +1242,7 @@ class BillingBoard(tk.Tk):
         )
 
 
-        ttk.Button(
-            invoice_buttons,
-            text="New Draft Invoice",
-            command=self.new_invoice
-        ).pack(
-            side="left"
-        )
+
 
 
         ttk.Button(
@@ -1379,33 +1374,41 @@ class BillingBoard(tk.Tk):
             fill="x"
         )
 
-
         ttk.Button(
             detail_buttons,
-            text="Add Manual Item",
-            command=self.add_manual_item
+            text="Edit Invoice",
+            command=self.edit_invoice
         ).pack(
             side="left"
         )
 
+# commented out by dR Aug 28/2026
+#         ttk.Button(
+#             detail_buttons,
+#             text="Add Manual Item",
+#             command=self.add_manual_item
+#         ).pack(
+#             side="left"
+#         )
 
-        ttk.Button(
-            detail_buttons,
-            text="Edit Selected Item",
-            command=self.edit_invoice_item
-        ).pack(
-            side="left",
-            padx=6
-        )
+# commented out by dR Aug 28/2026
+#         ttk.Button(
+#             detail_buttons,
+#             text="Edit Selected Item",
+#             command=self.edit_invoice_item
+#         ).pack(
+#             side="left",
+#             padx=6
+#         )
 
-
-        ttk.Button(
-            detail_buttons,
-            text="Recalculate",
-            command=self.recalculate_selected_invoice
-        ).pack(
-            side="left"
-        )
+# commented out by dR Aug 28/2026
+#         ttk.Button(
+#             detail_buttons,
+#             text="Recalculate",
+#             command=self.recalculate_selected_invoice
+#         ).pack(
+#             side="left"
+#         )
 
 
         ttk.Button(
@@ -1591,17 +1594,17 @@ class BillingBoard(tk.Tk):
 
 
         self.contract_info_var.set(
-            f"Customer: {customer_name}\n"
             f"Contract: "
-            f"{contract['contract_number'] or '(no number)'}\n"
+            f"{contract['contract_number'] or '(no number)'}    "
             f"Description: "
-            f"{contract['description'] or ''}\n"
-            f"Status: {contract['status']}    "
+            f"{contract['description'] or ''}    "
             f"Flight: "
             f"{contract['start_date'] or '-'} "
             f"through "
             f"{contract['end_date'] or '-'}"
         )
+
+
 
 
     def load_contract_items(self):
@@ -2404,15 +2407,6 @@ class BillingBoard(tk.Tk):
 
         try:
 
-            tax = cents_from_text(
-                dialog.result[0]
-            )
-
-
-            if tax is None:
-
-                tax = 0
-
 
             recalculate_invoice_totals(
                 self.selected_invoice_id,
@@ -2648,6 +2642,97 @@ class BillingBoard(tk.Tk):
 
         self.status_var.set(
             f"Invoice item {item_id} created."
+        )
+
+    def edit_invoice(self):
+
+        if self.selected_invoice_id is None:
+
+            messagebox.showinfo(
+                "Invoice",
+                "Select an invoice first."
+            )
+
+            return
+
+
+        invoice = get_invoice(
+            self.selected_invoice_id
+        )
+
+
+        if invoice is None:
+
+            messagebox.showerror(
+                "Invoice",
+                "Invoice not found."
+            )
+
+            return
+
+
+        if invoice["status"] != "Draft":
+
+            messagebox.showinfo(
+                "Invoice",
+                "Only Draft invoices can be edited."
+            )
+
+            return
+
+
+        dialog = SimpleDialog(
+            self,
+            "Edit Invoice",
+            [
+                (
+                    "Notes",
+                    invoice["notes"] or ""
+                ),
+            ]
+        )
+
+
+        if dialog.result is None:
+
+            return
+
+
+        notes = (
+            dialog.result[0].strip()
+            or None
+        )
+
+
+        try:
+
+            update_invoice(
+                self.selected_invoice_id,
+                notes=notes
+            )
+
+
+        except Exception as exc:
+
+            messagebox.showerror(
+                "Edit Invoice",
+                str(exc)
+            )
+
+            return
+
+
+        invoice_id = self.selected_invoice_id
+
+        self.load_invoices()
+
+        self.select_invoice(
+            invoice_id
+        )
+
+
+        self.status_var.set(
+            "Invoice updated."
         )
 
 
@@ -3026,69 +3111,25 @@ class BillingBoard(tk.Tk):
 
             return
 
-
-        dialog = SimpleDialog(
-            self,
-            "Create Postpaid Invoice",
-            [
-                (
-                    "Invoice number",
-                    ""
-                ),
-
-                (
-                    "Invoice date",
-                    str(date.today())
-                ),
-
-                (
-                    "Due date",
-                    ""
-                ),
-
-                (
-                    "Tax in dollars",
-                    "0.00"
-                ),
-
-                (
-                    "Notes",
-                    ""
-                ),
-            ]
-        )
-
-
-        if dialog.result is None:
-
-            return
-
-
-        invoice_number = (
-            dialog.result[0].strip()
-        )
-
-
-        if not invoice_number:
-
-            messagebox.showerror(
-                "Postpaid Invoice",
-                "Invoice number is required."
-            )
-
-            return
+# commented out by dR Aug 28/2026
+#         dialog = SimpleDialog(
+#             self,
+#             "Invoice Completed Spots",
+#             [
+#                 (
+#                     "Notes",
+#                     ""
+#                 ),
+#             ]
+#         )
+# 
+# 
+#         if dialog.result is None:
+# 
+#             return
 
 
         try:
-
-            tax = cents_from_text(
-                dialog.result[3]
-            )
-
-
-            if tax is None:
-
-                tax = 0
 
 
             invoice_id = create_postpaid_invoice(
@@ -3101,27 +3142,10 @@ class BillingBoard(tk.Tk):
                     self.selected_contract_id
                 ),
 
-                invoice_number=(
-                    invoice_number
-                ),
+                invoice_date=str(date.today()),
 
-                invoice_date=(
-                    dialog.result[1].strip()
-                ),
-
-                due_date=(
-                    dialog.result[2].strip()
-                    or None
-                ),
-
-                notes=(
-                    dialog.result[4].strip()
-                    or None
-                ),
-
-                tax=tax,
+                notes=None,
             )
-
 
             if invoice_id is None:
 
