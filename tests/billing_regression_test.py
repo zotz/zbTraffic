@@ -1023,11 +1023,8 @@ def main():
         postpaid_invoice_id = create_postpaid_invoice(
             customer_id=customer_id,
             contract_id=contract_id,
-            invoice_number="ZZTEST-POSTPAID-001",
             invoice_date="2026-08-25",
-            due_date="2026-09-24",
             notes="ZZTEST postpaid invoice",
-            tax=1500,
         )
 
         if postpaid_invoice_id is not None:
@@ -1061,6 +1058,31 @@ def main():
             )
         )
 
+
+        test(
+            "Postpaid invoice has correct invoice date",
+            postpaid_invoice is not None
+            and postpaid_invoice["invoice_date"] == "2026-08-25",
+            (
+                f"invoice_date="
+                f"{postpaid_invoice['invoice_date'] if postpaid_invoice else None}"
+            )
+        )
+
+
+        test(
+            "Postpaid invoice has correct due date",
+            postpaid_invoice is not None
+            and postpaid_invoice["due_date"] == "2026-09-24",
+            (
+                f"due_date="
+                f"{postpaid_invoice['due_date'] if postpaid_invoice else None}"
+            )
+        )
+
+
+
+
         test(
             "Postpaid invoice has correct customer",
             postpaid_invoice is not None
@@ -1084,7 +1106,7 @@ def main():
         test(
             "Postpaid invoice tax is correct",
             postpaid_invoice is not None
-            and postpaid_invoice["tax"] == 1500,
+            and postpaid_invoice["tax"] == 0,
             (
                 f"tax="
                 f"{postpaid_invoice['tax'] if postpaid_invoice else None}"
@@ -1186,11 +1208,8 @@ def main():
         second_postpaid_invoice_id = create_postpaid_invoice(
             customer_id=customer_id,
             contract_id=contract_id,
-            invoice_number="ZZTEST-POSTPAID-002",
             invoice_date="2026-08-25",
-            due_date="2026-09-24",
             notes="Should not be created",
-            tax=0,
         )
 
         test(
