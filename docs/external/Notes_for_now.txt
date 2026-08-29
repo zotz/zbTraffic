@@ -1,0 +1,255 @@
+Notes for now:
+
+1. Invoice number generation
+
+I like this format 2026-000000, 2026-000001, etc.
+
+2. Tax rate 
+
+For example:
+
+tax_rates
+-----------
+id
+name
+rate
+active
+effective_date
+expiration_date
+
+* will this go in a new table?
+* is this possibility of multiple tax rates too much for now?
+
+Then an invoice can record:
+
+tax_rate_id
+tax_rate
+tax_amount
+
+The rate itself should be copied onto the invoice when the invoice is created.
+So the invoice should retain the historical rate used to calculate it.
+
+Agree if we make the tax rate table/ allow multiple tax rates.
+
+3. Taxability of invoice items
+
+* I think I don't personally need this at this time, but I think it will be a common need for other users so yes.
+
+4. Customer tax status
+
+tax_exempt
+tax_exemption_number
+
+This may need another table and get complicated.
+
+customer_id
+tax_rate_id
+
+where a customer can have multiple entries in this new table as they may be subject to city sales tax and state sales tax, etc.
+
+5. Invoice date and due date should be system-generated
+
+6. Invoice status needs a proper lifecycle
+
+mostly agree. we can discuss one more time when we go to implement.
+
+10. Rounding rules
+
+we have this in traffic/billing.py and I think we should settle on this if we can. Perhaps it belongs in traffic/utilities?
+
+def calculate_amount(quantity, unit_price):
+    """
+    Calculate an invoice amount in integer cents.
+
+    quantity may be fractional.
+    unit_price is integer cents.
+    """
+
+    if quantity is None or unit_price is None:
+        return 0
+
+    return int(
+        (
+            Decimal(str(quantity))
+            * Decimal(unit_price)
+        ).quantize(
+            Decimal("1"),
+            rounding=ROUND_HALF_UP
+        )
+    )
+
+
+Please do not respond yet. I am still chewing on this.
+
+======================================================================
+
+Yes. Now we have concrete evidence that I was wrong in my previous answer. Your grep output shows that the tax design was in fact partially implemented in the schema, and docs/external/Notes_for_now.txt looks especially promising because it contains exactly the terms we were looking for.
+
+I think we should inspect three things in order, and not change anything yet.
+1. The notes that appear to contain the earlier design
+
+Please run:
+
+sed -n '1,100p' docs/external/Notes_for_now.txt
+
+I'm particularly interested in those lines around:
+
+    tax_rates
+
+    tax_rate_id
+
+    tax_rate
+
+    tax_exempt
+
+    tax_exemption_number
+
+2. The relevant invoice schema
+
+Your grep tells us there is considerably more tax structure than I had realized. Please run:
+
+sed -n '620,735p' database/create_database.py
+
+That should show us the definitions containing:
+
+    taxable_subtotal
+
+    tax
+
+    taxable
+
+    tax_rate
+
+3. The billing code around the tax calculation
+
+Please run:
+
+sed -n '550,650p' traffic/billing.py
+
+and:
+
+sed -n '820,880p' traffic/billing.py
+
+and:
+
+sed -n '960,1020p' traffic/billing.py
+
+Those should let us see how the current billing implementation relates to the schema.
+One thing I can already say from your grep
+
+This is significant:
+
+taxable_subtotal INTEGER NOT NULL DEFAULT 0
+tax INTEGER NOT NULL DEFAULT 0
+
+and:
+
+taxable INTEGER NOT NULL DEFAULT 1
+tax_rate INTEGER NOT NULL DEFAULT 0
+
+with the comment:
+
+    -- Tax rate stored in basis points:
+
+So there is already a design for tax at both invoice and invoice-item levels.
+
+That directly contradicts my earlier statement that there was "currently no tax system in the billing schema." I was wrong.
+
+And this is particularly interesting because your note from earlier today was:
+
+    "tax info for the invoice detail line is not showing or editable."
+
+The schema appears to have precisely the data needed for that:
+
+invoice_items
+    taxable
+    tax_rate
+
+So we may not need to invent a tax design at all. We may instead need to finish implementing the design that we already started.
+
+Let's look at those three outputs before we make another decision.
+
+How is it that you forget this and what can I do on my end to alleviate this problem?
+
+You're right to be frustrated. The short answer is: I don't have a reliable, complete transcript of every prior project conversation available as working context. I can have summaries, memories, and portions of the current/project conversation, but those are not equivalent to having the entire history searchable at every moment.
+
+In this case, the failure was worse than simply "forgetting." I made a factual claim without verifying it against the files you were working from. Your grep immediately demonstrated that the schema already contained the tax model. I should have searched first.
+What you can do on your end
+
+The most useful thing is actually what you just did: keep the project notes/files authoritative and have me inspect them rather than relying on conversational memory.
+
+For a project like zbTraffic, I'd suggest:
+
+    Keep a short design-decisions document in the repo.
+    Something like:
+
+    docs/design_decisions.md
+
+    with decisions such as:
+
+        monetary values are integer cents
+
+        invoice is generated only from completed spots
+
+        Draft invoices have no invoice number
+
+        PREPAID → CLEARED after payment requirement is satisfied
+
+        etc.
+
+    When we make an important architectural decision, put it in that document.
+    It doesn't need to be formal. A dated bullet is enough.
+
+    At the beginning of a new work session, have me read the relevant design notes before changing code.
+    That's much more reliable than asking me to remember what we decided three days ago.
+
+    For schema questions, have me inspect create_database.py before I make claims about the schema.
+    Your current example is exactly why. The source code is the authority.
+
+    Keep the prototype/backups clearly distinguished from production/business logic.
+    We've now discovered another source of confusion: the throwaway GUI can permit states that the intended application won't. That makes interpreting its behavior dangerous.
+
+And something I can do better
+
+I should adopt a stronger rule for this project:
+
+    When we're making a design decision, distinguish between what I remember, what I infer, and what I have verified in the current source.
+
+If I don't have the source in front of me, I should say:
+
+    "I don't know; let's inspect it."
+
+rather than filling the gap from memory.
+
+That's particularly important for schema, business rules, and previously agreed architectural decisions. Those are areas where a confident-but-wrong answer can send us in circles, exactly as you described earlier.
+
+And I think your grep exercise has already shown us the right way forward. The repository is the source of truth; our conversation is the record of why we made the decisions. When those conflict, we should stop and investigate rather than assume.
+
+For this morning's billing work, I would therefore treat the current source tree + your recovered notes from last night as authoritative, and use my conversational memory only as a guide to what we should look for.
+
+======================================================================
+
+Aug 28/2026
+Tax rates
+---------
+For the initial implementation, zbTraffic supports one applicable
+sales-tax rate at a time.
+
+tax_rates:
+    id
+    name
+    rate
+    effective_date
+
+Rate is stored as integer basis points.
+
+The applicable rate is determined from effective_date.
+
+Separate city/state/local tax rates are not supported initially.
+
+Customer tax_status determines whether the customer is TAXABLE
+or EXEMPT.
+
+======================================================================
+
+
