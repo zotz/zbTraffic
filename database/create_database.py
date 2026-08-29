@@ -23,22 +23,23 @@ DATABASE_NAME = os.path.join(
 # create db tables in this order:
 # 01. categories
 # 02. stations
-# 03. programs
-# 04. stopsets
-# 05. customers
-# 06. contacts
-# 07. salespeople
-# 08. commercials
-# 09. contracts
-# 10. contract_items
-# 11. contract_item_rules
-# 12. avails
-# 13. spots
-# 14. separation_rules
-# 15. users
-# 16. invoices
-# 17. invoice_items
-# 18. invoice_item_spots
+# 04. tax_rates
+# 04. programs
+# 05. stopsets
+# 06. customers
+# 07. contacts
+# 08. salespeople
+# 09. commercials
+# 10. contracts
+# 11. contract_items
+# 12. contract_item_rules
+# 13. avails
+# 14. spots
+# 15. separation_rules
+# 16. users
+# 17. invoices
+# 18. invoice_items
+# 19. invoice_item_spots
 # 19. payments
 #
 
@@ -95,6 +96,22 @@ def create_database():
         modified_date TEXT
     )
     """,
+
+    """
+    CREATE TABLE IF NOT EXISTS tax_rates (
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        name TEXT NOT NULL,
+
+        rate INTEGER NOT NULL,
+
+        effective_date TEXT NOT NULL,
+
+        CHECK (rate >= 0)
+    )
+    """,
+
 
 
     """
