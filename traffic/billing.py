@@ -23,9 +23,11 @@
 # invoice total and due date and belong in traffic/ar.py.
 #
 
+from datetime import date, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 from traffic.database import get_connection
 from traffic.utilities import current_timestamp
+from traffic.contracts import get_contract
 
 
 def calculate_amount(quantity, unit_price):
@@ -48,6 +50,38 @@ def calculate_amount(quantity, unit_price):
             rounding=ROUND_HALF_UP
         )
     )
+
+
+def calculate_due_date(invoice_date, payment_terms_days):
+    """
+    Calculate an invoice due date from the invoice date
+    and the contract's payment terms.
+
+    invoice_date must be YYYY-MM-DD.
+    payment_terms_days is the number of days until payment is due.
+
+    Returns:
+        Due date as YYYY-MM-DD.
+    """
+
+    if not invoice_date:
+        raise ValueError(
+            "Invoice date is required to calculate due date"
+        )
+
+    if payment_terms_days is None:
+        payment_terms_days = 0
+
+    invoice_date_obj = date.fromisoformat(
+        invoice_date
+    )
+
+    due_date_obj = (
+        invoice_date_obj
+        + timedelta(days=int(payment_terms_days))
+    )
+
+    return due_date_obj.isoformat()
 
 
 
@@ -844,11 +878,8 @@ def deactivate_invoice_item_spot(invoice_item_spot_id):
 
 def create_postpaid_invoice(customer_id,
                             contract_id,
-                            invoice_number,
                             invoice_date,
-                            due_date=None,
-                            notes=None,
-                            tax=0):
+                            notes=None):
     """
     Create a draft POSTPAID invoice for completed, unbilled spots
     belonging to a contract.
@@ -859,6 +890,43 @@ def create_postpaid_invoice(customer_id,
     Returns:
         New invoice id, or None if there are no billable spots.
     """
+
+
+# dR From
+
+    contract = get_contract(
+        contract_id
+    )
+
+    if contract is None:
+        raise ValueError(
+            "Contract not found"
+        )
+
+
+    payment_terms_days = (
+        contract["payment_terms_days"]
+    )
+
+
+    if payment_terms_days is None:
+
+        due_date = None
+
+    else:
+
+        invoice_date_obj = date.fromisoformat(
+            invoice_date
+        )
+
+        due_date = (
+            invoice_date_obj
+            + timedelta(
+                days=payment_terms_days
+            )
+        ).isoformat()
+
+# dR To
 
     conn = get_connection()
     cursor = conn.cursor()
@@ -905,7 +973,7 @@ def create_postpaid_invoice(customer_id,
 
     invoice_id = create_invoice(
         customer_id=customer_id,
-        invoice_number=invoice_number,
+        invoice_number=None,
         invoice_date=invoice_date,
         due_date=due_date,
         contract_id=contract_id,
@@ -997,8 +1065,7 @@ def create_postpaid_invoice(customer_id,
         )
 
     recalculate_invoice_totals(
-        invoice_id,
-        tax=tax
+        invoice_id
     )
 
     return invoice_id
