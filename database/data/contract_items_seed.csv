@@ -1,5 +1,5 @@
-contract,commercial,commercial_title,description,quantity,pricing_type,unit_price,total_price,spot_length_seconds,start_date,end_date,priority,rotation_group,notes
-2026-001,zbT C1 Fake 30 sec ad,,Summer Boat Sale,4,PER_SPOT,500,0,30,2026-08-25,2026-09-30,1,,Existing commercial test
-2026-001,,Future Spring Boat Campaign,Future commercial test,3,PER_SPOT,800,0,30,2026-08-25,2026-09-30,1,,Commercial not produced yet
-12345,zbT C2 Fake 60 sec ad,,Summer Auto blowout,5,PER_SPOT,1000,0,,2026-08-25,2026-09-30,1,,Existing commercial test
-FX123,zbT C3 Retail Test 30 sec ad,,Summer Travel special,8,PER_SPOT,900,0,,2026-08-25,2026-09-30,1,,Existing commercial test
+contract,item_key,commercial,commercial_title,description,quantity,pricing_type,unit_price,total_price,spot_length_seconds,start_date,end_date,priority,rotation_group,notes
+2026-001,2026-001-01,zbT C1 Fake 30 sec ad,,Summer Boat Sale,4,PER_SPOT,500,0,30,2026-08-25,2026-09-30,1,,Existing commercial test
+2026-001,2026-001-02,,Future Spring Boat Campaign,Future commercial test,3,PER_SPOT,800,0,30,2026-08-25,2026-09-30,1,,Commercial not produced yet
+12345,12345-01,zbT C2 Fake 60 sec ad,,Summer Auto blowout,5,PER_SPOT,1000,0,,2026-08-25,2026-09-30,1,,Existing commercial test
+FX123,FX123-01,zbT C3 Retail Test 30 sec ad,,Summer Travel special,8,PER_SPOT,900,0,,2026-08-25,2026-09-30,1,,Existing commercial test
