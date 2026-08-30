@@ -23,6 +23,11 @@
 # invoice total and due date and belong in traffic/ar.py.
 #
 
+# dR Note - create_postpaid_invoice is the way we make invoices for now
+# we are ignoring other ways
+# we may need to change that name
+# perhaps create_invoice_from_spots
+
 from datetime import date, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 from traffic.database import get_connection
@@ -83,6 +88,41 @@ def calculate_due_date(invoice_date, payment_terms_days):
 
     return due_date_obj.isoformat()
 
+
+def get_effective_tax_rate(effective_date):
+    """
+    Return the tax rate effective on the supplied date.
+
+    The rate is stored in basis points.
+
+    Returns:
+        Integer tax rate in basis points, or None if no applicable
+        rate exists.
+    """
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            rate
+        FROM tax_rates
+        WHERE effective_date <= ?
+        ORDER BY effective_date DESC, id DESC
+        LIMIT 1
+        """,
+        (effective_date,)
+    )
+
+    row = cursor.fetchone()
+
+    conn.close()
+
+    if row is None:
+        return None
+
+    return row["rate"]
 
 
 def get_billed_totals_for_contract_item(contract_item_id):
@@ -346,6 +386,295 @@ def update_invoice(invoice_id,
     return changed
 
 
+def finalize_invoice(invoice_id):
+    """
+    Issue a Draft invoice.
+
+    Assigns the next invoice number for the invoice year,
+    determines the applicable tax treatment using the invoice
+    issue date, recalculates the invoice totals, and changes
+    the invoice status from Draft to Issued.
+
+    Returns:
+        The newly assigned invoice number.
+
+    Raises:
+        ValueError if the invoice does not exist, is not Draft,
+        or no applicable tax rate exists for a taxable customer.
+    """
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        #
+        # Get the invoice and customer tax status.
+        #
+
+        cursor.execute(
+            """
+            SELECT
+                invoices.id,
+                invoices.invoice_number,
+                invoices.invoice_date,
+                invoices.due_date,
+                invoices.contract_id,
+                invoices.status,
+                customers.tax_status
+            FROM invoices
+            JOIN customers
+                ON invoices.customer_id = customers.id
+            WHERE invoices.id = ?
+            """,
+            (invoice_id,)
+        )
+
+        invoice = cursor.fetchone()
+
+        if invoice is None:
+            raise ValueError(
+                "Invoice not found."
+            )
+
+        if invoice["status"] != "Draft":
+            raise ValueError(
+                "Only Draft invoices can be issued."
+            )
+
+        #
+        # An invoice should have an invoice date when it is issued.
+        #
+        # For an existing Draft with no date, use today's date.
+        #
+
+        invoice_date = invoice["invoice_date"]
+
+        if invoice_date is None:
+
+            invoice_date = date.today().isoformat()
+
+        #
+        # Preserve an existing due date.
+        #
+
+        due_date = invoice["due_date"]
+
+        #
+        # If there is no due date, calculate one from
+        # the contract's payment terms.
+        #
+
+        if due_date is None and invoice["contract_id"] is not None:
+
+            cursor.execute(
+                """
+                SELECT
+                    payment_terms_days
+                FROM contracts
+                WHERE id = ?
+                """,
+                (invoice["contract_id"],)
+            )
+
+            contract = cursor.fetchone()
+
+            if (
+                contract is not None
+                and contract["payment_terms_days"] is not None
+            ):
+
+                invoice_date_obj = date.fromisoformat(
+                    invoice_date
+                )
+
+                due_date = (
+                    invoice_date_obj
+                    + timedelta(
+                        days=contract["payment_terms_days"]
+                    )
+                ).isoformat()
+
+        #
+        # Determine the tax rate effective on the invoice date.
+        #
+
+        tax_rate = get_effective_tax_rate(
+            invoice_date
+        )
+
+        #
+        # Determine whether the customer's invoice items
+        # should be taxable.
+        #
+
+        if invoice["tax_status"] == "EXEMPT":
+
+            taxable = 0
+            tax_rate = 0
+
+        else:
+
+            taxable = 1
+
+            if tax_rate is None:
+
+                raise ValueError(
+                    "No tax rate is effective on the invoice date."
+                )
+
+        #
+        # Snapshot the tax treatment onto all invoice items.
+        #
+
+        cursor.execute(
+            """
+            UPDATE invoice_items
+            SET
+                taxable = ?,
+                tax_rate = ?,
+                modified_date = ?
+            WHERE invoice_id = ?
+            """,
+            (
+                taxable,
+                tax_rate,
+                current_timestamp(),
+                invoice_id
+            )
+        )
+
+        #
+        # Determine the invoice-number year.
+        #
+
+        invoice_year = date.fromisoformat(
+            invoice_date
+        ).year
+
+        #
+        # Get the current sequence number for this year.
+        #
+        # If there is no row yet, create one with last_number = 0.
+        #
+
+        cursor.execute(
+            """
+            SELECT
+                last_number
+            FROM invoice_sequences
+            WHERE year = ?
+            """,
+            (invoice_year,)
+        )
+
+        sequence = cursor.fetchone()
+
+        if sequence is None:
+
+            last_number = 0
+
+            cursor.execute(
+                """
+                INSERT INTO invoice_sequences (
+                    year,
+                    last_number
+                )
+                VALUES (?, ?)
+                """,
+                (
+                    invoice_year,
+                    last_number
+                )
+            )
+
+        else:
+
+            last_number = sequence["last_number"]
+
+        #
+        # The first invoice is 000001.
+        #
+
+        next_number = last_number + 1
+
+        invoice_number = "{:04d}-{:06d}".format(
+            invoice_year,
+            next_number
+        )
+
+        #
+        # Update the sequence.
+        #
+
+        cursor.execute(
+            """
+            UPDATE invoice_sequences
+            SET last_number = ?
+            WHERE year = ?
+            """,
+            (
+                next_number,
+                invoice_year
+            )
+        )
+
+        #
+        # Update the invoice with its final issue information.
+        #
+
+        cursor.execute(
+            """
+            UPDATE invoices
+            SET
+                invoice_number = ?,
+                invoice_date = ?,
+                due_date = ?,
+                status = 'Issued',
+                modified_date = ?
+            WHERE id = ?
+              AND status = 'Draft'
+            """,
+            (
+                invoice_number,
+                invoice_date,
+                due_date,
+                current_timestamp(),
+                invoice_id
+            )
+        )
+
+        if cursor.rowcount != 1:
+
+            raise ValueError(
+                "Invoice could not be issued."
+            )
+
+        conn.commit()
+
+        #
+        # Recalculate subtotal, taxable subtotal, tax,
+        # and total now that the tax treatment is finalized.
+        #
+        # This must occur after the transaction above is committed
+        # because recalculate_invoice_totals() uses its own connection.
+        #
+
+        recalculate_invoice_totals(
+            invoice_id
+        )
+
+        return invoice_number
+
+    except Exception:
+
+        conn.rollback()
+        raise
+
+    finally:
+
+        conn.close()
+
 #
 # Invoice item operations
 #
@@ -356,7 +685,9 @@ def add_invoice_item(invoice_id,
                      quantity=1,
                      unit_price=None,
                      amount=0,
-                     contract_item_id=None):
+                     contract_item_id=None,
+                     taxable=1,
+                     tax_rate=0):
     """
     Add an item to an invoice.
 
@@ -389,10 +720,12 @@ def add_invoice_item(invoice_id,
             quantity,
             unit_price,
             amount,
+            taxable,
+            tax_rate,
             created_date,
             modified_date
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             invoice_id,
@@ -401,6 +734,8 @@ def add_invoice_item(invoice_id,
             quantity,
             unit_price,
             amount,
+            taxable,
+            tax_rate,
             now,
             now
         )
@@ -468,6 +803,8 @@ def list_invoice_items(invoice_id):
             quantity,
             unit_price,
             amount,
+            taxable,
+            tax_rate,
             created_date,
             modified_date
         FROM invoice_items
@@ -609,61 +946,145 @@ def update_invoice_item(invoice_item_id,
 #
 
 
-def recalculate_invoice_totals(invoice_id, tax=0):
+def recalculate_invoice_totals(invoice_id):
     """
-    Recalculate an invoice subtotal and total from its items.
+    Recalculate an invoice's subtotal, taxable subtotal, tax,
+    and total from its invoice items.
 
     All monetary values are integer cents.
 
-    Tax is supplied by the caller because tax rules have not yet
-    been implemented.
+    Tax rates are stored in basis points.
 
     Returns:
-        (subtotal, tax, total) in integer cents.
+        (subtotal, taxable_subtotal, tax, total) in integer cents.
     """
 
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute(
-        """
-        SELECT
-            COALESCE(SUM(amount), 0)
-        FROM invoice_items
-        WHERE invoice_id = ?
-        """,
-        (invoice_id,)
-    )
+    try:
 
-    row = cursor.fetchone()
+        #
+        # Get the invoice items.
+        #
 
-    subtotal = row[0]
-    total = subtotal + tax
-
-    cursor.execute(
-        """
-        UPDATE invoices
-        SET
-            subtotal = ?,
-            tax = ?,
-            total = ?,
-            modified_date = ?
-        WHERE id = ?
-        """,
-        (
-            subtotal,
-            tax,
-            total,
-            current_timestamp(),
-            invoice_id
+        cursor.execute(
+            """
+            SELECT
+                amount,
+                taxable,
+                tax_rate
+            FROM invoice_items
+            WHERE invoice_id = ?
+            """,
+            (invoice_id,)
         )
-    )
 
-    conn.commit()
-    conn.close()
+        items = cursor.fetchall()
 
-    return subtotal, tax, total
+        subtotal = 0
+        taxable_subtotal = 0
+        tax = 0
 
+        #
+        # Calculate subtotal and taxable subtotal.
+        #
+
+        for item in items:
+
+            amount = item["amount"] or 0
+
+            subtotal += amount
+
+            if item["taxable"]:
+
+                taxable_subtotal += amount
+
+        #
+        # Calculate tax.
+        #
+        # Tax rates are stored in basis points:
+        #
+        #     1000 = 10%
+        #      700 = 7%
+        #
+        # Use the tax rate stored on the taxable invoice items.
+        #
+        # For now, all items on a generated invoice are expected
+        # to have the same tax rate.
+        #
+
+        tax_rates = {
+            item["tax_rate"]
+            for item in items
+            if item["taxable"]
+        }
+
+        if len(tax_rates) > 1:
+
+            raise ValueError(
+                "Invoice contains taxable items with different tax rates."
+            )
+
+        if tax_rates:
+
+            tax_rate = next(iter(tax_rates))
+
+            tax = int(
+                (
+                    Decimal(taxable_subtotal)
+                    * Decimal(tax_rate)
+                    / Decimal(10000)
+                ).quantize(
+                    Decimal("1"),
+                    rounding=ROUND_HALF_UP
+                )
+            )
+
+        total = subtotal + tax
+
+        #
+        # Update the invoice.
+        #
+
+        cursor.execute(
+            """
+            UPDATE invoices
+            SET
+                subtotal = ?,
+                taxable_subtotal = ?,
+                tax = ?,
+                total = ?,
+                modified_date = ?
+            WHERE id = ?
+            """,
+            (
+                subtotal,
+                taxable_subtotal,
+                tax,
+                total,
+                current_timestamp(),
+                invoice_id
+            )
+        )
+
+        conn.commit()
+
+        return (
+            subtotal,
+            taxable_subtotal,
+            tax,
+            total
+        )
+
+    except Exception:
+
+        conn.rollback()
+        raise
+
+    finally:
+
+        conn.close()
 
 #
 # POSTPAID spot billing
@@ -820,6 +1241,7 @@ def list_invoice_item_spots(invoice_item_id):
             s.avail_id,
             s.air_date,
             s.air_time,
+            s.actual_air_time,
             s.status,
             iis.active
         FROM invoice_item_spots iis
@@ -1069,3 +1491,443 @@ def create_postpaid_invoice(customer_id,
     )
 
     return invoice_id
+
+
+
+#
+# Payment operations
+#
+
+
+def add_payment(customer_id,
+                payment_date,
+                amount,
+                invoice_id=None,
+                payment_method=None,
+                reference=None,
+                notes=None):
+    """
+    Record a payment.
+
+    A payment may optionally be associated with one invoice.
+
+    Amount is stored as integer cents.
+
+    Returns:
+        New payment id.
+    """
+
+    if amount <= 0:
+        raise ValueError(
+            "Payment amount must be greater than zero."
+        )
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        #
+        # If an invoice is supplied, make sure it exists
+        # and belongs to the specified customer.
+        #
+
+        if invoice_id is not None:
+
+            cursor.execute(
+                """
+                SELECT
+                    id,
+                    customer_id
+                FROM invoices
+                WHERE id = ?
+                """,
+                (invoice_id,)
+            )
+
+            invoice = cursor.fetchone()
+
+            if invoice is None:
+
+                raise ValueError(
+                    "Invoice not found."
+                )
+
+            if invoice["customer_id"] != customer_id:
+
+                raise ValueError(
+                    "Payment customer does not match invoice customer."
+                )
+
+
+        now = current_timestamp()
+
+        cursor.execute(
+            """
+            INSERT INTO payments (
+                customer_id,
+                invoice_id,
+                payment_date,
+                amount,
+                payment_method,
+                reference,
+                notes,
+                created_date,
+                modified_date
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                customer_id,
+                invoice_id,
+                payment_date,
+                amount,
+                payment_method,
+                reference,
+                notes,
+                now,
+                now
+            )
+        )
+
+        payment_id = cursor.lastrowid
+
+        conn.commit()
+
+        return payment_id
+
+    except Exception:
+
+        conn.rollback()
+        raise
+
+    finally:
+
+        conn.close()
+
+
+def get_payment(payment_id):
+    """
+    Return one payment by id.
+
+    Returns:
+        sqlite3.Row, or None if not found.
+    """
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            id,
+            customer_id,
+            invoice_id,
+            payment_date,
+            amount,
+            payment_method,
+            reference,
+            notes,
+            created_date,
+            modified_date
+        FROM payments
+        WHERE id = ?
+        """,
+        (payment_id,)
+    )
+
+    payment = cursor.fetchone()
+
+    conn.close()
+
+    return payment
+
+
+def list_payments(customer_id=None,
+                  invoice_id=None):
+    """
+    Return payments, optionally filtered by customer
+    and/or invoice.
+    """
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    sql = """
+        SELECT
+            id,
+            customer_id,
+            invoice_id,
+            payment_date,
+            amount,
+            payment_method,
+            reference,
+            notes,
+            created_date,
+            modified_date
+        FROM payments
+        WHERE 1 = 1
+    """
+
+    params = []
+
+    if customer_id is not None:
+
+        sql += " AND customer_id = ?"
+
+        params.append(
+            customer_id
+        )
+
+    if invoice_id is not None:
+
+        sql += " AND invoice_id = ?"
+
+        params.append(
+            invoice_id
+        )
+
+    sql += """
+        ORDER BY payment_date DESC, id DESC
+    """
+
+    cursor.execute(
+        sql,
+        params
+    )
+
+    payments = cursor.fetchall()
+
+    conn.close()
+
+    return payments
+
+
+def update_payment(payment_id,
+                   payment_date=None,
+                   amount=None,
+                   payment_method=None,
+                   reference=None,
+                   notes=None):
+    """
+    Update payment information.
+
+    Returns:
+        True if the payment was updated,
+        False if no changes were supplied or
+        the payment does not exist.
+    """
+
+    fields = []
+    params = []
+
+    if payment_date is not None:
+
+        fields.append(
+            "payment_date = ?"
+        )
+
+        params.append(
+            payment_date
+        )
+
+    if amount is not None:
+
+        if amount <= 0:
+
+            raise ValueError(
+                "Payment amount must be greater than zero."
+            )
+
+        fields.append(
+            "amount = ?"
+        )
+
+        params.append(
+            amount
+        )
+
+    if payment_method is not None:
+
+        fields.append(
+            "payment_method = ?"
+        )
+
+        params.append(
+            payment_method
+        )
+
+    if reference is not None:
+
+        fields.append(
+            "reference = ?"
+        )
+
+        params.append(
+            reference
+        )
+
+    if notes is not None:
+
+        fields.append(
+            "notes = ?"
+        )
+
+        params.append(
+            notes
+        )
+
+    if not fields:
+
+        return False
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        fields.append(
+            "modified_date = ?"
+        )
+
+        params.append(
+            current_timestamp()
+        )
+
+        params.append(
+            payment_id
+        )
+
+        sql = """
+            UPDATE payments
+            SET
+                {}
+            WHERE id = ?
+        """.format(
+            ", ".join(fields)
+        )
+
+        cursor.execute(
+            sql,
+            params
+        )
+
+        changed = cursor.rowcount > 0
+
+        conn.commit()
+
+        return changed
+
+    except Exception:
+
+        conn.rollback()
+        raise
+
+    finally:
+
+        conn.close()
+
+
+def get_invoice_paid_amount(invoice_id):
+    """
+    Return the total amount of payments applied
+    to an invoice.
+
+    Returns:
+        Integer number of cents.
+    """
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            COALESCE(
+                SUM(amount),
+                0
+            ) AS paid_amount
+        FROM payments
+        WHERE invoice_id = ?
+        """,
+        (invoice_id,)
+    )
+
+    row = cursor.fetchone()
+
+    conn.close()
+
+    return row["paid_amount"]
+
+
+def get_invoice_balance(invoice_id):
+    """
+    Return the outstanding balance on an invoice.
+
+    Returns:
+        Integer number of cents.
+
+    A negative balance indicates an overpayment.
+    """
+
+    invoice = get_invoice(
+        invoice_id
+    )
+
+    if invoice is None:
+
+        raise ValueError(
+            "Invoice not found."
+        )
+
+    paid_amount = get_invoice_paid_amount(
+        invoice_id
+    )
+
+    return invoice["total"] - paid_amount
+
+
+def get_invoice_payment_status(invoice_id):
+    """
+    Return the derived payment status for an invoice.
+
+    Returns one of:
+
+        "Balance Due"
+        "Partially Paid"
+        "Paid"
+        "Overpaid"
+    """
+
+    invoice = get_invoice(
+        invoice_id
+    )
+
+    if invoice is None:
+
+        raise ValueError(
+            "Invoice not found."
+        )
+
+    paid_amount = get_invoice_paid_amount(
+        invoice_id
+    )
+
+    total = invoice["total"]
+
+    if paid_amount == 0:
+
+        return "Balance Due"
+
+    if paid_amount < total:
+
+        return "Partially Paid"
+
+    if paid_amount == total:
+
+        return "Paid"
+
+    return "Overpaid"
+
+
+

@@ -460,20 +460,43 @@ def mark_completed(rows):
 
         completed = 0
 
-        for spot_id in spot_ids:
+        for row in rows:
+
+            if row["status"] not in (
+                MATCH,
+                TIME_WINDOW_MATCH
+            ):
+                continue
+
+            spot = row["spot"]
+            rivendell = row["rivendell"]
+
+            if spot is None:
+                continue
+
+            if rivendell is None:
+                continue
+
+            actual_air_time = (
+                rivendell["actual_time"]
+            )
+
+            spot_id = spot["id"]
 
             cursor.execute(
                 """
                 UPDATE spots
-
-                SET status = 'Completed'
+                SET
+                    status = 'Completed',
+                    actual_air_time = ?
 
                 WHERE
                     id = ?
                     AND status = 'Exported'
                 """,
                 (
-                    spot_id,
+                    actual_air_time,
+                    spot_id
                 )
             )
 
