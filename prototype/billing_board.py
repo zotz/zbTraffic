@@ -48,6 +48,7 @@ from traffic.billing import (
     create_invoice,
     get_invoice,
     update_invoice,
+    finalize_invoice,
     list_invoices,
     add_invoice_item,
     get_invoice_item,
@@ -56,8 +57,15 @@ from traffic.billing import (
     recalculate_invoice_totals,
     get_unbilled_completed_spots,
     list_invoice_item_spots,
+    add_payment,
     create_postpaid_invoice,
+    list_payments,
+    get_invoice_paid_amount,
+    get_invoice_balance,
+    get_invoice_payment_status,
 )
+
+from traffic.invoice_pdf import generate_invoice_pdf
 
 
 # ----------------------------------------------------------------------
@@ -1299,7 +1307,7 @@ class BillingBoard(tk.Tk):
                 "spots",
             ),
             show="headings",
-            height=7
+            height=5
         )
 
 
@@ -1365,6 +1373,147 @@ class BillingBoard(tk.Tk):
             self.invoice_item_selected
         )
 
+        #
+        # --------------------------------------------------------------
+        # Payments
+        # --------------------------------------------------------------
+        #
+
+        payment_frame = ttk.LabelFrame(
+            detail_frame,
+            text="Payments",
+            padding=4
+        )
+
+        payment_frame.pack(
+            fill="x",
+            expand=False,
+            pady=(6, 0)
+        )
+
+
+        #
+        # Payment list
+        #
+
+        payment_list_frame = ttk.Frame(
+            payment_frame
+        )
+
+        payment_list_frame.pack(
+            fill="x",
+            expand=False
+        )
+
+
+        self.payment_tree = ttk.Treeview(
+            payment_list_frame,
+            columns=(
+                "date",
+                "amount",
+                "method",
+                "reference",
+            ),
+            show="headings",
+            height=2
+        )
+
+
+        payment_headings = {
+
+            "date": "Date",
+
+            "amount": "Amount",
+
+            "method": "Method",
+
+            "reference": "Reference",
+        }
+
+
+        payment_widths = {
+
+            "date": 90,
+
+            "amount": 100,
+
+            "method": 100,
+
+            "reference": 130,
+        }
+
+
+        for column in payment_headings:
+
+            self.payment_tree.heading(
+                column,
+                text=payment_headings[column]
+            )
+
+            self.payment_tree.column(
+                column,
+                width=payment_widths[column],
+                anchor=(
+                    "w"
+                    if column in (
+                        "method",
+                        "reference"
+                    )
+                    else "center"
+                )
+            )
+
+
+        payment_y = ttk.Scrollbar(
+            payment_list_frame,
+            orient="vertical",
+            command=self.payment_tree.yview
+        )
+
+
+        self.payment_tree.configure(
+            yscrollcommand=payment_y.set
+        )
+
+
+        self.payment_tree.pack(
+            side="left",
+            fill="x",
+            expand=True
+        )
+
+
+        payment_y.pack(
+            side="right",
+            fill="y"
+        )
+
+
+        #
+        # Payment summary
+        #
+
+        self.payment_summary = tk.StringVar(
+            value=""
+        )
+
+
+        ttk.Label(
+            payment_frame,
+            textvariable=self.payment_summary,
+            anchor="w"
+        ).pack(
+            fill="x",
+            pady=(4, 0)
+        )
+
+
+        #
+        # Payment buttons
+        #
+
+
+
 
         detail_buttons = ttk.Frame(
             detail_frame
@@ -1381,6 +1530,28 @@ class BillingBoard(tk.Tk):
         ).pack(
             side="left"
         )
+
+
+        ttk.Button(
+            detail_buttons,
+            text="Issue Invoice",
+            command=self.issue_invoice
+        ).pack(
+            side="left",
+            padx=6
+        )
+
+
+
+        ttk.Button(
+            detail_buttons,
+            text="Print Invoice",
+            command=self.print_invoice
+        ).pack(
+            side="left",
+            padx=6
+        )
+
 
 # commented out by dR Aug 28/2026
 #         ttk.Button(
@@ -1418,6 +1589,15 @@ class BillingBoard(tk.Tk):
         ).pack(
             side="left",
             padx=6
+        )
+
+
+        ttk.Button(
+            detail_buttons,
+            text="Record Payment",
+            command=self.record_payment
+        ).pack(
+            side="right"
         )
 
 
@@ -2292,6 +2472,14 @@ class BillingBoard(tk.Tk):
         )
 
 
+        self.payment_tree.delete(
+            *self.payment_tree.get_children()
+        )
+
+
+        self.payment_summary.set("")
+
+
         self.selected_invoice_item_id = None
 
 
@@ -2300,6 +2488,8 @@ class BillingBoard(tk.Tk):
             self.invoice_info.set(
                 "Select an invoice."
             )
+
+            self.payment_summary.set("")
 
             return
 
@@ -2326,6 +2516,56 @@ class BillingBoard(tk.Tk):
             f"Subtotal: {money(invoice['subtotal'])}    "
             f"Tax: {money(invoice['tax'])}    "
             f"Total: {money(invoice['total'])}"
+        )
+
+        #
+        # Payments
+        #
+
+        payments = list_payments(
+            invoice_id=self.selected_invoice_id
+        )
+
+
+        for payment in payments:
+
+            self.payment_tree.insert(
+                "",
+                "end",
+                iid=str(payment["id"]),
+                values=(
+
+                    payment["payment_date"],
+
+                    money(payment["amount"]),
+
+                    payment["payment_method"] or "",
+
+                    payment["reference"] or "",
+                )
+            )
+
+
+        paid_amount = get_invoice_paid_amount(
+            self.selected_invoice_id
+        )
+
+
+        balance = (
+            invoice["total"]
+            - paid_amount
+        )
+
+
+        payment_status = get_invoice_payment_status(
+            self.selected_invoice_id
+        )
+
+
+        self.payment_summary.set(
+            f"Paid: {money(paid_amount)}    "
+            f"Balance: {money(balance)}    "
+            f"Status: {payment_status}"
         )
 
 
@@ -2360,6 +2600,156 @@ class BillingBoard(tk.Tk):
                     len(spots),
                 )
             )
+
+
+    def record_payment(self):
+
+        if self.selected_invoice_id is None:
+
+            messagebox.showinfo(
+                "Record Payment",
+                "Select an invoice first."
+            )
+
+            return
+
+
+        invoice = get_invoice(
+            self.selected_invoice_id
+        )
+
+
+        if invoice is None:
+
+            messagebox.showerror(
+                "Record Payment",
+                "Invoice not found."
+            )
+
+            return
+
+
+        dialog = SimpleDialog(
+            self,
+            "Record Payment",
+            [
+                (
+                    "Payment date",
+                    date.today().isoformat()
+                ),
+
+                (
+                    "Amount in dollars",
+                    ""
+                ),
+
+                (
+                    "Payment method",
+                    ""
+                ),
+
+                (
+                    "Reference",
+                    ""
+                ),
+
+                (
+                    "Notes",
+                    ""
+                ),
+            ]
+        )
+
+
+        if dialog.result is None:
+
+            return
+
+
+        payment_date = (
+            dialog.result[0].strip()
+        )
+
+        amount_text = (
+            dialog.result[1].strip()
+        )
+
+        payment_method = (
+            dialog.result[2].strip()
+            or None
+        )
+
+        reference = (
+            dialog.result[3].strip()
+            or None
+        )
+
+        notes = (
+            dialog.result[4].strip()
+            or None
+        )
+
+
+        if not payment_date:
+
+            messagebox.showerror(
+                "Record Payment",
+                "Payment date is required."
+            )
+
+            return
+
+
+        try:
+
+            amount = int(
+                round(
+                    float(amount_text) * 100
+                )
+            )
+
+
+            if amount <= 0:
+
+                raise ValueError(
+                    "Payment amount must be greater than zero."
+                )
+
+
+            add_payment(
+                customer_id=invoice["customer_id"],
+                payment_date=payment_date,
+                amount=amount,
+                invoice_id=self.selected_invoice_id,
+                payment_method=payment_method,
+                reference=reference,
+                notes=notes
+            )
+
+
+        except Exception as exc:
+
+            messagebox.showerror(
+                "Record Payment",
+                str(exc)
+            )
+
+            return
+
+
+        invoice_id = self.selected_invoice_id
+
+
+        self.load_invoices()
+
+        self.select_invoice(
+            invoice_id
+        )
+
+
+        self.status_var.set(
+            "Payment recorded."
+        )
 
 
     def recalculate_selected_invoice(self):
@@ -2736,6 +3126,89 @@ class BillingBoard(tk.Tk):
         )
 
 
+    def issue_invoice(self):
+
+        if self.selected_invoice_id is None:
+
+            messagebox.showinfo(
+                "Issue Invoice",
+                "Select an invoice first."
+            )
+
+            return
+
+
+        invoice = get_invoice(
+            self.selected_invoice_id
+        )
+
+
+        if invoice is None:
+
+            messagebox.showerror(
+                "Issue Invoice",
+                "Invoice not found."
+            )
+
+            return
+
+
+        if invoice["status"] != "Draft":
+
+            messagebox.showinfo(
+                "Issue Invoice",
+                "Only Draft invoices can be issued."
+            )
+
+            return
+
+
+        answer = messagebox.askyesno(
+            "Issue Invoice",
+            "Issue this invoice?\n\n"
+            "Once issued, the invoice will receive "
+            "a permanent invoice number and can no "
+            "longer be edited."
+        )
+
+
+        if not answer:
+
+            return
+
+
+        try:
+
+            invoice_number = finalize_invoice(
+                self.selected_invoice_id
+            )
+
+        except Exception as exc:
+
+            messagebox.showerror(
+                "Issue Invoice",
+                str(exc)
+            )
+
+            return
+
+
+        invoice_id = self.selected_invoice_id
+
+        self.load_invoices()
+
+        self.select_invoice(
+            invoice_id
+        )
+
+
+        self.status_var.set(
+            "Invoice {} issued.".format(
+                invoice_number
+            )
+        )
+
+
     def edit_invoice_item(self):
 
         if self.selected_invoice_item_id is None:
@@ -2882,6 +3355,50 @@ class BillingBoard(tk.Tk):
         )
 
 
+    def print_invoice(self):
+
+        if self.selected_invoice_id is None:
+
+            messagebox.showinfo(
+                "Invoice",
+                "Select an invoice first."
+            )
+
+            return
+
+
+        try:
+
+            pdf_path = generate_invoice_pdf(
+                self.selected_invoice_id
+            )
+
+
+        except Exception as exc:
+
+            messagebox.showerror(
+                "Print Invoice",
+                str(exc)
+            )
+
+            return
+
+
+        self.status_var.set(
+            "Invoice PDF created: {}".format(
+                pdf_path
+            )
+        )
+
+
+        messagebox.showinfo(
+            "Print Invoice",
+            "Invoice PDF created:\n\n{}".format(
+                pdf_path
+            )
+        )
+
+
     def show_item_spots(self):
 
         if self.selected_invoice_item_id is None:
@@ -2921,6 +3438,7 @@ class BillingBoard(tk.Tk):
             "id",
             "date",
             "time",
+            "actual_time",
             "status",
             "active",
         )
@@ -2951,6 +3469,12 @@ class BillingBoard(tk.Tk):
                 "time",
                 "Air Time",
                 100
+            ),
+
+            (
+                "actual_time",
+                "Actual Air Time",
+                120
             ),
 
             (
@@ -2997,6 +3521,8 @@ class BillingBoard(tk.Tk):
                     spot["air_date"],
 
                     spot["air_time"],
+                    
+                    spot["actual_air_time"],
 
                     spot["status"],
 
@@ -3007,6 +3533,9 @@ class BillingBoard(tk.Tk):
                     ),
                 )
             )
+
+
+
 
 
     # ------------------------------------------------------------------
