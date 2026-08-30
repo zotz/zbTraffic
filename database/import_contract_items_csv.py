@@ -3,9 +3,19 @@
 import csv
 import sys
 import os
+from pathlib import Path
 
 from traffic.database import get_connection
 from traffic.contract_items import add_contract_item
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+IMPORT_MAP_FILE = (
+    PROJECT_ROOT
+    / "tmp"
+    / "contract_item_import_map.csv"
+)
 
 
 def find_contract(
@@ -128,19 +138,37 @@ def import_contract_items_csv(
     imported = 0
     errors = 0
 
-    try:
+    IMPORT_MAP_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
+    try:
         with open(
             csv_file,
             "r",
             encoding="utf-8-sig",
             newline=""
-        ) as file:
+        ) as file, open(
+            IMPORT_MAP_FILE,
+            "w",
+            encoding="utf-8",
+            newline=""
+        ) as map_file:
 
             reader = csv.DictReader(file)
 
+            map_writer = csv.writer(map_file)
+
+            map_writer.writerow([
+                "contract",
+                "item_key",
+                "contract_item_id"
+            ])
+
             required_columns = [
                 "contract",
+                "item_key",
                 "commercial",
                 "description",
                 "quantity",
@@ -179,6 +207,10 @@ def import_contract_items_csv(
                         row["contract"].strip()
                     )
 
+                    item_key = (
+                        row["item_key"].strip()
+                    )
+
                     commercial_title = (
                         row["commercial"].strip()
                     )
@@ -210,6 +242,10 @@ def import_contract_items_csv(
                             "Contract number is empty"
                         )
 
+                    if not item_key:
+                        raise ValueError(
+                            "Item key is empty"
+                        )
 
 
                     #
@@ -452,6 +488,12 @@ def import_contract_items_csv(
                         rotation_group=rotation_group,
                         notes=notes
                     )
+
+                    map_writer.writerow([
+                        contract_number,
+                        item_key,
+                        contract_item_id
+                    ])
 
                     print(
                         f"  Added contract item "

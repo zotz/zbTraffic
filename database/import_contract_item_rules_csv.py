@@ -3,52 +3,96 @@
 import csv
 import os
 import sys
+from pathlib import Path
 
 from traffic.database import get_connection
 from traffic.contract_item_rules import add_contract_item_rule
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-def find_contract_item(
-    cursor,
-    contract_number,
-    commercial_title
-):
+IMPORT_MAP_FILE = (
+    PROJECT_ROOT
+    / "tmp"
+    / "contract_item_import_map.csv"
+)
+
+def load_contract_item_import_map():
     """
-    Find a contract item by contract number
-    and commercial title.
+    Load the temporary contract-item import map.
     """
 
-    cursor.execute(
-        """
-        SELECT
-            contract_items.id
-        FROM contract_items
-
-        JOIN contracts
-            ON contract_items.contract_id = contracts.id
-
-        WHERE contracts.contract_number = ?
-        AND contract_items.commercial_title = ?
-        """,
-        (
-            contract_number,
-            commercial_title
-        )
-    )
-
-    rows = cursor.fetchall()
-
-    if len(rows) == 0:
-        return None
-
-    if len(rows) > 1:
-        raise ValueError(
-            f"Multiple contract items found for "
-            f"contract '{contract_number}' and "
-            f"commercial '{commercial_title}'"
+    if not IMPORT_MAP_FILE.is_file():
+        raise FileNotFoundError(
+            "Contract item import map not found: "
+            f"{IMPORT_MAP_FILE}"
         )
 
-    return rows[0]["id"]
+    mapping = {}
+
+    with open(
+        IMPORT_MAP_FILE,
+        "r",
+        encoding="utf-8-sig",
+        newline=""
+    ) as file:
+
+        reader = csv.DictReader(file)
+
+        required_columns = [
+            "contract",
+            "item_key",
+            "contract_item_id"
+        ]
+
+        if reader.fieldnames is None:
+            raise ValueError(
+                "Contract item import map "
+                "has no header row"
+            )
+
+        missing_columns = [
+            column
+            for column in required_columns
+            if column not in reader.fieldnames
+        ]
+
+        if missing_columns:
+            raise ValueError(
+                "Contract item import map is missing "
+                "columns: "
+                + ", ".join(missing_columns)
+            )
+
+        for row in reader:
+
+            contract_number = (
+                row["contract"].strip()
+            )
+
+            item_key = (
+                row["item_key"].strip()
+            )
+
+            contract_item_id = int(
+                row["contract_item_id"].strip()
+            )
+
+            key = (
+                contract_number,
+                item_key
+            )
+
+            if key in mapping:
+                raise ValueError(
+                    "Duplicate contract item import "
+                    f"key: '{contract_number}' / "
+                    f"'{item_key}'"
+                )
+
+            mapping[key] = contract_item_id
+
+    return mapping
+
 
 
 def parse_integer(
@@ -138,6 +182,10 @@ def import_contract_item_rules_csv(
     imported = 0
     errors = 0
 
+    contract_item_map = (
+        load_contract_item_import_map()
+    )
+
     try:
 
         with open(
@@ -151,6 +199,7 @@ def import_contract_item_rules_csv(
 
             required_columns = [
                 "contract",
+                "item_key",
                 "commercial",
                 "days_of_week",
                 "start_time",
@@ -194,6 +243,10 @@ def import_contract_item_rules_csv(
                         row["contract"].strip()
                     )
 
+                    item_key = (
+                        row["item_key"].strip()
+                    )
+
                     commercial_title = (
                         row["commercial"].strip()
                     )
@@ -230,6 +283,11 @@ def import_contract_item_rules_csv(
                             "Contract number is empty"
                         )
 
+                    if not item_key:
+                        raise ValueError(
+                            "Item key is empty"
+                        )
+
                     if not commercial_title:
 
                         raise ValueError(
@@ -240,20 +298,26 @@ def import_contract_item_rules_csv(
                     # Find contract item
                     #
 
+                    #
+                    # Find contract item
+                    #
+
                     contract_item_id = (
-                        find_contract_item(
-                            cursor,
-                            contract_number,
-                            commercial_title
+                        contract_item_map.get(
+                            (
+                                contract_number,
+                                item_key
+                            )
                         )
                     )
 
                     if contract_item_id is None:
 
                         raise ValueError(
-                            f"Contract item not found: "
+                            f"Contract item not found "
+                            f"for import key: "
                             f"'{contract_number}' / "
-                            f"'{commercial_title}'"
+                            f"'{item_key}'"
                         )
 
                     #
