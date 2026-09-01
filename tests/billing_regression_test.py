@@ -721,9 +721,8 @@ def main():
         # ----------------------------------------------------------
         #
 
-        subtotal, tax, total = recalculate_invoice_totals(
-            invoice_id,
-            tax=1250,
+        subtotal, taxable_subtotal, tax, total = recalculate_invoice_totals(
+            invoice_id
         )
 
         test(
@@ -733,14 +732,20 @@ def main():
         )
 
         test(
-            "Invoice tax is applied",
-            tax == 1250,
+            "Invoice taxable subtotal is calculated",
+            taxable_subtotal == 22500,
+            f"taxable_subtotal={taxable_subtotal}"
+        )
+
+        test(
+            "Invoice tax is calculated",
+            tax == 0,
             f"tax={tax}"
         )
 
         test(
             "Invoice total is subtotal plus tax",
-            total == 23750,
+            total == 22500,
             f"total={total}"
         )
 
@@ -756,7 +761,7 @@ def main():
         test(
             "Stored invoice total is correct",
             invoice is not None
-            and invoice["total"] == 23750,
+            and invoice["total"] == 22500,
             f"total={invoice['total'] if invoice else None}"
         )
 
