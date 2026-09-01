@@ -1,4 +1,4 @@
-contract,item_key,commercial,days_of_week,start_time,end_time,preferred_program,preferred_stopset,spots_per_day,spots_per_week,allow_news,allow_special_events,notes
+contract,item_key,commercial,days_of_week,start_time,end_time,preferred_program,preferred_stopset,max_spots_per_day,max_spots_per_week,allow_news,allow_special_events,notes
 TBM-2026-001,TBM-2026-001-01,zbT Thunderbay Motors 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",06:00:00,10:00:00,Morning Show,,2,15,0,0,Auto morning window
 WRA-2026-001,WRA-2026-001-01,zbT WaveRider Auto Group 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",06:00:00,10:00:00,Morning Show,,2,15,0,0,Auto overlapping morning window
 SLC-2026-001,SLC-2026-001-01,zbT Spiny Lobster Café 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",10:00:00,14:00:00,Midday Show,,2,15,0,0,Restaurant midday window
