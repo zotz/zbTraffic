@@ -206,8 +206,8 @@ def import_contract_item_rules_csv(
                 "end_time",
                 "preferred_program",
                 "preferred_stopset",
-                "spots_per_day",
-                "spots_per_week",
+                "max_spots_per_day",
+                "max_spots_per_week",
                 "allow_news",
                 "allow_special_events",
                 "notes"
@@ -404,15 +404,15 @@ def import_contract_item_rules_csv(
                     # Numeric fields
                     #
 
-                    spots_per_day = parse_integer(
-                        row["spots_per_day"],
-                        "spots_per_day",
+                    max_spots_per_day = parse_integer(
+                        row["max_spots_per_day"],
+                        "max_spots_per_day",
                         0
                     )
 
-                    spots_per_week = parse_integer(
-                        row["spots_per_week"],
-                        "spots_per_week",
+                    max_spots_per_week = parse_integer(
+                        row["max_spots_per_week"],
+                        "max_spots_per_week",
                         0
                     )
 
@@ -447,8 +447,8 @@ def import_contract_item_rules_csv(
                         preferred_stopset_id=(
                             preferred_stopset_id
                         ),
-                        spots_per_day=spots_per_day,
-                        spots_per_week=spots_per_week,
+                        max_spots_per_day=max_spots_per_day,
+                        max_spots_per_week=max_spots_per_week,
                         allow_news=allow_news,
                         allow_special_events=(
                             allow_special_events
