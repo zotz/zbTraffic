@@ -108,7 +108,9 @@ def create_database():
 
         effective_date TEXT NOT NULL,
 
-        CHECK (rate >= 0)
+        CHECK (rate >= 0),
+        
+        UNIQUE (name, rate, effective_date)
     )
     """,
 
