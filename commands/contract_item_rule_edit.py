@@ -187,18 +187,18 @@ def main():
 
 
 
-        spots_per_day = int(
+        max_spots_per_day = int(
             prompt_value(
                 "Spots Per Day",
-                rule["spots_per_day"]
+                rule["max_spots_per_day"]
             )
         )
 
 
-        spots_per_week = int(
+        max_spots_per_week = int(
             prompt_value(
                 "Spots Per Week",
-                rule["spots_per_week"]
+                rule["max_spots_per_week"]
             )
         )
 
@@ -263,17 +263,17 @@ def main():
         )
 
 
-        spots_per_day = (
-            args.spots_per_day
-            if args.spots_per_day is not None
-            else rule["spots_per_day"]
+        max_spots_per_day = (
+            args.max_spots_per_day
+            if args.max_spots_per_day is not None
+            else rule["max_spots_per_day"]
         )
 
 
-        spots_per_week = (
-            args.spots_per_week
-            if args.spots_per_week is not None
-            else rule["spots_per_week"]
+        max_spots_per_week = (
+            args.max_spots_per_week
+            if args.max_spots_per_week is not None
+            else rule["max_spots_per_week"]
         )
 
 
@@ -314,9 +314,9 @@ def main():
 
             preferred_stopset_id,
 
-            spots_per_day,
+            max_spots_per_day,
 
-            spots_per_week,
+            max_spots_per_week,
 
             allow_news,
 

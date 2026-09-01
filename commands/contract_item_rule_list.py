@@ -103,8 +103,8 @@ def main():
             f"{(rule['end_time'] or ''):<8}"
             f"{str(rule['preferred_program_id'] or '-'): <7}"
             f"{str(rule['preferred_stopset_id'] or '-'): <7}"
-            f"{rule['spots_per_day']:<9}"
-            f"{rule['spots_per_week']:<10}"
+            f"{rule['max_spots_per_day']:<9}"
+            f"{rule['max_spots_per_week']:<10}"
             f"{status:<10}"
 
         )
