@@ -3,7 +3,7 @@
 # I was going to call it startfresh.sh but I want something shorter for this right now.
 # It is to drop the zbTraffic database and reset it up to my last testing setup for further dev work.
 
-cd ~/projects/zbTraffic
+# cd ~/projects/zbTraffic
 
 echo 'dropping database'
 rm data/traffic.db
@@ -96,10 +96,13 @@ python3 -m database.import_contract_item_rules_csv database/data/contract_item_r
 #python3 -m commands.export_rivendell_log 2026-08-08
 #python3 -m commands.export_rivendell_log 2026-08-09
 
-This is how we copy logs to the rivendell machine
+# This is how we copy logs to the rivendell machine
 #scp logs/zbt_*.log rd@192.168.86.137:/home/rd/Desktop/ewxfer/zbt/
 
 # Some useful commands
 # python3 -m prototype.traffic_board &
 # sqlitebrowser data/traffic.db &
 # python3 -m gui.database_browser &
+# This will export the range as logs, create matching "fake" as played reports and reconcile the same
+# against the db, marking those spots as Completed.
+# python3 -m commands.reconcile_range 2026-08-15 2026-09-15
