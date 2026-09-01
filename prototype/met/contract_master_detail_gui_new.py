@@ -296,7 +296,7 @@ class ScrolledTreeview(ttk.Frame):
             w=90
             if c in ("description","company_name","commercial_title","contract_number","notes","customer","commercial"):
                 w=160
-            if c in ("id","active","quantity","priority","spots_per_day","spots_per_week"):
+            if c in ("id","active","quantity","priority","max_spots_per_day","max_spots_per_week"):
                 w=60
             if c in ("start_date","end_date","status","days_of_week"):
                 w=80
@@ -431,7 +431,7 @@ class ContractMasterDetailGUI:
         # ---- RULES: Bottom pane - more compact ----
         rules_frame = ttk.LabelFrame(paned_main, text="3. Contract Item Rules")
         paned_main.add(rules_frame, weight=2)
-        rules_cols = ("id", "days_of_week", "start_time", "end_time", "spots_per_day", "spots_per_week", "allow_news", "allow_special", "active", "pref_program", "pref_stopset", "notes")
+        rules_cols = ("id", "days_of_week", "start_time", "end_time", "max_spots_per_day", "max_spots_per_week", "allow_news", "allow_special", "active", "pref_program", "pref_stopset", "notes")
         self.rules_tree_wrap = ScrolledTreeview(rules_frame, rules_cols, height=5)
         self.rules_tree_wrap.pack(fill="both", expand=True, padx=2, pady=2)
         self.rules_tree = self.rules_tree_wrap.tree
@@ -689,7 +689,7 @@ class ContractMasterDetailGUI:
         cur = con.cursor()
         try:
             cur.execute(""" SELECT id, contract_item_id, days_of_week, start_time, end_time,
-             spots_per_day, spots_per_week, allow_news, allow_special_events, active, notes,
+             max_spots_per_day, max_spots_per_week, allow_news, allow_special_events, active, notes,
              preferred_program_id, preferred_stopset_id
             FROM contract_item_rules WHERE contract_item_id=? ORDER BY id """, (item_id,))
             rows = cur.fetchall()
@@ -704,7 +704,7 @@ class ContractMasterDetailGUI:
                 if stop_id and stop_id in self.stopsets_by_id:
                     pref_stop_disp = f"{self.stopsets_by_id[stop_id]} [{stop_id}]"
                 days_norm = normalize_days_to_names(r["days_of_week"])
-                self.rules_tree.insert("", "end", values=(r["id"], days_norm, r["start_time"], r["end_time"], r["spots_per_day"], r["spots_per_week"], r["allow_news"], r["allow_special_events"], r["active"], pref_prog_disp, pref_stop_disp, r["notes"]))
+                self.rules_tree.insert("", "end", values=(r["id"], days_norm, r["start_time"], r["end_time"], r["max_spots_per_day"], r["max_spots_per_week"], r["allow_news"], r["allow_special_events"], r["active"], pref_prog_disp, pref_stop_disp, r["notes"]))
             self.status_var.set(f"Item {item_id}: {len(rows)} rules")
         finally:
             con.close()
@@ -718,8 +718,8 @@ class ContractMasterDetailGUI:
         self.sync_checkboxes_from_days(r["days_of_week"] or "")
         self.rule_start.set(r["start_time"] or "")
         self.rule_end.set(r["end_time"] or "")
-        self.per_day.set(r["spots_per_day"] or 0)
-        self.per_week.set(r["spots_per_week"] or 0)
+        self.per_day.set(r["max_spots_per_day"] or 0)
+        self.per_week.set(r["max_spots_per_week"] or 0)
         self.allow_news.set(r["allow_news"])
         self.allow_spec.set(r["allow_special_events"])
         self.rule_active.set(r["active"])
@@ -838,7 +838,7 @@ class ContractMasterDetailGUI:
         prog_id, stop_id = self._get_pref_ids()
         con = get_connection(); cur = con.cursor()
         try:
-            cur.execute(""" INSERT INTO contract_item_rules (contract_item_id, days_of_week, start_time, end_time, spots_per_day, spots_per_week, allow_news, allow_special_events, active, notes, preferred_program_id, preferred_stopset_id, created_date, modified_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) """,
+            cur.execute(""" INSERT INTO contract_item_rules (contract_item_id, days_of_week, start_time, end_time, max_spots_per_day, max_spots_per_week, allow_news, allow_special_events, active, notes, preferred_program_id, preferred_stopset_id, created_date, modified_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) """,
                         (self.selected_item_id, self.days_var.get().strip(), self.rule_start.get().strip(), self.rule_end.get().strip(), self.per_day.get() or 0, self.per_week.get() or 0, self.allow_news.get(), self.allow_spec.get(), self.rule_active.get(), self.notes_var.get().strip(), prog_id, stop_id, now_str(), now_str()))
             con.commit(); self.load_rules_for_item(self.selected_item_id)
         except Exception as e: messagebox.showerror("Error", str(e))
@@ -851,7 +851,7 @@ class ContractMasterDetailGUI:
         prog_id, stop_id = self._get_pref_ids()
         con = get_connection(); cur = con.cursor()
         try:
-            cur.execute(""" UPDATE contract_item_rules SET days_of_week=?, start_time=?, end_time=?, spots_per_day=?, spots_per_week=?, allow_news=?, allow_special_events=?, active=?, notes=?, preferred_program_id=?, preferred_stopset_id=?, modified_date=? WHERE id=? """,
+            cur.execute(""" UPDATE contract_item_rules SET days_of_week=?, start_time=?, end_time=?, max_spots_per_day=?, max_spots_per_week=?, allow_news=?, allow_special_events=?, active=?, notes=?, preferred_program_id=?, preferred_stopset_id=?, modified_date=? WHERE id=? """,
                         (self.days_var.get().strip(), self.rule_start.get().strip(), self.rule_end.get().strip(), self.per_day.get() or 0, self.per_week.get() or 0, self.allow_news.get(), self.allow_spec.get(), self.rule_active.get(), self.notes_var.get().strip(), prog_id, stop_id, now_str(), rid))
             con.commit(); self.load_rules_for_item(self.selected_item_id)
         finally: con.close()

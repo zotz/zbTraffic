@@ -69,31 +69,31 @@ class GUI:
         self.items={str(r["id"]):r["id"] for r in cur.fetchall()}; self.item_cb["values"]=list(self.items.keys()); con.close()
     def load(self):
         con=get_connection(); cur=con.cursor()
-        cur.execute("SELECT id,contract_item_id,days_of_week,start_time,end_time,spots_per_day,spots_per_week,active FROM contract_item_rules ORDER BY id DESC")
+        cur.execute("SELECT id,contract_item_id,days_of_week,start_time,end_time,max_spots_per_day,max_spots_per_week,active FROM contract_item_rules ORDER BY id DESC")
         self.all_rows=[dict(r) for r in cur.fetchall()]; con.close(); self.apply_filter()
     def apply_filter(self):
         f=self.filter_var.get().lower()
         self.tree.delete(*self.tree.get_children())
         for r in self.all_rows:
             if f and f not in f"{r['days_of_week'] or ''} {r['start_time'] or ''} {r['end_time'] or ''}".lower(): continue
-            self.tree.insert("", "end", values=(r["id"],r["contract_item_id"],r["days_of_week"],r["start_time"],r["end_time"],r["spots_per_day"],r["spots_per_week"],r["active"]))
+            self.tree.insert("", "end", values=(r["id"],r["contract_item_id"],r["days_of_week"],r["start_time"],r["end_time"],r["max_spots_per_day"],r["max_spots_per_week"],r["active"]))
     def on_select(self,e):
         sel=self.tree.selection()
         if not sel: return
         rid=int(self.tree.item(sel[0],"values")[0])
         for r in self.all_rows:
             if r["id"]==rid:
-                self.item_cb.set(str(r["contract_item_id"])); self.days.set(r["days_of_week"] or ""); self.start.set(r["start_time"] or ""); self.end.set(r["end_time"] or ""); self.spd.set(r["spots_per_day"] or 0); self.spw.set(r["spots_per_week"] or 0); self.active.set(r["active"]); break
+                self.item_cb.set(str(r["contract_item_id"])); self.days.set(r["days_of_week"] or ""); self.start.set(r["start_time"] or ""); self.end.set(r["end_time"] or ""); self.spd.set(r["max_spots_per_day"] or 0); self.spw.set(r["max_spots_per_week"] or 0); self.active.set(r["active"]); break
     def add(self):
         item_id=self.items.get(self.item_cb.get())
         if not item_id: return
         con=get_connection(); cur=con.cursor()
-        cur.execute("INSERT INTO contract_item_rules (contract_item_id,days_of_week,start_time,end_time,spots_per_day,spots_per_week,allow_news,allow_special_events,active,created_date,modified_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(item_id,self.days.get().strip(),self.start.get().strip(),self.end.get().strip(),self.spd.get(),self.spw.get(),self.allow_news.get(),self.allow_spec.get(),self.active.get(),now_str(),now_str())); con.commit(); con.close(); self.load()
+        cur.execute("INSERT INTO contract_item_rules (contract_item_id,days_of_week,start_time,end_time,max_spots_per_day,max_spots_per_week,allow_news,allow_special_events,active,created_date,modified_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(item_id,self.days.get().strip(),self.start.get().strip(),self.end.get().strip(),self.spd.get(),self.spw.get(),self.allow_news.get(),self.allow_spec.get(),self.active.get(),now_str(),now_str())); con.commit(); con.close(); self.load()
     def update(self):
         sel=self.tree.selection()
         if not sel: return
         rid=self.tree.item(sel[0],"values")[0]; item_id=self.items.get(self.item_cb.get())
         con=get_connection(); cur=con.cursor()
-        cur.execute("UPDATE contract_item_rules SET contract_item_id=?,days_of_week=?,start_time=?,end_time=?,spots_per_day=?,spots_per_week=?,allow_news=?,allow_special_events=?,active=?,modified_date=? WHERE id=?",(item_id,self.days.get().strip(),self.start.get().strip(),self.end.get().strip(),self.spd.get(),self.spw.get(),self.allow_news.get(),self.allow_spec.get(),self.active.get(),now_str(),rid)); con.commit(); con.close(); self.load()
+        cur.execute("UPDATE contract_item_rules SET contract_item_id=?,days_of_week=?,start_time=?,end_time=?,max_spots_per_day=?,max_spots_per_week=?,allow_news=?,allow_special_events=?,active=?,modified_date=? WHERE id=?",(item_id,self.days.get().strip(),self.start.get().strip(),self.end.get().strip(),self.spd.get(),self.spw.get(),self.allow_news.get(),self.allow_spec.get(),self.active.get(),now_str(),rid)); con.commit(); con.close(); self.load()
 if __name__=="__main__":
     root=tk.Tk(); GUI(root); root.mainloop()

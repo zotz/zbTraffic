@@ -148,7 +148,7 @@ class ScrolledTreeview(ttk.Frame):
             w=100
             if c in ("description","company_name","commercial_title","contract_number","notes","customer","commercial"):
                 w=200
-            if c in ("id","active","quantity","priority","spots_per_day","spots_per_week"):
+            if c in ("id","active","quantity","priority","max_spots_per_day","max_spots_per_week"):
                 w=70
             if c in ("start_date","end_date","status"):
                 w=90
@@ -287,7 +287,7 @@ class ContractMasterDetailGUI:
         # ---- RULES Section ----
         rules_frame = ttk.LabelFrame(paned, text="3. Contract Item Rules - Select an Item above first")
         paned.add(rules_frame, weight=2)
-        rules_cols = ("id", "days_of_week", "start_time", "end_time", "spots_per_day", "spots_per_week", "allow_news", "allow_special", "active", "pref_program", "pref_stopset", "notes")
+        rules_cols = ("id", "days_of_week", "start_time", "end_time", "max_spots_per_day", "max_spots_per_week", "allow_news", "allow_special", "active", "pref_program", "pref_stopset", "notes")
         self.rules_tree_wrap = ScrolledTreeview(rules_frame, rules_cols, height=6)
         self.rules_tree_wrap.pack(fill="both", expand=True, padx=3, pady=3)
         self.rules_tree = self.rules_tree_wrap.tree
@@ -559,7 +559,7 @@ class ContractMasterDetailGUI:
         try:
             cur.execute("""
              SELECT id, contract_item_id, days_of_week, start_time, end_time,
-             spots_per_day, spots_per_week, allow_news, allow_special_events, active, notes,
+             max_spots_per_day, max_spots_per_week, allow_news, allow_special_events, active, notes,
              preferred_program_id, preferred_stopset_id
             FROM contract_item_rules
             WHERE contract_item_id=?
@@ -576,7 +576,7 @@ class ContractMasterDetailGUI:
                 pref_stop_disp = f"{stop_label} [{r['preferred_stopset_id']}]" if r["preferred_stopset_id"] else ""
                 self.rules_tree.insert("", "end", values=(
                     r["id"], r["days_of_week"], r["start_time"], r["end_time"],
-                    r["spots_per_day"], r["spots_per_week"], r["allow_news"], r["allow_special_events"], r["active"],
+                    r["max_spots_per_day"], r["max_spots_per_week"], r["allow_news"], r["allow_special_events"], r["active"],
                     pref_prog_disp, pref_stop_disp, r["notes"]
                 ))
             self.status_var.set(f"Item {item_id}: {len(rows)} rules. You can now Add Rule.")
@@ -593,8 +593,8 @@ class ContractMasterDetailGUI:
         self.days_var.set(r["days_of_week"] or "")
         self.rule_start.set(r["start_time"] or "")
         self.rule_end.set(r["end_time"] or "")
-        self.per_day.set(r["spots_per_day"] or 0)
-        self.per_week.set(r["spots_per_week"] or 0)
+        self.per_day.set(r["max_spots_per_day"] or 0)
+        self.per_week.set(r["max_spots_per_week"] or 0)
         self.allow_news.set(r["allow_news"])
         self.allow_spec.set(r["allow_special_events"])
         self.rule_active.set(r["active"])
@@ -763,7 +763,7 @@ class ContractMasterDetailGUI:
         cur = con.cursor()
         try:
             cur.execute("""
-             INSERT INTO contract_item_rules (contract_item_id, days_of_week, start_time, end_time, spots_per_day, spots_per_week, allow_news, allow_special_events, active, notes, preferred_program_id, preferred_stopset_id, created_date, modified_date)
+             INSERT INTO contract_item_rules (contract_item_id, days_of_week, start_time, end_time, max_spots_per_day, max_spots_per_week, allow_news, allow_special_events, active, notes, preferred_program_id, preferred_stopset_id, created_date, modified_date)
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
              """, (self.selected_item_id, self.days_var.get().strip(), self.rule_start.get().strip(), self.rule_end.get().strip(),
                   self.per_day.get() or 0, self.per_week.get() or 0, self.allow_news.get(), self.allow_spec.get(), self.rule_active.get(),
@@ -786,7 +786,7 @@ class ContractMasterDetailGUI:
         cur = con.cursor()
         try:
             cur.execute("""
-             UPDATE contract_item_rules SET days_of_week=?, start_time=?, end_time=?, spots_per_day=?, spots_per_week=?, allow_news=?, allow_special_events=?, active=?, notes=?, preferred_program_id=?, preferred_stopset_id=?, modified_date=?
+             UPDATE contract_item_rules SET days_of_week=?, start_time=?, end_time=?, max_spots_per_day=?, max_spots_per_week=?, allow_news=?, allow_special_events=?, active=?, notes=?, preferred_program_id=?, preferred_stopset_id=?, modified_date=?
             WHERE id=?
              """, (self.days_var.get().strip(), self.rule_start.get().strip(), self.rule_end.get().strip(),
                   self.per_day.get() or 0, self.per_week.get() or 0, self.allow_news.get(), self.allow_spec.get(), self.rule_active.get(),
