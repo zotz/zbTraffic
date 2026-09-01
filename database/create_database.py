@@ -432,9 +432,9 @@ def create_database():
 
         preferred_stopset_id INTEGER,
 
-        spots_per_day INTEGER DEFAULT 0,
+        max_spots_per_day INTEGER DEFAULT 0,
 
-        spots_per_week INTEGER DEFAULT 0,
+        max_spots_per_week INTEGER DEFAULT 0,
 
         allow_news INTEGER DEFAULT 1,
 

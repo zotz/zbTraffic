@@ -264,8 +264,8 @@ def check_contract_item_rules_csv(
         "end_time",
         "preferred_program",
         "preferred_stopset",
-        "spots_per_day",
-        "spots_per_week",
+        "max_spots_per_day",
+        "max_spots_per_week",
         "allow_news",
         "allow_special_events",
         "notes"
