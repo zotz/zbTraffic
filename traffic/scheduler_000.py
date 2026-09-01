@@ -695,8 +695,8 @@ def count_scheduled_spots_for_contract_item_day(
 def can_schedule_on_date(
     contract_item_id,
     air_date,
-    spots_per_day,
-    spots_per_week
+    max_spots_per_day,
+    max_spots_per_week
 ):
     """
     Determine whether another spot may be scheduled
@@ -711,7 +711,7 @@ def can_schedule_on_date(
     # Daily limit
     #
 
-    if spots_per_day > 0:
+    if max_spots_per_day > 0:
 
         scheduled_today = (
             count_scheduled_spots_for_contract_item_day(
@@ -720,7 +720,7 @@ def can_schedule_on_date(
             )
         )
 
-        if scheduled_today >= spots_per_day:
+        if scheduled_today >= max_spots_per_day:
 
             return False
 
@@ -729,7 +729,7 @@ def can_schedule_on_date(
     # Weekly limit
     #
 
-    if spots_per_week > 0:
+    if max_spots_per_week > 0:
 
         week_start = get_week_start(
             air_date
@@ -742,7 +742,7 @@ def can_schedule_on_date(
             )
         )
 
-        if scheduled_this_week >= spots_per_week:
+        if scheduled_this_week >= max_spots_per_week:
 
             return False
 
@@ -783,8 +783,8 @@ def get_scheduling_limits(
     Return the scheduling limits for a contract item.
 
     Returns:
-        spots_per_day,
-        spots_per_week
+        max_spots_per_day,
+        max_spots_per_week
     """
 
     rules = list_contract_item_rules(
@@ -792,26 +792,26 @@ def get_scheduling_limits(
     )
 
 
-    spots_per_day = 0
+    max_spots_per_day = 0
 
-    spots_per_week = 0
+    max_spots_per_week = 0
 
 
     for rule in rules:
 
-        if rule["spots_per_day"]:
+        if rule["max_spots_per_day"]:
 
-            spots_per_day = rule["spots_per_day"]
+            max_spots_per_day = rule["max_spots_per_day"]
 
 
-        if rule["spots_per_week"]:
+        if rule["max_spots_per_week"]:
 
-            spots_per_week = rule["spots_per_week"]
+            max_spots_per_week = rule["max_spots_per_week"]
 
 
     return (
-        spots_per_day,
-        spots_per_week
+        max_spots_per_day,
+        max_spots_per_week
     )
 
 def get_eligible_dates(
@@ -1066,7 +1066,7 @@ def schedule_contract_item_quantity(
         contract["customer_id"]
     )
 
-    spots_per_day, spots_per_week = (
+    max_spots_per_day, max_spots_per_week = (
         get_scheduling_limits(
             contract_item_id
         )
@@ -1227,8 +1227,8 @@ def schedule_contract_item_quantity(
             if not can_schedule_on_date(
                 contract_item_id,
                 air_date,
-                spots_per_day,
-                spots_per_week
+                max_spots_per_day,
+                max_spots_per_week
             ):
 
                 trace(

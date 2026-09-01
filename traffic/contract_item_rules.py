@@ -104,8 +104,8 @@ def add_contract_item_rule(
     end_time=None,
     preferred_program_id=None,
     preferred_stopset_id=None,
-    spots_per_day=0,
-    spots_per_week=0,
+    max_spots_per_day=0,
+    max_spots_per_week=0,
     allow_news=1,
     allow_special_events=1,
     notes=""
@@ -143,9 +143,9 @@ def add_contract_item_rule(
 
             preferred_stopset_id,
 
-            spots_per_day,
+            max_spots_per_day,
 
-            spots_per_week,
+            max_spots_per_week,
 
             allow_news,
 
@@ -200,9 +200,9 @@ def add_contract_item_rule(
 
             preferred_stopset_id,
 
-            spots_per_day,
+            max_spots_per_day,
 
-            spots_per_week,
+            max_spots_per_week,
 
             allow_news,
 
@@ -325,8 +325,8 @@ def update_contract_item_rule(
     end_time=None,
     preferred_program_id=None,
     preferred_stopset_id=None,
-    spots_per_day=0,
-    spots_per_week=0,
+    max_spots_per_day=0,
+    max_spots_per_week=0,
     allow_news=1,
     allow_special_events=1,
     notes=""
@@ -397,9 +397,9 @@ def update_contract_item_rule(
 
             preferred_stopset_id = ?,
 
-            spots_per_day = ?,
+            max_spots_per_day = ?,
 
-            spots_per_week = ?,
+            max_spots_per_week = ?,
 
             allow_news = ?,
 
@@ -421,9 +421,9 @@ def update_contract_item_rule(
 
             preferred_stopset_id,
 
-            spots_per_day,
+            max_spots_per_day,
 
-            spots_per_week,
+            max_spots_per_week,
 
             allow_news,
 
