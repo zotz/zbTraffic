@@ -770,6 +770,8 @@ def get_invoice_item(invoice_item_id):
             quantity,
             unit_price,
             amount,
+            taxable,
+            tax_rate,
             created_date,
             modified_date
         FROM invoice_items
