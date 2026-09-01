@@ -766,6 +766,166 @@ def main():
         )
 
 
+
+        #
+        # ----------------------------------------------------------
+        # Taxable invoice tests.
+        # ----------------------------------------------------------
+        #
+
+        #
+        # Get a tax rate from the tax_rates table.
+        #
+
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                rate
+            FROM tax_rates
+            WHERE name = ?
+              AND effective_date = ?
+            """,
+            ("VAT", "2026-01-01")
+        )
+
+        tax_rate_row = cursor.fetchone()
+
+        conn.close()
+
+        test(
+            "Tax rate exists in tax_rates table",
+            tax_rate_row is not None
+            and tax_rate_row["rate"] == 1000,
+            (
+                f"rate="
+                f"{tax_rate_row['rate'] if tax_rate_row else None}"
+            )
+        )
+
+        #
+        # Create a separate taxable invoice.
+        #
+
+        taxable_invoice_id = create_invoice(
+            customer_id=customer_id,
+            invoice_number="ZZTEST-TAX-001",
+            invoice_date="2026-08-25",
+            due_date="2026-09-24",
+            contract_id=contract_id,
+            status="Draft",
+            notes="Billing regression taxable invoice",
+        )
+
+        invoice_ids.append(taxable_invoice_id)
+
+        test(
+            "Taxable invoice is created",
+            taxable_invoice_id is not None,
+            f"invoice_id={taxable_invoice_id}"
+        )
+
+        #
+        # Add a taxable invoice item using the rate from
+        # the tax_rates table.
+        #
+
+        taxable_item_id = add_invoice_item(
+            invoice_id=taxable_invoice_id,
+            contract_item_id=contract_item_id,
+            description="ZZTEST Taxable Item",
+            quantity=3,
+            unit_price=7500,
+            taxable=1,
+            tax_rate=tax_rate_row["rate"] if tax_rate_row else 0,
+        )
+
+        invoice_item_ids.append(taxable_item_id)
+
+        test(
+            "Taxable invoice item is created",
+            taxable_item_id is not None,
+            f"invoice_item_id={taxable_item_id}"
+        )
+
+        taxable_item = get_invoice_item(taxable_item_id)
+
+        test(
+            "Taxable invoice item has taxable flag",
+            taxable_item is not None
+            and taxable_item["taxable"] == 1,
+            (
+                f"taxable="
+                f"{taxable_item['taxable'] if taxable_item else None}"
+            )
+        )
+
+        test(
+            "Taxable invoice item has tax rate",
+            taxable_item is not None
+            and taxable_item["tax_rate"] == 1000,
+            (
+                f"tax_rate="
+                f"{taxable_item['tax_rate'] if taxable_item else None}"
+            )
+        )
+
+        #
+        # Taxable invoice totals.
+        #
+
+        subtotal, taxable_subtotal, tax, total = (
+            recalculate_invoice_totals(taxable_invoice_id)
+        )
+
+        test(
+            "Taxable invoice subtotal is calculated",
+            subtotal == 22500,
+            f"subtotal={subtotal}"
+        )
+
+        test(
+            "Taxable invoice taxable subtotal is calculated",
+            taxable_subtotal == 22500,
+            f"taxable_subtotal={taxable_subtotal}"
+        )
+
+        test(
+            "Taxable invoice tax is calculated",
+            tax == 2250,
+            f"tax={tax}"
+        )
+
+        test(
+            "Taxable invoice total is subtotal plus tax",
+            total == 24750,
+            f"total={total}"
+        )
+
+        taxable_invoice = get_invoice(taxable_invoice_id)
+
+        test(
+            "Stored taxable invoice tax is correct",
+            taxable_invoice is not None
+            and taxable_invoice["tax"] == 2250,
+            f"tax={taxable_invoice['tax'] if taxable_invoice else None}"
+        )
+
+        test(
+            "Stored taxable invoice total is correct",
+            taxable_invoice is not None
+            and taxable_invoice["total"] == 24750,
+            (
+                f"total="
+                f"{taxable_invoice['total'] if taxable_invoice else None}"
+            )
+        )
+
+
+
         #
         # ----------------------------------------------------------
         # Completed spot discovery.
