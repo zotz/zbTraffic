@@ -264,7 +264,9 @@ def check_contract_item_rules_csv(
         "end_time",
         "preferred_program",
         "preferred_stopset",
+        "min_spots_per_day",
         "max_spots_per_day",
+        "min_spots_per_week",
         "max_spots_per_week",
         "allow_news",
         "allow_special_events",
@@ -340,66 +342,74 @@ def check_contract_item_rules_csv(
             # Find preferred program.
             #
 
-            program = programs_by_name.get(
-                program_name
-            )
+            program = None
 
+            if program_name:
 
-            if program is None:
-
-                print(
-                    f"ERROR: CSV row {row_number}: "
-                    f"{contract_number} / "
-                    f"{commercial_title}"
+                program = programs_by_name.get(
+                    program_name
                 )
 
-                print(
-                    f"- Preferred program "
-                    f"'{program_name}' does not exist"
-                )
 
-                problems.append(
-                    make_problem(
-                        row_number,
-                        row,
-                        "preferred_program_not_found"
+                if program is None:
+
+                    print(
+                        f"ERROR: CSV row {row_number}: "
+                        f"{contract_number} / "
+                        f"{commercial_title}"
                     )
-                )
 
-                continue
+                    print(
+                        f"- Preferred program "
+                        f"'{program_name}' does not exist"
+                    )
+
+                    problems.append(
+                        make_problem(
+                            row_number,
+                            row,
+                            "preferred_program_not_found"
+                        )
+                    )
+
+                    continue
 
 
             #
             # Find preferred stopset.
             #
 
-            stopset = stopsets_by_name.get(
-                stopset_name
-            )
+            stopset = None
 
+            if stopset_name:
 
-            if stopset is None:
-
-                print(
-                    f"ERROR: CSV row {row_number}: "
-                    f"{contract_number} / "
-                    f"{commercial_title}"
+                stopset = stopsets_by_name.get(
+                    stopset_name
                 )
 
-                print(
-                    f"- Preferred stopset "
-                    f"'{stopset_name}' does not exist"
-                )
 
-                problems.append(
-                    make_problem(
-                        row_number,
-                        row,
-                        "preferred_stopset_not_found"
+                if stopset is None:
+
+                    print(
+                        f"ERROR: CSV row {row_number}: "
+                        f"{contract_number} / "
+                        f"{commercial_title}"
                     )
-                )
 
-                continue
+                    print(
+                        f"- Preferred stopset "
+                        f"'{stopset_name}' does not exist"
+                    )
+
+                    problems.append(
+                        make_problem(
+                            row_number,
+                            row,
+                            "preferred_stopset_not_found"
+                        )
+                    )
+
+                    continue
 
 
             #
@@ -407,35 +417,47 @@ def check_contract_item_rules_csv(
             # the preferred program.
             #
 
-            if stopset["program_id"] != program["id"]:
+            if program is not None and stopset is not None:
 
-                print(
-                    f"ERROR: CSV row {row_number}: "
-                    f"{contract_number} / "
-                    f"{commercial_title}"
-                )
+                if stopset["program_id"] != program["id"]:
 
-                print(
-                    f"- Preferred stopset "
-                    f"'{stopset_name}' does not belong "
-                    f"to preferred program "
-                    f"'{program_name}'"
-                )
-
-                problems.append(
-                    make_problem(
-                        row_number,
-                        row,
-                        "stopset_not_in_preferred_program",
-                        {
-                            "program_id": program["id"],
-                            "stopset_id": stopset["id"]
-                        }
+                    print(
+                        f"ERROR: CSV row {row_number}: "
+                        f"{contract_number} / "
+                        f"{commercial_title}"
                     )
-                )
+
+                    print(
+                        f"- Preferred stopset "
+                        f"'{stopset_name}' does not belong "
+                        f"to preferred program "
+                        f"'{program_name}'"
+                    )
+
+                    problems.append(
+                        make_problem(
+                            row_number,
+                            row,
+                            "stopset_not_in_preferred_program",
+                            {
+                                "program_id": program["id"],
+                                "stopset_id": stopset["id"]
+                            }
+                        )
+                    )
+
+                    continue
+
+            #
+            # No preferred program or stopset means
+            # there is no preference to validate.
+            #
+
+            if program is None:
+
+                valid_rows += 1
 
                 continue
-
 
             #
             # Convert rule times.
@@ -570,6 +592,17 @@ def check_contract_item_rules_csv(
 
             valid_start, valid_end = valid_window
 
+            if stopset is None:
+
+                print(
+                    f"OK: CSV row {row_number}: "
+                    f"{contract_number} / "
+                    f"{commercial_title}"
+                )
+
+                valid_rows += 1
+
+                continue
 
             #
             # Convert stopset times.
