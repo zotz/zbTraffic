@@ -1,18 +1,18 @@
-contract,item_key,commercial,days_of_week,start_time,end_time,preferred_program,preferred_stopset,max_spots_per_day,max_spots_per_week,allow_news,allow_special_events,notes
-TBM-2026-001,TBM-2026-001-01,zbT Thunderbay Motors 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",06:00:00,10:00:00,Morning Show,,2,15,0,0,Auto morning window
-WRA-2026-001,WRA-2026-001-01,zbT WaveRider Auto Group 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",06:00:00,10:00:00,Morning Show,,2,15,0,0,Auto overlapping morning window
-SLC-2026-001,SLC-2026-001-01,zbT Spiny Lobster Café 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",10:00:00,14:00:00,Midday Show,,2,15,0,0,Restaurant midday window
-MMG-2026-001,MMG-2026-001-01,zbT Mango Moon Grill 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",11:00:00,15:00:00,Midday Show,,2,15,0,0,Restaurant overlapping midday window
-SEE-2026-001,SEE-2026-001-01,zbT Seashell Emporium 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,13:00:00,Midday Show,,2,15,0,0,Retail daytime window
-TWO-2026-001,TWO-2026-001-01,zbT Tradewind Outfitters 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",10:00:00,14:00:00,Midday Show,,2,15,0,0,Retail overlapping daytime window
-CCR-2026-001,CCR-2026-001-01,zbT Coral Cay Realty 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",08:00:00,12:00:00,Morning Show,,2,15,0,0,Real estate morning window
-HPP-2026-001,HPP-2026-001-01,zbT Horizon Point Properties 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,13:00:00,Midday Show,,2,15,0,0,Real estate overlapping window
-SIB-2026-001,SIB-2026-001-01,zbT Sovereign Isle Bank 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",08:00:00,11:00:00,Morning Show,,2,15,0,0,Banking morning window
-BSD-2026-001,BSD-2026-001-01,zbT Brightsmile Dental 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,13:00:00,Midday Show,,2,15,0,0,Dental daytime window
-ALG-2026-001,ALG-2026-001-01,zbT Anchor Law Group 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",08:00:00,12:00:00,Morning Show,,2,15,0,0,Legal morning window
-ACR-2026-001,ACR-2026-001-01,zbT Azure Cove Resort 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",12:00:00,17:00:00,Midday Show,,2,15,0,0,Tourism afternoon window
-TLC-2026-001,TLC-2026-001-01,zbT TropicLink Communications 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",14:00:00,18:00:00,Afternoon Drive,,2,15,0,0,Telecom afternoon window
-IBM-2026-001,IBM-2026-001-01,zbT Island Basket Market 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",11:00:00,16:00:00,Midday Show,,2,15,0,0,Grocery overlapping midday window
-SSI-2026-001,SSI-2026-001-01,zbT Shield & Sail Insurance 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",11:00:00,20:00:00,Afternoon Drive,,2,15,0,0,Insurance Note afternoon window
-HPP-2026-002,HPP-2026-002-01,zbT Horizon Point Prop 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,17:00:00,,,2,15,0,0,Real estate overlapping window
-HPP-2026-001,HPP-2026-001-02,zbT Horizon Point Properties 60,"Mon,Wed,Fri",12:00:00,21:00:00,,,2,15,0,0,Real estate 2 contr item
+contract,item_key,commercial,days_of_week,start_time,end_time,preferred_program,preferred_stopset,min_spots_per_day,max_spots_per_day,min_spots_per_week,max_spots_per_week,allow_news,allow_special_events,notes
+TBM-2026-001,TBM-2026-001-01,zbT Thunderbay Motors 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",06:00:00,10:00:00,Morning Show,,,2,,15,0,0,Auto morning window
+WRA-2026-001,WRA-2026-001-01,zbT WaveRider Auto Group 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",06:00:00,10:00:00,Morning Show,,1,2,,15,0,0,Auto overlapping morning window
+SLC-2026-001,SLC-2026-001-01,zbT Spiny Lobster Café 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",10:00:00,14:00:00,Midday Show,,,2,5,15,0,0,Restaurant midday window
+MMG-2026-001,MMG-2026-001-01,zbT Mango Moon Grill 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",11:00:00,15:00:00,Midday Show,,1,2,5,15,0,0,Restaurant overlapping midday window
+SEE-2026-001,SEE-2026-001-01,zbT Seashell Emporium 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,13:00:00,Midday Show,,1,2,7,15,0,0,Retail daytime window
+TWO-2026-001,TWO-2026-001-01,zbT Tradewind Outfitters 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",10:00:00,14:00:00,Midday Show,,,2,10,15,0,0,Retail overlapping daytime window
+CCR-2026-001,CCR-2026-001-01,zbT Coral Cay Realty 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",08:00:00,12:00:00,Morning Show,,1,2,,15,0,0,Real estate morning window
+HPP-2026-001,HPP-2026-001-01,zbT Horizon Point Properties 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,13:00:00,Midday Show,,0,2,0,15,0,0,Real estate overlapping window
+SIB-2026-001,SIB-2026-001-01,zbT Sovereign Isle Bank 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",08:00:00,11:00:00,Morning Show,,,2,,15,0,0,Banking morning window
+BSD-2026-001,BSD-2026-001-01,zbT Brightsmile Dental 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,13:00:00,Midday Show,,,2,,15,0,0,Dental daytime window
+ALG-2026-001,ALG-2026-001-01,zbT Anchor Law Group 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",08:00:00,12:00:00,Morning Show,,,2,,15,0,0,Legal morning window
+ACR-2026-001,ACR-2026-001-01,zbT Azure Cove Resort 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",12:00:00,17:00:00,Midday Show,,,2,,15,0,0,Tourism afternoon window
+TLC-2026-001,TLC-2026-001-01,zbT TropicLink Communications 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",14:00:00,18:00:00,Afternoon Drive,,,2,,15,0,0,Telecom afternoon window
+IBM-2026-001,IBM-2026-001-01,zbT Island Basket Market 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",11:00:00,16:00:00,Midday Show,,1,2,5,15,0,0,Grocery overlapping midday window
+SSI-2026-001,SSI-2026-001-01,zbT Shield & Sail Insurance 30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",11:00:00,20:00:00,Afternoon Drive,,1,2,3,15,0,0,Insurance Note afternoon window
+HPP-2026-002,HPP-2026-002-01,zbT Horizon Point Prop 60,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",09:00:00,17:00:00,,,1,2,5,15,0,0,Real estate overlapping window
+HPP-2026-001,HPP-2026-001-02,zbT Horizon Point Properties 60,"Mon,Wed,Fri",12:00:00,21:00:00,,,1,2,3,15,0,0,Real estate 2 contr item
