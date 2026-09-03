@@ -444,8 +444,64 @@ echo
 echo "Test 9: Separation rule is seeded"
 
 python3 - <<'PY'
-from traffic.separation_rules import get_separation_minutes
+from traffic.database import get_connection
+from traffic.separation_rules import add_separation_rule
 import sys
+
+connection = get_connection()
+cursor = connection.cursor()
+
+cursor.execute(
+    """
+    SELECT id
+    FROM separation_rules
+    WHERE
+        (
+            category1_id = ?
+            AND category2_id = ?
+        )
+        OR
+        (
+            category1_id = ?
+            AND category2_id = ?
+        )
+    """,
+    (
+        2,
+        4,
+        4,
+        2
+    )
+)
+
+existing = cursor.fetchone()
+
+rule = None
+
+if existing is None:
+
+    rule, errors = add_separation_rule(
+        2,
+        4,
+        20,
+        "Scheduler regression test"
+    )
+
+    if errors:
+        print("FAIL: Could not seed separation rule.")
+        for error in errors:
+            print(f"  {error}")
+        sys.exit(1)
+
+    print("  Seeded Automotive <-> Retail separation rule.")
+
+else:
+
+    print("  Automotive <-> Retail separation rule already exists.")
+
+connection.close()
+
+from traffic.separation_rules import get_separation_minutes
 
 automotive_to_retail = get_separation_minutes(
     2,
@@ -469,6 +525,8 @@ print(
 )
 
 
+passed = True
+
 if automotive_to_retail != 20:
 
     print(
@@ -476,7 +534,7 @@ if automotive_to_retail != 20:
         "separation rule is incorrect."
     )
 
-    sys.exit(1)
+    passed = False
 
 
 if retail_to_automotive != 20:
@@ -486,10 +544,19 @@ if retail_to_automotive != 20:
         "separation rule is incorrect."
     )
 
+    passed = False
+
+
+
+
+
+if passed:
+
+    print("PASS")
+
+else:
+
     sys.exit(1)
-
-
-print("PASS")
 PY
 
 if [ $? -ne 0 ]; then
