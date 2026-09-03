@@ -64,12 +64,22 @@ def main():
     )
 
     parser.add_argument(
-        "--spots-per-day",
+        "--min-spots-per-day",
         type=int
     )
 
     parser.add_argument(
-        "--spots-per-week",
+        "--max-spots-per-day",
+        type=int
+    )
+
+    parser.add_argument(
+        "--min-spots-per-week",
+        type=int
+    )
+
+    parser.add_argument(
+        "--max-spots-per-week",
         type=int
     )
 
@@ -187,20 +197,56 @@ def main():
 
 
 
-        max_spots_per_day = int(
-            prompt_value(
-                "Spots Per Day",
-                rule["max_spots_per_day"]
-            )
+        min_spots_per_day = prompt_value(
+            "Min Spots Per Day",
+            rule["min_spots_per_day"] or ""
         )
 
-
-        max_spots_per_week = int(
-            prompt_value(
-                "Spots Per Week",
-                rule["max_spots_per_week"]
+        if min_spots_per_day == "":
+            min_spots_per_day = None
+        else:
+            min_spots_per_day = int(
+                min_spots_per_day
             )
+
+
+        max_spots_per_day = prompt_value(
+            "Max Spots Per Day",
+            rule["max_spots_per_day"] or ""
         )
+
+        if max_spots_per_day == "":
+            max_spots_per_day = None
+        else:
+            max_spots_per_day = int(
+                max_spots_per_day
+            )
+
+
+        min_spots_per_week = prompt_value(
+            "Min Spots Per Week",
+            rule["min_spots_per_week"] or ""
+        )
+
+        if min_spots_per_week == "":
+            min_spots_per_week = None
+        else:
+            min_spots_per_week = int(
+                min_spots_per_week
+            )
+
+
+        max_spots_per_week = prompt_value(
+            "Max Spots Per Week",
+            rule["max_spots_per_week"] or ""
+        )
+
+        if max_spots_per_week == "":
+            max_spots_per_week = None
+        else:
+            max_spots_per_week = int(
+                max_spots_per_week
+            )
 
 
         allow_news = int(
@@ -263,10 +309,24 @@ def main():
         )
 
 
+        min_spots_per_day = (
+            args.min_spots_per_day
+            if args.min_spots_per_day is not None
+            else rule["min_spots_per_day"]
+        )
+
+
         max_spots_per_day = (
             args.max_spots_per_day
             if args.max_spots_per_day is not None
             else rule["max_spots_per_day"]
+        )
+
+
+        min_spots_per_week = (
+            args.min_spots_per_week
+            if args.min_spots_per_week is not None
+            else rule["min_spots_per_week"]
         )
 
 
@@ -314,7 +374,11 @@ def main():
 
             preferred_stopset_id,
 
+            min_spots_per_day,
+
             max_spots_per_day,
+
+            min_spots_per_week,
 
             max_spots_per_week,
 

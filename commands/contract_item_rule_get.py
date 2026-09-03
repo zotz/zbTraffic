@@ -83,11 +83,19 @@ def main():
     )
 
     print(
-        f"Spots Per Day: {rule['max_spots_per_day']}"
+        f"Min Spots Per Day: {rule['min_spots_per_day']}"
     )
 
     print(
-        f"Spots Per Week: {rule['max_spots_per_week']}"
+        f"Max Spots Per Day: {rule['max_spots_per_day']}"
+    )
+
+    print(
+        f"Min Spots Per Week: {rule['min_spots_per_week']}"
+    )
+
+    print(
+        f"Max Spots Per Week: {rule['max_spots_per_week']}"
     )
 
     print(

@@ -74,14 +74,16 @@ def main():
         f"{'End':<8}"
         f"{'Prog':<7}"
         f"{'Stop':<7}"
-        f"{'Per Day':<9}"
-        f"{'Per Week':<10}"
+        f"{'Min/Day':<8}"
+        f"{'Max/Day':<8}"
+        f"{'Min/Week':<9}"
+        f"{'Max/Week':<9}"
         f"{'Status':<10}"
     )
 
 
     print(
-        "-" * 97
+        "-" * 112
     )
 
 
@@ -103,8 +105,10 @@ def main():
             f"{(rule['end_time'] or ''):<8}"
             f"{str(rule['preferred_program_id'] or '-'): <7}"
             f"{str(rule['preferred_stopset_id'] or '-'): <7}"
-            f"{rule['max_spots_per_day']:<9}"
-            f"{rule['max_spots_per_week']:<10}"
+            f"{str(rule['min_spots_per_day']) if rule['min_spots_per_day'] is not None else '-':<8}"
+            f"{str(rule['max_spots_per_day']) if rule['max_spots_per_day'] is not None else '-':<8}"
+            f"{str(rule['min_spots_per_week']) if rule['min_spots_per_week'] is not None else '-':<9}"
+            f"{str(rule['max_spots_per_week']) if rule['max_spots_per_week'] is not None else '-':<9}"
             f"{status:<10}"
 
         )
