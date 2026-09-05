@@ -29,8 +29,9 @@ MODULES = [
 ("Traffic Board", "prototype.traffic_board"),
 ("Traffic Days", "prototype.traffic_days"),
 ("Traffic Days Table", "prototype.traffic_days_table"),
-(">>> New2 MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui_new2"),
+(">>> New3 MASTER: Contracts -> Items -> Rules", "prototype.met.contract_master_detail_gui_new3"),
 ("Log Reconcile", "prototype.log_reconcile"),
+("Billing Board", "prototype.billing_board"),
 ]
 
 class Launcher:
