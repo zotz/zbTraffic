@@ -682,6 +682,310 @@ def count_spots_for_contract_item(
     return result["count"]
 
 
+def unschedule_contract_item(
+    contract_item_id
+):
+    """
+    Unschedule an entire contract item.
+
+    This is deliberately strict.
+
+    The operation succeeds only when:
+
+    - The contract item exists.
+    - The number of non-cancelled spots for the CI equals
+      the CI quantity.
+    - Every spot for the CI is Pending or Scheduled.
+    - No spot is linked to an invoice item.
+
+    If all checks pass, all spots for the CI are deleted
+    in a single database transaction.
+
+    Returns:
+
+        {
+            "status": "success",
+            "contract_item_id": ...,
+            "quantity": ...,
+            "spots_found": ...,
+            "scheduled_deleted": ...,
+            "pending_deleted": ...,
+            "total_deleted": ...
+        }
+
+    Or:
+
+        {
+            "status": "not_found",
+            ...
+        }
+
+        {
+            "status": "not_allowed",
+            "reason": "...",
+            ...
+        }
+
+        {
+            "status": "error",
+            "reason": "..."
+        }
+    """
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+
+        #
+        # Lock the database for the duration of the
+        # validation and delete operation.
+        #
+
+        connection.execute(
+            "BEGIN IMMEDIATE"
+        )
+
+
+        #
+        # 1. Find the contract item and its quantity.
+        #
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                quantity
+            FROM contract_items
+            WHERE id = ?
+            """,
+            (
+                contract_item_id,
+            )
+        )
+
+        contract_item = cursor.fetchone()
+
+
+        if contract_item is None:
+
+            connection.rollback()
+
+            return {
+                "status": "not_found",
+                "contract_item_id": contract_item_id
+            }
+
+
+        quantity = contract_item["quantity"]
+
+
+        #
+        # 2. Find ALL spots belonging to the CI.
+        #
+        # Deliberately do not exclude Cancelled here.
+        # The strict operation needs to know about every
+        # spot associated with the CI.
+        #
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                status
+            FROM spots
+            WHERE contract_item_id = ?
+            ORDER BY id
+            """,
+            (
+                contract_item_id,
+            )
+        )
+
+        spots = cursor.fetchall()
+
+
+        spots_found = len(spots)
+
+
+        #
+        # 3. Spot count must exactly match CI quantity.
+        #
+
+        if spots_found != quantity:
+
+            connection.rollback()
+
+            return {
+                "status": "not_allowed",
+                "reason": "spot_count_mismatch",
+                "contract_item_id": contract_item_id,
+                "quantity": quantity,
+                "spots_found": spots_found
+            }
+
+
+        #
+        # 4. Every spot must be Pending or Scheduled.
+        #
+
+        invalid_spots = [
+            spot
+            for spot in spots
+            if spot["status"] not in (
+                "Pending",
+                "Scheduled"
+            )
+        ]
+
+
+        if invalid_spots:
+
+            connection.rollback()
+
+            return {
+                "status": "not_allowed",
+                "reason": "spot_status_not_reversible",
+                "contract_item_id": contract_item_id,
+                "quantity": quantity,
+                "spots_found": spots_found,
+                "invalid_spot_ids": [
+                    spot["id"]
+                    for spot in invalid_spots
+                ],
+                "invalid_statuses": [
+                    spot["status"]
+                    for spot in invalid_spots
+                ]
+            }
+
+
+        #
+        # 5. Make sure none of the spots is associated
+        # with an invoice item.
+        #
+
+        cursor.execute(
+            """
+            SELECT
+                iis.spot_id
+            FROM invoice_item_spots iis
+            JOIN spots s
+                ON s.id = iis.spot_id
+            WHERE s.contract_item_id = ?
+            """,
+            (
+                contract_item_id,
+            )
+        )
+
+        invoice_links = cursor.fetchall()
+
+
+        if invoice_links:
+
+            connection.rollback()
+
+            return {
+                "status": "not_allowed",
+                "reason": "spot_linked_to_invoice",
+                "contract_item_id": contract_item_id,
+                "quantity": quantity,
+                "spots_found": spots_found,
+                "invoice_linked_spot_ids": [
+                    row["spot_id"]
+                    for row in invoice_links
+                ]
+            }
+
+
+        #
+        # Everything has passed validation.
+        #
+
+        scheduled_count = sum(
+            1
+            for spot in spots
+            if spot["status"] == "Scheduled"
+        )
+
+        pending_count = sum(
+            1
+            for spot in spots
+            if spot["status"] == "Pending"
+        )
+
+
+        #
+        # 6. Delete the spots.
+        #
+
+        cursor.execute(
+            """
+            DELETE FROM spots
+            WHERE contract_item_id = ?
+            """,
+            (
+                contract_item_id,
+            )
+        )
+
+        deleted_count = cursor.rowcount
+
+
+        #
+        # 7. Verify the expected number was actually deleted.
+        #
+
+        if deleted_count != spots_found:
+
+            connection.rollback()
+
+            return {
+                "status": "error",
+                "reason": "delete_count_mismatch",
+                "contract_item_id": contract_item_id,
+                "quantity": quantity,
+                "spots_found": spots_found,
+                "deleted_count": deleted_count
+            }
+
+
+        #
+        # 8. Commit.
+        #
+
+        connection.commit()
+
+
+        return {
+            "status": "success",
+            "contract_item_id": contract_item_id,
+            "quantity": quantity,
+            "spots_found": spots_found,
+            "scheduled_deleted": scheduled_count,
+            "pending_deleted": pending_count,
+            "total_deleted": deleted_count
+        }
+
+
+    except Exception as error:
+
+        connection.rollback()
+
+        return {
+            "status": "error",
+            "reason": str(error),
+            "contract_item_id": contract_item_id
+        }
+
+
+    finally:
+
+        connection.close()
+
+
+
 def find_duplicate_spots():
 
     connection = get_connection()
