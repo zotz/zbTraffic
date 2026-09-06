@@ -1242,16 +1242,7 @@ class ContractMasterDetailGUI:
         report.append("OVERALL RESULT")
         report.append("-" * 60)
 
-        if result["item_is_impossible"]:
-            report.append("CI IS IMPOSSIBLE ON ITS FACE")
-            report.append("")
-            report.append(
-                "The Contract Item cannot satisfy its rules."
-            )
-
-            final_state = "impossible"
-
-        elif current_status["scheduling_state"] == "Fully Scheduled":
+        if current_status["scheduling_state"] == "Fully Scheduled":
             report.append("CI IS ALREADY FULLY SCHEDULED")
             report.append("")
             report.append(
@@ -1259,6 +1250,16 @@ class ContractMasterDetailGUI:
             )
 
             final_state = "fully_scheduled"
+
+
+        elif result["item_is_impossible"]:
+            report.append("CI IS IMPOSSIBLE ON ITS FACE")
+            report.append("")
+            report.append(
+                "The Contract Item cannot satisfy its rules."
+            )
+
+            final_state = "impossible"
 
         else:
             report.append("CI IS MATHEMATICALLY FEASIBLE")
@@ -1377,6 +1378,29 @@ class ContractMasterDetailGUI:
                 button_frame,
                 text="Close",
                 command=popup.destroy
+            ).pack(side="left", padx=5)
+
+            if (
+                counts["Scheduled"] > 0
+                or counts["Pending"] > 0
+            ):
+
+                ttk.Button(
+                    button_frame,
+                    text="Deschedule",
+                    command=lambda: self.deschedule_from_new_run(popup)
+                ).pack(side="left", padx=5)
+
+            ttk.Button(
+                button_frame,
+                text="Force Schedule",
+                command=lambda: self.force_schedule_from_new_run(
+                    popup,
+                    report_text,
+                    report_box,
+                    button_frame,
+                    result
+                )
             ).pack(side="left", padx=5)
 
         elif final_state == "fully_scheduled":
@@ -1857,6 +1881,8 @@ class ContractMasterDetailGUI:
             text="Decline",
             command=decline_schedule
         ).pack(side="left", padx=5)
+    # here ends def schedule_from_new_run(
+
 
 
     def deschedule_from_new_run(self, popup):
@@ -1893,6 +1919,72 @@ class ContractMasterDetailGUI:
             "The Contract Item has been completely descheduled.\n\n"
             f"Spots removed: {result['total_deleted']}"
         )
+
+    def force_schedule_from_new_run(self, popup, report_text, report_box, button_frame, result):
+        current_status = result["current_status"]
+        counts = current_status["counts"]
+
+        quantity = result["quantity"]
+
+        # Find the maximum possible schedule from the rule analysis.
+        maximum_scheduled = max(
+            (
+                rule_result["math"]["effective_maximum"]
+                for rule_result in result["rules"]
+                if rule_result["math"]["effective_maximum"] is not None
+            ),
+            default=0
+        )
+
+        minimum_pending = max(
+            quantity - maximum_scheduled,
+            0
+        )
+
+        scheduled_percent = (
+            maximum_scheduled / quantity * 100
+            if quantity
+            else 0
+        )
+
+        pending_percent = (
+            minimum_pending / quantity * 100
+            if quantity
+            else 0
+        )
+
+        if not messagebox.askyesno(
+            "Force Schedule Contract Item",
+            "This Contract Item is mathematically impossible to fully schedule.\n\n"
+            f"Maximum possible scheduled: {maximum_scheduled} "
+            f"({scheduled_percent:.1f}%)\n"
+            f"Minimum possible Pending: {minimum_pending} "
+            f"({pending_percent:.1f}%)\n\n"
+            "The actual number scheduled may be lower if there are "
+            "insufficient eligible avails.\n\n"
+            "Any spots left Pending will require manual scheduling.\n\n"
+            "Do you want to continue?"
+        ):
+            return
+
+        try:
+            scheduled_ids = schedule_contract_item_quantity(
+                self.selected_item_id
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Force Schedule Error",
+                str(e)
+            )
+            return
+
+        messagebox.showinfo(
+            "Force Schedule Complete",
+            f"Force scheduling completed.\n\n"
+            f"Spots scheduled: {len(scheduled_ids)}"
+        )
+
+        popup.destroy()
 
 
 
