@@ -1272,6 +1272,43 @@ class ContractMasterDetailGUI:
         report_text = "\n".join(report)
 
         # ------------------------------------------------------------
+        # Existing schedule distribution
+        # ------------------------------------------------------------
+
+        if final_state == "fully_scheduled":
+
+            try:
+                summary = self.get_new_run_schedule_summary(
+                    self.selected_item_id
+                )
+            except Exception as e:
+                popup.destroy()
+                messagebox.showerror(
+                    "Schedule Review Error",
+                    str(e)
+                )
+                return
+
+            report_text = self.build_schedule_distribution_report(
+                report_text,
+                result,
+                summary,
+                heading="EXISTING SCHEDULE"
+            )
+
+            report_text += "\n"
+            report_text += "REVIEW\n"
+            report_text += "-" * 60
+            report_text += "\n"
+            report_text += (
+                "The Contract Item is already fully scheduled.\n"
+                "Review the existing schedule above.\n"
+                "Close to keep the schedule, or Deschedule to "
+                "remove the entire Contract Item.\n"
+            )
+
+
+        # ------------------------------------------------------------
         # Copyable report area
         # ------------------------------------------------------------
 
@@ -1447,44 +1484,27 @@ class ContractMasterDetailGUI:
         finally:
             connection.close()
 
-    def schedule_from_new_run(
-        self,
-        popup,
-        analysis_report,
-        report_box,
-        button_frame,
-        analysis_result
-    ):
-        try:
-            schedule_contract_item_quantity(
-                self.selected_item_id
-            )
-        except Exception as e:
-            messagebox.showerror(
-                "Scheduling Error",
-                str(e)
-            )
-            return
 
-        try:
-            summary = self.get_new_run_schedule_summary(
-                self.selected_item_id
-            )
-        except Exception as e:
-            messagebox.showerror(
-                "Schedule Review Error",
-                str(e)
-            )
-            return
+    def build_schedule_distribution_report(
+        self,
+        analysis_report,
+        analysis_result,
+        summary,
+        heading="SCHEDULING RESULT"
+    ):
+        """
+        Build the schedule distribution report for an existing
+        or newly-created schedule.
+        """
 
         review_report = analysis_report.rstrip()
 
         # ---------------------------------------------------------
-        # SCHEDULING RESULT
+        # SCHEDULING RESULT / EXISTING SCHEDULE
         # ---------------------------------------------------------
 
         review_report += "\n\n"
-        review_report += "SCHEDULING RESULT\n"
+        review_report += f"{heading}\n"
         review_report += "-" * 60
         review_report += "\n"
 
@@ -1710,12 +1730,53 @@ class ContractMasterDetailGUI:
             f"{average_scheduled:.1f}\n"
         )
 
-        review_report += "\n"
+        return review_report
+
+
+    def schedule_from_new_run(
+        self,
+        popup,
+        analysis_report,
+        report_box,
+        button_frame,
+        analysis_result
+    ):
+        try:
+            schedule_contract_item_quantity(
+                self.selected_item_id
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Scheduling Error",
+                str(e)
+            )
+            return
+
+        try:
+            summary = self.get_new_run_schedule_summary(
+                self.selected_item_id
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Schedule Review Error",
+                str(e)
+            )
+            return
+
+        review_report = analysis_report.rstrip()
+
+        review_report = self.build_schedule_distribution_report(
+            analysis_report,
+            analysis_result,
+            summary,
+            heading="SCHEDULING RESULT"
+        )
 
         # ---------------------------------------------------------
         # REVIEW
         # ---------------------------------------------------------
 
+        review_report += "\n"
         review_report += "REVIEW\n"
         review_report += "-" * 60
         review_report += "\n"
@@ -1725,6 +1786,7 @@ class ContractMasterDetailGUI:
             "Accept it to keep the schedule, or Decline it "
             "to deschedule the entire Contract Item.\n"
         )
+
 
         report_box.config(state="normal")
         report_box.delete("1.0", "end")
