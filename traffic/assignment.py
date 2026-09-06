@@ -176,9 +176,16 @@ def assign_spot_to_avail(
     return True, None
 
 
-def remove_spot_from_avail(spot_id):
+def remove_spot_from_avail(
+    spot_id,
+    connection=None
+):
 
-    connection = get_connection()
+    own_connection = connection is None
+
+    if own_connection:
+        connection = get_connection()
+
     cursor = connection.cursor()
 
     cursor.execute(
@@ -201,7 +208,9 @@ def remove_spot_from_avail(spot_id):
 
     if spot is None:
 
-        connection.close()
+        if own_connection:
+
+            connection.close()
 
         return False, [
             "Spot not found."
@@ -210,7 +219,9 @@ def remove_spot_from_avail(spot_id):
 
     if spot["avail_id"] is None:
 
-        connection.close()
+        if own_connection:
+
+            connection.close()
 
         return False, [
             "Spot is not assigned to an avail."
@@ -243,15 +254,20 @@ def remove_spot_from_avail(spot_id):
     )
 
 
-    connection.commit()
+    if own_connection:
+
+        connection.commit()
 
 
     update_avail_status(
-        avail_id
+        avail_id,
+        connection=connection
     )
 
 
-    connection.close()
+    if own_connection:
+
+        connection.close()
 
 
     return True, None

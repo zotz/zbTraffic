@@ -9,6 +9,7 @@
 
 from traffic.database import get_connection
 from traffic.utilities import current_timestamp
+from traffic.assignment import remove_spot_from_avail
 
 
 def add_spot(
@@ -693,8 +694,7 @@ def unschedule_contract_item(
     The operation succeeds only when:
 
     - The contract item exists.
-    - The number of non-cancelled spots for the CI equals
-      the CI quantity.
+    - The number of spots for the CI equals the CI quantity.
     - Every spot for the CI is Pending or Scheduled.
     - No spot is linked to an invoice item.
 
@@ -917,24 +917,72 @@ def unschedule_contract_item(
 
 
         #
-        # 6. Delete the spots.
+        # 6. Unschedule all Scheduled spots.
+        #
+        # Use the existing spot-level operation, but pass
+        # our transaction connection so that nothing commits
+        # independently.
+        #
+
+        scheduled_spot_ids = [
+            spot["id"]
+            for spot in spots
+            if spot["status"] == "Scheduled"
+        ]
+
+
+        for spot_id in scheduled_spot_ids:
+
+            success, errors = remove_spot_from_avail(
+                spot_id,
+                connection=connection
+            )
+
+
+            if not success:
+
+                connection.rollback()
+
+                return {
+                    "status": "error",
+                    "reason": "unschedule_failed",
+                    "contract_item_id": contract_item_id,
+                    "spot_id": spot_id,
+                    "errors": errors
+                }
+
+
+        #
+        # 7. Delete all Pending spots.
+        #
+        # The Scheduled spots are now Pending too, so this
+        # removes the entire current spot set for the CI.
         #
 
         cursor.execute(
             """
             DELETE FROM spots
             WHERE contract_item_id = ?
+            AND status = 'Pending'
             """,
             (
                 contract_item_id,
             )
         )
 
-        deleted_count = cursor.rowcount
+        pending_deleted = cursor.rowcount
 
 
         #
-        # 7. Verify the expected number was actually deleted.
+        # The total deleted should equal every spot that
+        # originally belonged to the CI.
+        #
+
+        deleted_count = pending_deleted
+
+
+        #
+        # 8. Verify the expected number was actually deleted.
         #
 
         if deleted_count != spots_found:
@@ -950,9 +998,41 @@ def unschedule_contract_item(
                 "deleted_count": deleted_count
             }
 
+        #
+        # 9. Verify that no spots remain for this contract item.
+        #
+
+        cursor.execute(
+            """
+            SELECT COUNT(*)
+            FROM spots
+            WHERE contract_item_id = ?
+            """,
+            (
+                contract_item_id,
+            )
+        )
+
+        remaining_spots = cursor.fetchone()[0]
+
+
+        if remaining_spots != 0:
+
+            connection.rollback()
+
+            return {
+                "status": "error",
+                "reason": "spots_remaining",
+                "contract_item_id": contract_item_id,
+                "quantity": quantity,
+                "spots_found": spots_found,
+                "deleted_count": deleted_count,
+                "remaining_spots": remaining_spots
+            }
+
 
         #
-        # 8. Commit.
+        # 10. Commit.
         #
 
         connection.commit()
@@ -964,7 +1044,7 @@ def unschedule_contract_item(
             "quantity": quantity,
             "spots_found": spots_found,
             "scheduled_deleted": scheduled_count,
-            "pending_deleted": pending_count,
+            "pending_deleted": pending_deleted,
             "total_deleted": deleted_count
         }
 

@@ -166,10 +166,15 @@ def get_avail(
     return avail
 
 def get_used_seconds(
-    avail_id
+    avail_id,
+    connection=None
 ):
 
-    connection = get_connection()
+    own_connection = connection is None
+
+    if own_connection:
+
+        connection = get_connection()
 
     cursor = connection.cursor()
 
@@ -201,7 +206,9 @@ def get_used_seconds(
 
     row = cursor.fetchone()
 
-    connection.close()
+    if own_connection:
+
+        connection.close()
 
 
     return row["used_seconds"]
@@ -380,10 +387,15 @@ def generate_avails_for_date(
 
 
 def update_avail_status(
-    avail_id
+    avail_id,
+    connection=None
 ):
 
-    connection = get_connection()
+    own_connection = connection is None
+
+    if own_connection:
+
+        connection = get_connection()
 
     cursor = connection.cursor()
 
@@ -408,14 +420,17 @@ def update_avail_status(
 
     if avail is None:
 
-        connection.close()
+        if own_connection:
+
+            connection.close()
 
         return False
 
 
 
     used_seconds = get_used_seconds(
-        avail_id
+        avail_id,
+        connection=connection
     )
 
 
@@ -459,9 +474,11 @@ def update_avail_status(
     )
 
 
-    connection.commit()
+    if own_connection:
 
-    connection.close()
+        connection.commit()
+
+        connection.close()
 
 
     return status
