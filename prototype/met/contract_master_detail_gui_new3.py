@@ -15,12 +15,13 @@ for _p in [_HERE.parent, *_HERE.parents]:
 
 import tkinter as tk
 from tkinter import ttk, messagebox
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 
 from traffic.database import get_connection
 from traffic.scheduler import schedule_contract_item_quantity
 from traffic.analysis import analyze_contract_item
+from traffic.spots import unschedule_contract_item
 
 
 def now_str(): return datetime.now().isoformat(sep=' ', timespec='seconds')
@@ -1134,7 +1135,7 @@ class ContractMasterDetailGUI:
         ).pack(padx=20, pady=(15, 10))
 
         # ------------------------------------------------------------
-        # Build copyable report text
+        # Build analysis report
         # ------------------------------------------------------------
 
         report = []
@@ -1313,9 +1314,18 @@ class ContractMasterDetailGUI:
         button_frame = ttk.Frame(popup)
         button_frame.pack(pady=(0, 15))
 
+        def update_report(text):
+            report_box.config(state="normal")
+            report_box.delete("1.0", "end")
+            report_box.insert("1.0", text)
+            report_box.config(state="disabled")
+            report_box.see("end")
+
         def copy_all():
             popup.clipboard_clear()
-            popup.clipboard_append(report_text)
+            popup.clipboard_append(
+                report_box.get("1.0", "end-1c")
+            )
             popup.update()
 
         ttk.Button(
@@ -1324,12 +1334,26 @@ class ContractMasterDetailGUI:
             command=copy_all
         ).pack(side="left", padx=5)
 
-        if final_state in ("impossible", "fully_scheduled"):
+        if final_state == "impossible":
 
             ttk.Button(
                 button_frame,
                 text="Close",
                 command=popup.destroy
+            ).pack(side="left", padx=5)
+
+        elif final_state == "fully_scheduled":
+
+            ttk.Button(
+                button_frame,
+                text="Close",
+                command=popup.destroy
+            ).pack(side="left", padx=5)
+
+            ttk.Button(
+                button_frame,
+                text="Deschedule",
+                command=lambda: self.deschedule_from_new_run(popup)
             ).pack(side="left", padx=5)
 
         else:
@@ -1343,16 +1367,471 @@ class ContractMasterDetailGUI:
             ttk.Button(
                 button_frame,
                 text="Schedule",
-                command=lambda: self.schedule_from_new_run(popup)
+                command=lambda: self.schedule_from_new_run(
+                    popup,
+                    report_text,
+                    report_box,
+                    button_frame,
+                    result
+                )
             ).pack(side="left", padx=5)
 
-    def schedule_from_new_run(self, popup):
+    def get_new_run_schedule_summary(self, contract_item_id):
+        """
+        Return the current scheduling result for a Contract Item.
+
+        Scheduled counts include only spots with status='Scheduled'.
+        Pending spots are counted separately because they have no
+        scheduled air date.
+        """
+
+        connection = get_connection()
+
         try:
-            result = schedule_contract_item_quantity(self.selected_item_id)
-            popup.destroy()
-            messagebox.showinfo("Result", str(result))
+            rows = connection.execute(
+                """
+                SELECT
+                    id,
+                    status,
+                    air_date
+                FROM spots
+                WHERE contract_item_id = ?
+                ORDER BY air_date, id
+                """,
+                (contract_item_id,)
+            ).fetchall()
+
+            scheduled_spots = [
+                row
+                for row in rows
+                if row["status"] == "Scheduled"
+            ]
+
+            pending_count = sum(
+                1
+                for row in rows
+                if row["status"] == "Pending"
+            )
+
+            scheduled_by_weekday = {
+                0: 0,  # Monday
+                1: 0,  # Tuesday
+                2: 0,  # Wednesday
+                3: 0,  # Thursday
+                4: 0,  # Friday
+                5: 0,  # Saturday
+                6: 0,  # Sunday
+            }
+
+            for row in scheduled_spots:
+                if row["air_date"] is None:
+                    continue
+
+                air_date = datetime.strptime(
+                    row["air_date"],
+                    "%Y-%m-%d"
+                )
+
+                scheduled_by_weekday[
+                    air_date.weekday()
+                ] += 1
+
+            return {
+                "scheduled_count": len(scheduled_spots),
+                "pending_count": pending_count,
+                "total_count": len(rows),
+                "scheduled_by_weekday": scheduled_by_weekday,
+                "scheduled_spots": scheduled_spots,
+            }
+
+        finally:
+            connection.close()
+
+    def schedule_from_new_run(
+        self,
+        popup,
+        analysis_report,
+        report_box,
+        button_frame,
+        analysis_result
+    ):
+        try:
+            schedule_contract_item_quantity(
+                self.selected_item_id
+            )
         except Exception as e:
-            messagebox.showerror("Error", str(e))
+            messagebox.showerror(
+                "Scheduling Error",
+                str(e)
+            )
+            return
+
+        try:
+            summary = self.get_new_run_schedule_summary(
+                self.selected_item_id
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Schedule Review Error",
+                str(e)
+            )
+            return
+
+        review_report = analysis_report.rstrip()
+
+        # ---------------------------------------------------------
+        # SCHEDULING RESULT
+        # ---------------------------------------------------------
+
+        review_report += "\n\n"
+        review_report += "SCHEDULING RESULT\n"
+        review_report += "-" * 60
+        review_report += "\n"
+
+        review_report += (
+            f"Scheduled: {summary['scheduled_count']}\n"
+        )
+
+        review_report += (
+            f"Pending:   {summary['pending_count']}\n"
+        )
+
+        review_report += (
+            f"Total:     {summary['total_count']}\n"
+        )
+
+        review_report += "\n"
+
+        # ---------------------------------------------------------
+        # SCHEDULED BY DAY
+        # ---------------------------------------------------------
+
+        review_report += "SCHEDULED BY DAY\n"
+        review_report += "-" * 60
+        review_report += "\n"
+
+        review_report += (
+            f"{'Day':<12}"
+            f"{'Scheduled':>12}"
+            f"{'CIR Eligible':>15}\n"
+        )
+
+        day_names = (
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        )
+
+        short_day_names = (
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat",
+            "Sun",
+        )
+
+        # Count how many times each weekday occurs during
+        # the Contract Item flight.
+
+        flight_start = analysis_result["start_date"]
+        flight_end = analysis_result["end_date"]
+
+        weekday_occurrences = {
+            0: 0,
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+        }
+
+        current_date = flight_start
+
+        while current_date <= flight_end:
+            weekday_occurrences[
+                current_date.weekday()
+            ] += 1
+
+            current_date += timedelta(days=1)
+
+        # Build the set of CIR-eligible weekdays.
+
+        eligible_weekdays = set()
+
+        for rule_result in analysis_result["rules"]:
+
+            days = rule_result["rule"]["days_of_week"]
+
+            if not days:
+                eligible_weekdays.update(range(7))
+                continue
+
+            for index, short_name in enumerate(short_day_names):
+                if short_name in days:
+                    eligible_weekdays.add(index)
+
+        for weekday_number, day in enumerate(day_names):
+
+            scheduled_count = summary[
+                "scheduled_by_weekday"
+            ][weekday_number]
+
+            occurrence_count = weekday_occurrences[
+                weekday_number
+            ]
+
+            eligible = (
+                weekday_number in eligible_weekdays
+            )
+
+            if occurrence_count > 0:
+                day_text = (
+                    f"{day:<10}"
+                    f"({occurrence_count})"
+                )
+
+                review_report += (
+                    f"{day_text:<12}"
+                    f"{scheduled_count:>12}"
+                    f"{'Yes' if eligible else 'No':>15}\n"
+                )
+            else:
+                review_report += (
+                    f"{day:<12}"
+                    f"{scheduled_count:>12}"
+                    f"{'Yes' if eligible else 'No':>15}\n"
+                )
+
+        review_report += "-" * 60
+        review_report += "\n"
+
+        review_report += (
+            f"{'Total':<12}"
+            f"{summary['scheduled_count']:>12}\n"
+        )
+
+        review_report += "\n"
+
+        # ---------------------------------------------------------
+        # WEEKLY DISTRIBUTION
+        # ---------------------------------------------------------
+
+        review_report += "WEEKLY DISTRIBUTION\n"
+        review_report += "-" * 60
+        review_report += "\n"
+
+        scheduled_by_week = []
+
+        for week in analysis_result["weeks"]:
+
+            week_start = week["start"]
+            week_end = week["end"]
+
+            if hasattr(week_start, "strftime"):
+                week_start_text = week_start.strftime(
+                    "%Y-%m-%d"
+                )
+            else:
+                week_start_text = str(week_start)
+
+            if hasattr(week_end, "strftime"):
+                week_end_text = week_end.strftime(
+                    "%Y-%m-%d"
+                )
+            else:
+                week_end_text = str(week_end)
+
+            count = 0
+
+            for spot in summary["scheduled_spots"]:
+
+                if spot["air_date"] is None:
+                    continue
+
+                if (
+                    week_start_text
+                    <= spot["air_date"]
+                    <= week_end_text
+                ):
+                    count += 1
+
+            scheduled_by_week.append(count)
+
+        total_weeks = len(scheduled_by_week)
+
+        weeks_with_scheduled = sum(
+            1
+            for count in scheduled_by_week
+            if count > 0
+        )
+
+        if scheduled_by_week:
+            minimum_scheduled = min(
+                scheduled_by_week
+            )
+
+            maximum_scheduled = max(
+                scheduled_by_week
+            )
+
+            average_scheduled = (
+                sum(scheduled_by_week)
+                / total_weeks
+            )
+        else:
+            minimum_scheduled = 0
+            maximum_scheduled = 0
+            average_scheduled = 0
+
+        review_report += (
+            f"Weeks with scheduled spots:      "
+            f"{weeks_with_scheduled}\n"
+        )
+
+        review_report += (
+            f"Minimum in a week:               "
+            f"{minimum_scheduled}\n"
+        )
+
+        review_report += (
+            f"Maximum in a week:               "
+            f"{maximum_scheduled}\n"
+        )
+
+        review_report += (
+            f"Average scheduled per week:      "
+            f"{average_scheduled:.1f}\n"
+        )
+
+        review_report += "\n"
+
+        # ---------------------------------------------------------
+        # REVIEW
+        # ---------------------------------------------------------
+
+        review_report += "REVIEW\n"
+        review_report += "-" * 60
+        review_report += "\n"
+
+        review_report += (
+            "Review the schedule above.\n"
+            "Accept it to keep the schedule, or Decline it "
+            "to deschedule the entire Contract Item.\n"
+        )
+
+        report_box.config(state="normal")
+        report_box.delete("1.0", "end")
+        report_box.insert("1.0", review_report)
+        report_box.config(state="disabled")
+        report_box.see("end")
+
+        for widget in button_frame.winfo_children():
+            widget.destroy()
+
+        def accept_schedule():
+            popup.destroy()
+
+            messagebox.showinfo(
+                "Schedule Accepted",
+                "The schedule for this Contract Item has been accepted."
+            )
+
+        def decline_schedule():
+            try:
+                unschedule_result = unschedule_contract_item(
+                    self.selected_item_id
+                )
+            except Exception as e:
+                messagebox.showerror(
+                    "Deschedule Error",
+                    str(e)
+                )
+                return
+
+            if unschedule_result.get("status") != "success":
+                messagebox.showerror(
+                    "Deschedule Error",
+                    str(unschedule_result)
+                )
+                return
+
+            popup.destroy()
+
+            messagebox.showinfo(
+                "Schedule Declined",
+                "The schedule for this Contract Item has been "
+                "descheduled.\n\n"
+                f"Spots removed: "
+                f"{unschedule_result['total_deleted']}"
+            )
+
+        ttk.Button(
+            button_frame,
+            text="Copy All",
+            command=lambda: (
+                popup.clipboard_clear(),
+                popup.clipboard_append(
+                    report_box.get("1.0", "end-1c")
+                ),
+                popup.update()
+            )
+        ).pack(side="left", padx=5)
+
+        ttk.Button(
+            button_frame,
+            text="Accept",
+            command=accept_schedule
+        ).pack(side="left", padx=5)
+
+        ttk.Button(
+            button_frame,
+            text="Decline",
+            command=decline_schedule
+        ).pack(side="left", padx=5)
+
+
+    def deschedule_from_new_run(self, popup):
+        if not messagebox.askyesno(
+            "Deschedule Contract Item",
+            "This will deschedule the entire Contract Item.\n\n"
+            "All Scheduled and Pending spots will be removed.\n\n"
+            "Do you want to continue?"
+        ):
+            return
+
+        try:
+            result = unschedule_contract_item(
+                self.selected_item_id
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Deschedule Error",
+                str(e)
+            )
+            return
+
+        if result.get("status") != "success":
+            messagebox.showerror(
+                "Deschedule Error",
+                str(result)
+            )
+            return
+
+        popup.destroy()
+
+        messagebox.showinfo(
+            "Deschedule Complete",
+            "The Contract Item has been completely descheduled.\n\n"
+            f"Spots removed: {result['total_deleted']}"
+        )
+
 
 
 if __name__ == "__main__":
