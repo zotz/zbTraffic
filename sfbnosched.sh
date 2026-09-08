@@ -18,11 +18,17 @@ python3 -m database.create_database
 # We want to run this.
 echo 'running create initial records'
 python3 -m database.create_initial_records
+# seed station invoice settings
+python3 -m database.seed_station_invoice_settings
+# seed country codes
+python3 -m database.seed_country_codes
 # seed_database was only creating categories at the end.
 # python3 -m database.seed_database
 # use the category importer instead
 echo 'running the category importer'
 python3 -m database.import_categories_csv database/data/categories_all.csv
+echo 'running the tax rate importer'
+python3 -m database.import_tax_rates_csv database/data/tax_rates.csv
 # seed2_database seeds
 # customers - 3
 # contacts - 3
