@@ -60,8 +60,8 @@ def create_initial_records(cursor):
         VALUES
         (
             1,
-            'Default Station',
-            '',
+            'Dead Late',
+            'ZZZZ',
             1,
             ?,
             ?

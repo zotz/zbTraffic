@@ -23,24 +23,26 @@ DATABASE_NAME = os.path.join(
 # create db tables in this order:
 # 01. categories
 # 02. stations
+# 03. station_invoice_settings
 # 04. tax_rates
-# 04. programs
-# 05. stopsets
-# 06. customers
-# 07. contacts
-# 08. salespeople
-# 09. commercials
-# 10. contracts
-# 11. contract_items
-# 12. contract_item_rules
-# 13. avails
-# 14. spots
-# 15. separation_rules
-# 16. users
-# 17. invoices
-# 18. invoice_items
-# 19. invoice_item_spots
-# 19. payments
+# 05. country_codes
+# 06. programs
+# 07. stopsets
+# 08. customers
+# 09. contacts
+# 10. salespeople
+# 11. commercials
+# 12. contracts
+# 13. contract_items
+# 14. contract_item_rules
+# 15. avails
+# 16. spots
+# 17. separation_rules
+# 18. users
+# 19. invoices
+# 20. invoice_items
+# 21. invoice_item_spots
+# 22. payments
 #
 
 def create_database():
@@ -98,6 +100,35 @@ def create_database():
     """,
 
     """
+    CREATE TABLE IF NOT EXISTS station_invoice_settings (
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        station_id INTEGER NOT NULL UNIQUE,
+
+        biller_block TEXT NOT NULL DEFAULT '',
+
+        corporate_logo TEXT,
+
+        station_logo TEXT,
+
+        payment_instructions TEXT,
+
+        invoice_footer TEXT,
+
+        created_date TEXT,
+        modified_date TEXT,
+
+        FOREIGN KEY(station_id)
+            REFERENCES stations(id)
+    )
+    """,
+
+
+
+
+
+    """
     CREATE TABLE IF NOT EXISTS tax_rates (
 
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -111,6 +142,20 @@ def create_database():
         CHECK (rate >= 0),
         
         UNIQUE (name, rate, effective_date)
+    )
+    """,
+
+
+    """
+    CREATE TABLE IF NOT EXISTS country_codes (
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        country_code TEXT NOT NULL UNIQUE,
+        country_name TEXT NOT NULL,
+
+        created_date TEXT,
+        modified_date TEXT
     )
     """,
 
