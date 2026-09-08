@@ -1,5 +1,6 @@
 # traffic/invoice_pdf.py
 
+
 from pathlib import Path
 
 from reportlab.lib import colors
@@ -12,6 +13,7 @@ from reportlab.platypus import (
     Spacer,
     Table,
     TableStyle,
+    Image,
 )
 
 from traffic.billing import (
@@ -25,6 +27,35 @@ from traffic.billing import (
 from traffic.customers import get_customer
 from traffic.contracts import get_contract
 from traffic.database import get_connection
+from traffic.station_invoice_settings import (
+    get_station_invoice_settings,
+)
+from traffic.country_codes import get_country_name
+
+
+#
+# Invoice asset directory.
+#
+# Logo filenames stored in the database are resolved relative
+# to this directory.
+#
+
+INVOICE_ASSETS_DIRECTORY = (
+    Path(__file__).resolve().parent.parent
+    / "data"
+    / "invoice_assets"
+)
+
+
+#
+# Fixed logo display sizes.
+#
+
+CORPORATE_LOGO_WIDTH = 2.0 * inch
+CORPORATE_LOGO_HEIGHT = 0.5 * inch
+
+STATION_LOGO_WIDTH = 1.5 * inch
+STATION_LOGO_HEIGHT = 1.5 * inch
 
 
 def _get_invoice_station(contract_id):
@@ -44,6 +75,7 @@ def _get_invoice_station(contract_id):
     cursor.execute(
         """
         SELECT
+            stations.id,
             stations.name,
             stations.call_letters,
             stations.frequency
@@ -62,7 +94,437 @@ def _get_invoice_station(contract_id):
     return station
 
 
-def generate_invoice_pdf(invoice_id, output_directory="invoices"):
+def _get_invoice_logo(filename):
+    """
+    Resolve an invoice logo.
+
+    The database normally stores only the filename, for example:
+
+        zbT_corporate_logo.png
+
+    For compatibility, this also accepts paths such as:
+
+        data/invoice_assets/zbT_corporate_logo.png
+
+    and absolute filesystem paths.
+
+    Returns:
+        Path | None
+    """
+
+    if not filename:
+        return None
+
+    value = Path(str(filename).strip())
+
+    project_root = (
+        Path(__file__).resolve().parent.parent
+    )
+
+    #
+    # 1. Absolute filesystem path.
+    #
+
+    if value.is_absolute():
+
+        if value.is_file():
+            return value
+
+        return None
+
+    #
+    # 2. Filename / path relative to invoice_assets.
+    #
+
+    candidate = (
+        INVOICE_ASSETS_DIRECTORY / value
+    )
+
+    if candidate.is_file():
+        return candidate
+
+    #
+    # 3. Project-relative path.
+    #
+
+    candidate = (
+        project_root / value
+    )
+
+    if candidate.is_file():
+        return candidate
+
+    #
+    # 4. If a path was supplied, try just its filename.
+    #
+    # This makes the system tolerant of an old/incorrect
+    # directory prefix, provided the filename itself exists
+    # in invoice_assets.
+    #
+
+    candidate = (
+        INVOICE_ASSETS_DIRECTORY
+        / value.name
+    )
+
+    if candidate.is_file():
+        return candidate
+
+    #
+    # Nothing found.
+    #
+
+    return None
+
+
+def _make_logo(filename, width, height):
+    """
+    Create a ReportLab Image for an invoice logo.
+
+    Returns:
+        Image | None
+    """
+
+    logo_path = _get_invoice_logo(filename)
+
+    if logo_path is None:
+        return None
+
+    return Image(
+        str(logo_path),
+        width=width,
+        height=height,
+    )
+
+
+def _make_invoice_header(
+    station,
+    invoice_settings,
+    invoice_title,
+    styles,
+):
+    """
+    Build the invoice header.
+
+    Layout:
+
+        Corporate logo                 Station logo
+        Biller block
+
+        Station name / call letters / frequency
+
+        INVOICE or DRAFT INVOICE
+    """
+
+    normal = styles["Normal"]
+
+    small = ParagraphStyle(
+        "InvoiceHeaderSmall",
+        parent=normal,
+        fontSize=9,
+        leading=11,
+    )
+
+    title = ParagraphStyle(
+        "InvoiceHeaderTitle",
+        parent=styles["Heading1"],
+        fontSize=18,
+        leading=22,
+        spaceAfter=4,
+    )
+
+    #
+    # Corporate logo.
+    #
+
+    corporate_logo = None
+
+    if invoice_settings is not None:
+
+        corporate_logo = _make_logo(
+            invoice_settings["corporate_logo"],
+            CORPORATE_LOGO_WIDTH,
+            CORPORATE_LOGO_HEIGHT,
+        )
+
+    #
+    # Station logo.
+    #
+
+    station_logo = None
+
+    if invoice_settings is not None:
+
+        station_logo = _make_logo(
+            invoice_settings["station_logo"],
+            STATION_LOGO_WIDTH,
+            STATION_LOGO_HEIGHT,
+        )
+
+    #
+    # Left side of the logo/header area.
+    #
+
+    left_content = []
+
+    if corporate_logo is not None:
+
+        left_content.append(
+            corporate_logo
+        )
+
+        left_content.append(
+            Spacer(
+                1,
+                0.08 * inch
+            )
+        )
+
+    #
+    # Biller block.
+    #
+    # The biller block is stored as multiline text.
+    #
+
+    if invoice_settings is not None:
+
+        biller_block = (
+            invoice_settings["biller_block"]
+            or ""
+        )
+
+        for line in biller_block.splitlines():
+
+            line = line.strip()
+
+            if line:
+
+                left_content.append(
+                    Paragraph(
+                        line,
+                        small
+                    )
+                )
+
+    #
+    # If the left side is completely empty, provide a
+    # small spacer so the header remains stable.
+    #
+
+    if not left_content:
+
+        left_content.append(
+            Spacer(
+                CORPORATE_LOGO_WIDTH,
+                0.5 * inch
+            )
+        )
+
+    #
+    # Right side of the header.
+    #
+
+    right_content = []
+
+    if station_logo is not None:
+
+        right_content.append(
+            station_logo
+        )
+
+    else:
+
+        right_content.append(
+            Spacer(
+                STATION_LOGO_WIDTH,
+                STATION_LOGO_HEIGHT
+            )
+        )
+
+    #
+    # Logo/biller area.
+    #
+    # Available invoice width is 6.5".
+    #
+
+    logo_table = Table(
+        [
+            [
+                left_content,
+                right_content,
+            ]
+        ],
+        colWidths=[
+            5.0 * inch,
+            1.5 * inch,
+        ],
+        rowHeights=[
+            1.55 * inch,
+        ],
+    )
+
+    logo_table.setStyle(
+        TableStyle([
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "TOP",
+            ),
+            (
+                "ALIGN",
+                (1, 0),
+                (1, 0),
+                "RIGHT",
+            ),
+            (
+                "LEFTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "RIGHTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+        ])
+    )
+
+    #
+    # Station information.
+    #
+
+    station_line = ""
+
+    if station is not None:
+
+        station_name = (
+            station["name"]
+            or ""
+        )
+
+        call_letters = (
+            station["call_letters"]
+            or ""
+        )
+
+        frequency = (
+            station["frequency"]
+            or ""
+        )
+
+        station_line = station_name
+
+        if call_letters:
+
+            if station_line:
+                station_line += " — "
+
+            station_line += call_letters
+
+        if frequency:
+
+            if station_line:
+                station_line += " "
+
+            station_line += frequency
+
+    #
+    # Build the lower portion of the header.
+    #
+
+    lower_header = []
+
+    if station_line:
+
+        lower_header.append(
+            Paragraph(
+                station_line,
+                styles["Heading2"]
+            )
+        )
+
+    lower_header.append(
+        Paragraph(
+            invoice_title,
+            title
+        )
+    )
+
+    #
+    # Combine logo area and lower header.
+    #
+
+    header_table = Table(
+        [
+            [
+                logo_table
+            ],
+            [
+                lower_header
+            ],
+        ],
+        colWidths=[
+            6.5 * inch,
+        ],
+    )
+
+    header_table.setStyle(
+        TableStyle([
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "TOP",
+            ),
+            (
+                "LEFTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "RIGHTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+        ])
+    )
+
+    return header_table
+
+
+def generate_invoice_pdf(
+    invoice_id,
+    output_directory="invoices"
+):
     """
     Generate a PDF for an invoice.
 
@@ -70,21 +532,28 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
         Path to the generated PDF.
     """
 
-    invoice = get_invoice(invoice_id)
+    invoice = get_invoice(
+        invoice_id
+    )
 
     if invoice is None:
-        raise ValueError("Invoice not found.")
+        raise ValueError(
+            "Invoice not found."
+        )
 
     customer = get_customer(
         invoice["customer_id"]
     )
 
     if customer is None:
-        raise ValueError("Invoice customer not found.")
+        raise ValueError(
+            "Invoice customer not found."
+        )
 
     contract = None
 
     if invoice["contract_id"] is not None:
+
         contract = get_contract(
             invoice["contract_id"]
         )
@@ -92,6 +561,20 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
     station = _get_invoice_station(
         invoice["contract_id"]
     )
+
+    #
+    # Get station-specific invoice settings.
+    #
+
+    invoice_settings = None
+
+    if station is not None:
+
+        invoice_settings = (
+            get_station_invoice_settings(
+                station["id"]
+            )
+        )
 
     items = list_invoice_items(
         invoice_id
@@ -109,11 +592,18 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
 
     if taxable_items:
 
-        tax_rate = taxable_items[0]["tax_rate"] or 0
+        tax_rate = (
+            taxable_items[0]["tax_rate"]
+            or 0
+        )
 
     else:
 
         tax_rate = 0
+
+    #
+    # Output path.
+    #
 
     output_path = Path(
         output_directory
@@ -126,7 +616,9 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
 
     if invoice["invoice_number"]:
 
-        invoice_number = invoice["invoice_number"]
+        invoice_number = (
+            invoice["invoice_number"]
+        )
 
         filename = (
             "Invoice-{}.pdf".format(
@@ -144,7 +636,14 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
             )
         )
 
-    pdf_path = output_path / filename
+    pdf_path = (
+        output_path
+        / filename
+    )
+
+    #
+    # PDF document.
+    #
 
     document = SimpleDocTemplate(
         str(pdf_path),
@@ -177,33 +676,8 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
     story = []
 
     #
-    # Station header
+    # Invoice title.
     #
-
-    if station is not None:
-
-        station_name = station["name"] or ""
-        call_letters = station["call_letters"] or ""
-        frequency = station["frequency"] or ""
-
-        station_line = station_name
-
-        if call_letters:
-            station_line += " — {}".format(
-                call_letters
-            )
-
-        if frequency:
-            station_line += " {}".format(
-                frequency
-            )
-
-        story.append(
-            Paragraph(
-                station_line,
-                styles["Heading2"]
-            )
-        )
 
     if invoice["status"] == "Draft":
 
@@ -213,80 +687,28 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
 
         invoice_title = "INVOICE"
 
+    #
+    # Station / logo header.
+    #
 
     story.append(
-        Paragraph(
+        _make_invoice_header(
+            station,
+            invoice_settings,
             invoice_title,
-            title
+            styles,
         )
     )
-
-    #
-    # Invoice information
-    #
-
-    invoice_info = [
-        [
-            Paragraph("<b>Invoice Number</b>", small),
-            invoice_number,
-        ],
-        [
-            Paragraph("<b>Invoice Date</b>", small),
-            invoice["invoice_date"] or "",
-        ],
-        [
-            Paragraph("<b>Due Date</b>", small),
-            invoice["due_date"] or "",
-        ],
-    ]
-
-    if contract is not None:
-
-        contract_number = (
-            contract["contract_number"]
-            or ""
-        )
-
-        invoice_info.append(
-            [
-                Paragraph("<b>Contract</b>", small),
-                contract_number,
-            ]
-        )
-
-    info_table = Table(
-        invoice_info,
-        colWidths=[
-            1.3 * inch,
-            2.5 * inch,
-        ]
-    )
-
-    info_table.setStyle(
-        TableStyle([
-            (
-                "VALIGN",
-                (0, 0),
-                (-1, -1),
-                "TOP"
-            ),
-            (
-                "BOTTOMPADDING",
-                (0, 0),
-                (-1, -1),
-                4
-            ),
-        ])
-    )
-
-    story.append(info_table)
 
     story.append(
-        Spacer(1, 0.2 * inch)
+        Spacer(
+            1,
+            0.12 * inch
+        )
     )
 
     #
-    # Bill To
+    # Bill To / Invoice information.
     #
 
     bill_to = [
@@ -306,14 +728,12 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
     for field in (
         "address_line1",
         "address_line2",
-        "locality",
-        "administrative_area",
-        "postal_code",
     ):
 
         value = customer.get(field)
 
         if value:
+
             bill_to.append(
                 Paragraph(
                     str(value),
@@ -321,30 +741,332 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                 )
             )
 
-    if customer.get("country_code"):
+    address_parts = []
+
+    locality = customer.get("locality")
+    administrative_area = customer.get("administrative_area")
+    country_code = customer.get("country_code")
+
+    if locality:
+        address_parts.append(
+            str(locality)
+        )
+
+    if administrative_area:
+        address_parts.append(
+            str(administrative_area)
+        )
+
+    if country_code:
+
+        country_name = get_country_name(
+            country_code
+        )
+
+        if country_name:
+            address_parts.append(
+                str(country_name)
+            )
+        else:
+            address_parts.append(
+                str(country_code)
+            )
+
+    if address_parts:
+
         bill_to.append(
             Paragraph(
-                customer["country_code"],
+                ", ".join(address_parts),
                 normal
             )
         )
 
-    story.extend(bill_to)
+    postal_code = customer.get("postal_code")
 
-    story.append(
-        Spacer(1, 0.25 * inch)
+    if postal_code:
+
+        bill_to.append(
+            Paragraph(
+                str(postal_code),
+                normal
+            )
+        )
+
+    #
+    # Invoice information.
+    #
+
+    invoice_info = [
+        [
+            Paragraph(
+                "<b>Invoice Number</b>",
+                small
+            ),
+            invoice_number or "",
+        ],
+        [
+            Paragraph(
+                "<b>Invoice Date</b>",
+                small
+            ),
+            invoice["invoice_date"] or "",
+        ],
+        [
+            Paragraph(
+                "<b>Due Date</b>",
+                small
+            ),
+            invoice["due_date"] or "",
+        ],
+    ]
+
+    if contract is not None:
+
+        contract_number = (
+            contract["contract_number"]
+            or ""
+        )
+
+        invoice_info.append(
+            [
+                Paragraph(
+                    "<b>Contract</b>",
+                    small
+                ),
+                contract_number,
+            ]
+        )
+
+    invoice_info_table = Table(
+        invoice_info,
+        colWidths=[
+            1.25 * inch,
+            1.75 * inch,
+        ]
+    )
+
+    invoice_info_table.setStyle(
+        TableStyle([
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "TOP",
+            ),
+            (
+                "LEFTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "RIGHTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, -1),
+                4,
+            ),
+        ])
     )
 
     #
-    # Invoice items
+    # Put Bill To and invoice information side by side.
+    #
+
+    details_table = Table(
+        [
+            [
+                bill_to,
+                invoice_info_table,
+            ]
+        ],
+        colWidths=[
+            3.75 * inch,
+            2.75 * inch,
+        ]
+    )
+
+    details_table.setStyle(
+        TableStyle([
+            (
+                "VALIGN",
+                (0, 0),
+                (-1, -1),
+                "TOP",
+            ),
+            (
+                "LEFTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "RIGHTPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "TOPPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+            (
+                "BOTTOMPADDING",
+                (0, 0),
+                (-1, -1),
+                0,
+            ),
+        ])
+    )
+
+    story.append(
+        details_table
+    )
+
+    story.append(
+        Spacer(
+            1,
+            0.25 * inch
+        )
+    )
+
+    story.append(
+        Spacer(
+            1,
+            0.2 * inch
+        )
+    )
+
+    #
+    # Bill To.
+    #
+
+    bill_to = [
+        Paragraph(
+            "<b>Bill To</b>",
+            normal
+        )
+    ]
+
+    bill_to.append(
+        Paragraph(
+            customer["company_name"],
+            normal
+        )
+    )
+
+    for field in (
+        "address_line1",
+        "address_line2",
+    ):
+
+        value = customer.get(field)
+
+        if value:
+
+            bill_to.append(
+                Paragraph(
+                    str(value),
+                    normal
+                )
+            )
+
+    address_parts = []
+
+    locality = customer.get("locality")
+    administrative_area = customer.get("administrative_area")
+    country_code = customer.get("country_code")
+
+    if locality:
+        address_parts.append(
+            str(locality)
+        )
+
+    if administrative_area:
+        address_parts.append(
+            str(administrative_area)
+        )
+
+    if country_code:
+
+        country_name = get_country_name(
+            country_code
+        )
+
+        if country_name:
+            address_parts.append(
+                str(country_name)
+            )
+        else:
+            address_parts.append(
+                str(country_code)
+            )
+
+    if address_parts:
+
+        bill_to.append(
+            Paragraph(
+                ", ".join(address_parts),
+                normal
+            )
+        )
+
+    postal_code = customer.get("postal_code")
+
+    if postal_code:
+
+        bill_to.append(
+            Paragraph(
+                str(postal_code),
+                normal
+            )
+        )
+
+    story.extend(
+        bill_to
+    )
+
+    story.append(
+        Spacer(
+            1,
+            0.25 * inch
+        )
+    )
+    #
+    # Invoice items.
     #
 
     item_rows = [
         [
-            Paragraph("<b>Description</b>", small),
-            Paragraph("<b>Qty</b>", small),
-            Paragraph("<b>Unit</b>", small),
-            Paragraph("<b>Amount</b>", small),
+            Paragraph(
+                "<b>Description</b>",
+                small
+            ),
+            Paragraph(
+                "<b>Qty</b>",
+                small
+            ),
+            Paragraph(
+                "<b>Unit</b>",
+                small
+            ),
+            Paragraph(
+                "<b>Amount</b>",
+                small
+            ),
         ]
     ]
 
@@ -353,21 +1075,31 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
         quantity = item["quantity"]
 
         if quantity is None:
+
             quantity_text = ""
+
         elif float(quantity).is_integer():
+
             quantity_text = str(
                 int(quantity)
             )
+
         else:
+
             quantity_text = "{:g}".format(
                 quantity
             )
 
-        unit_price = item["unit_price"]
+        unit_price = (
+            item["unit_price"]
+        )
 
         if unit_price is None:
+
             unit_text = ""
+
         else:
+
             unit_text = "${:,.2f}".format(
                 unit_price / 100.0
             )
@@ -406,61 +1138,66 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                 (0, 0),
                 (-1, -1),
                 0.5,
-                colors.grey
+                colors.grey,
             ),
             (
                 "BACKGROUND",
                 (0, 0),
                 (-1, 0),
-                colors.lightgrey
+                colors.lightgrey,
             ),
             (
                 "ALIGN",
                 (1, 1),
                 (-1, -1),
-                "RIGHT"
+                "RIGHT",
             ),
             (
                 "VALIGN",
                 (0, 0),
                 (-1, -1),
-                "TOP"
+                "TOP",
             ),
             (
                 "LEFTPADDING",
                 (0, 0),
                 (-1, -1),
-                5
+                5,
             ),
             (
                 "RIGHTPADDING",
                 (0, 0),
                 (-1, -1),
-                5
+                5,
             ),
             (
                 "TOPPADDING",
                 (0, 0),
                 (-1, -1),
-                5
+                5,
             ),
             (
                 "BOTTOMPADDING",
                 (0, 0),
                 (-1, -1),
-                5
+                5,
             ),
         ])
     )
 
-    story.append(items_table)
+    story.append(
+        items_table
+    )
 
     story.append(
-        Spacer(1, 0.15 * inch)
+        Spacer(
+            1,
+            0.15 * inch
+        )
     )
 
     #
-    # Totals
+    # Totals.
     #
 
     subtotal = invoice["subtotal"] or 0
@@ -483,7 +1220,10 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
             )
         ],
         [
-            Paragraph("<b>Total</b>", normal),
+            Paragraph(
+                "<b>Total</b>",
+                normal
+            ),
             Paragraph(
                 "<b>${:,.2f}</b>".format(
                     total / 100.0
@@ -508,19 +1248,19 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                 "ALIGN",
                 (1, 0),
                 (1, -1),
-                "RIGHT"
+                "RIGHT",
             ),
             (
                 "TOPPADDING",
                 (0, 0),
                 (-1, -1),
-                4
+                4,
             ),
             (
                 "BOTTOMPADDING",
                 (0, 0),
                 (-1, -1),
-                4
+                4,
             ),
         ])
     )
@@ -530,7 +1270,7 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
     )
 
     #
-    # Payments
+    # Payments.
     #
 
     payments = list_payments(
@@ -540,7 +1280,10 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
     if payments:
 
         story.append(
-            Spacer(1, 0.12 * inch)
+            Spacer(
+                1,
+                0.12 * inch
+            )
         )
 
         story.append(
@@ -552,28 +1295,46 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
 
         payment_rows = [
             [
-                Paragraph("<b>Payment Date</b>", small),
-                Paragraph("<b>Method</b>", small),
-                Paragraph("<b>Reference</b>", small),
-                Paragraph("<b>Amount</b>", small),
+                Paragraph(
+                    "<b>Payment Date</b>",
+                    small
+                ),
+                Paragraph(
+                    "<b>Method</b>",
+                    small
+                ),
+                Paragraph(
+                    "<b>Reference</b>",
+                    small
+                ),
+                Paragraph(
+                    "<b>Amount</b>",
+                    small
+                ),
             ]
         ]
 
         for payment in payments:
 
             payment_date = (
-                payment["payment_date"] or ""
+                payment["payment_date"]
+                or ""
             )
 
             payment_method = (
-                payment["payment_method"] or ""
+                payment["payment_method"]
+                or ""
             )
 
             reference = (
-                payment["reference"] or ""
+                payment["reference"]
+                or ""
             )
 
-            amount = payment["amount"] or 0
+            amount = (
+                payment["amount"]
+                or 0
+            )
 
             payment_rows.append(
                 [
@@ -604,49 +1365,49 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                     (0, 0),
                     (-1, -1),
                     0.5,
-                    colors.grey
+                    colors.grey,
                 ),
                 (
                     "BACKGROUND",
                     (0, 0),
                     (-1, 0),
-                    colors.lightgrey
+                    colors.lightgrey,
                 ),
                 (
                     "ALIGN",
                     (-1, 1),
                     (-1, -1),
-                    "RIGHT"
+                    "RIGHT",
                 ),
                 (
                     "VALIGN",
                     (0, 0),
                     (-1, -1),
-                    "TOP"
+                    "TOP",
                 ),
                 (
                     "LEFTPADDING",
                     (0, 0),
                     (-1, -1),
-                    5
+                    5,
                 ),
                 (
                     "RIGHTPADDING",
                     (0, 0),
                     (-1, -1),
-                    5
+                    5,
                 ),
                 (
                     "TOPPADDING",
                     (0, 0),
                     (-1, -1),
-                    4
+                    4,
                 ),
                 (
                     "BOTTOMPADDING",
                     (0, 0),
                     (-1, -1),
-                    4
+                    4,
                 ),
             ])
         )
@@ -656,19 +1417,25 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
         )
 
         #
-        # Payment Summary
+        # Payment summary.
         #
 
-        paid_amount = get_invoice_paid_amount(
-            invoice_id
+        paid_amount = (
+            get_invoice_paid_amount(
+                invoice_id
+            )
         )
 
-        balance = get_invoice_balance(
-            invoice_id
+        balance = (
+            get_invoice_balance(
+                invoice_id
+            )
         )
 
-        payment_status = get_invoice_payment_status(
-            invoice_id
+        payment_status = (
+            get_invoice_payment_status(
+                invoice_id
+            )
         )
 
         payment_summary = [
@@ -685,7 +1452,10 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                 )
             ],
             [
-                Paragraph("<b>Status</b>", normal),
+                Paragraph(
+                    "<b>Status</b>",
+                    normal
+                ),
                 Paragraph(
                     "<b>{}</b>".format(
                         payment_status
@@ -710,25 +1480,28 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                     "ALIGN",
                     (1, 0),
                     (1, -1),
-                    "RIGHT"
+                    "RIGHT",
                 ),
                 (
                     "TOPPADDING",
                     (0, 0),
                     (-1, -1),
-                    4
+                    4,
                 ),
                 (
                     "BOTTOMPADDING",
                     (0, 0),
                     (-1, -1),
-                    4
+                    4,
                 ),
             ])
         )
 
         story.append(
-            Spacer(1, 0.08 * inch)
+            Spacer(
+                1,
+                0.08 * inch
+            )
         )
 
         story.append(
@@ -736,13 +1509,50 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
         )
 
     #
-    # Notes
+    # Payment instructions.
+    #
+
+    if (
+        invoice_settings is not None
+        and invoice_settings[
+            "payment_instructions"
+        ]
+    ):
+
+        story.append(
+            Spacer(
+                1,
+                0.2 * inch
+            )
+        )
+
+        story.append(
+            Paragraph(
+                "<b>Payment Instructions</b>",
+                normal
+            )
+        )
+
+        story.append(
+            Paragraph(
+                invoice_settings[
+                    "payment_instructions"
+                ],
+                normal
+            )
+        )
+
+    #
+    # Invoice notes.
     #
 
     if invoice["notes"]:
 
         story.append(
-            Spacer(1, 0.2 * inch)
+            Spacer(
+                1,
+                0.2 * inch
+            )
         )
 
         story.append(
@@ -758,6 +1568,37 @@ def generate_invoice_pdf(invoice_id, output_directory="invoices"):
                 normal
             )
         )
+
+    #
+    # Invoice footer.
+    #
+
+    if (
+        invoice_settings is not None
+        and invoice_settings[
+            "invoice_footer"
+        ]
+    ):
+
+        story.append(
+            Spacer(
+                1,
+                0.2 * inch
+            )
+        )
+
+        story.append(
+            Paragraph(
+                invoice_settings[
+                    "invoice_footer"
+                ],
+                small
+            )
+        )
+
+    #
+    # Build PDF.
+    #
 
     document.build(
         story
